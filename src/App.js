@@ -1,27 +1,43 @@
+import React from 'react';
 
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-import Gym from "./pages/gym/Gym";
-import Home from "./pages/Home/Home";
-import ListGym from "./pages/list-gym/ListGym";
-import ListTrainer from "./pages/list-trainer/ListTrainer";
-import Trainer from "./pages/trainer/Trainer";
+// import aos
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
-function App() {
+// import components
+import Banner from './components/Banner';
+import Header from './components/Header';
+import About from './components/About';
+import Workouts from './components/Workouts';
+import Pricing from './components/Pricing';
+import Community from './components/Community';
+import Faq from './components/Faq';
+import Join from './components/Join';
+import Footer from './components/Footer';
+import Login from './components/pages/Login';
+import Signup from './components/pages/Signup';
+
+const App = () => {
+  // aos initialization
+  Aos.init({
+    duration: 2500,
+    delay: 400,
+  });
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/trainers" element={<ListTrainer />} />
-        <Route path="/trainers/:id" element={<Trainer />} />
-        <Route path="/gyms" element={<ListGym />} />
-        <Route path="/gyms/:id" element={<Gym />} />
-      </Routes>
-    </BrowserRouter>
+    // <div className='max-w-[1440px] mx-auto bg-page overflow-hidden relative'>
+    //   <Header />
+    //   <Banner />
+    //   <About />
+    //   <Workouts />
+    //   <Pricing />
+    //   <Community />
+    //   <Faq />
+    //   <Join />
+    //   <Footer />
+    //   {/* <div className='h-[4000px]'></div> */}
+    // </div>
+    <Signup />
   );
-}
+};
 
 export default App;
