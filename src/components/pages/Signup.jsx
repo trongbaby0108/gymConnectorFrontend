@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import "./signup.css"
 
 const Signup = () => {
@@ -44,7 +45,7 @@ const Signup = () => {
                             </span>
                         </div> */}
                         <div className="signup-login-now-1">
-                            <span>Bạn đã có tài khoản?</span><span className="login-now"> Đăng nhập</span>
+                            <span>Bạn đã có tài khoản?</span><Link to='/login' className="login-now"> Đăng nhập</Link>
                         </div>
                     </div>
                 </div>
