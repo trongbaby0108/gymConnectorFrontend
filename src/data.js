@@ -12,50 +12,51 @@ import CommunityImg2 from '../src/assets/img/community/img2.png';
 import CommunityImg3 from '../src/assets/img/community/img3.png';
 import CommunityImg4 from '../src/assets/img/community/img4.png';
 import JoinImg from '../src/assets/img/join/woman.png';
+import HlvDatImg from '../src/assets/img/trainers/hlv-dat.jpg';
 // icons
 import UsersIcn from '../src/assets/img/about/icons/users-icn.svg';
 import CalendarIcn from '../src/assets/img/workouts/icons/calendar.svg';
 import PriceIcn from '../src/assets/img/pricing/icons/price.svg';
 import CommunityIcn from '../src/assets/img/community/icons/community-icn.svg';
 import QuestionMarkIcn from '../src/assets/img/faq/icons/question-mark.svg';
+import ListIcn from '../src/assets/img/workouts/icons/list.svg';
 
 export const header = {
   logo: Logo,
-  btnLoginText: 'Log in',
-  btnSignupText: 'Sign Up',
+  btnLoginText: 'Đăng nhập',
+  btnSignupText: 'Đăng ký',
 };
 
 export const nav = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/' },
-  { name: 'Workouts', href: '/' },
-  { name: 'Pricing', href: '/' },
-  { name: 'Community', href: '/' },
-  { name: 'FAQ', href: '/' },
+  { name: 'Trang chủ', href: '/home' },
+  { name: 'Phòng tập', href: '/gyms' },
+  { name: 'Huấn luyện viên', href: '/trainers' },
 ];
 
 export const banner = {
-  titlePart1: 'Get the best part of your day',
-  titlePart2: '– you fit here.',
+  titlePart1: 'Cảm thấy mệt mỏi về thể trạng và số kí lô của mình',
+  titlePart2: '– bạn xứng đáng được đẹp hơn.',
   subtitle:
-    'We provide serious fitness but within a fun and friendly, safe space.',
-  textBtn: 'Join Now',
+    'Chúng tôi cung cấp dịch vụ về fitness đa dạng, môi trường tập luyện vui vẻ và năng lượng.',
+  textBtn: 'Tham gia ngay',
   img: '',
 };
 
 export const about = {
   icon: UsersIcn,
-  title: 'Our misson',
+  title: 'Công việc và trách nhiệm của chúng tôi',
   subtitle1:
-    'We are distinguished by our unsurpassed motivating atmosphere, knowledgeable staff, and premier exercise equipment, which supports our members in meeting their individual fitness goals.',
+    'Chúng tôi nổi bật nhờ bầu không khí thúc đẩy vượt trội,' +
+    ' đội ngũ huấn luyện viên am hiểu và thiết bị tập thể dục hàng đầu,' +
+    ' hỗ trợ các thành viên của chúng tôi đạt được các mục tiêu thể dục cá nhân của họ.',
   subtitle2:
-    'The strength of our heart-felt identity is utilized to inspire every person that steps foot into our gyms to better themselves.',
-  link: 'Join Now',
+    'Sức mạnh được cảm nhận từ trái tim của chúng tôi được sử dụng để truyền cảm hứng cho mọi người bước chân vào phòng tập thể dục của chúng tôi để hoàn thiện bản thân hơn.',
+  link: 'Tham gia ngay',
 };
 
 export const workouts = {
   icon: CalendarIcn,
-  title: 'Training programs',
+  title: 'Các chương trình tập luyện bài bản',
   programs: [
     {
       image: ResistanceImg,
@@ -86,6 +87,205 @@ export const workouts = {
       name: 'Battle Rope',
     },
   ],
+};
+
+export const gymss = {
+  icon: ListIcn,
+  title: 'Thông tin phòng tập',
+  programs: [
+    {
+      id: 1,
+      image: ResistanceImg,
+      name: 'Khỏe đẹp Fitness',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 2,
+      image: BoxingImg,
+      name: 'Boxing Khang',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 3,
+      image: BodyPumpImg,
+      name: 'BuildupBody',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 4,
+      image: YogaImg,
+      name: 'Yoga&Fitness',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 5,
+      image: FullBodyImg,
+      name: 'Body Gym',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực dành cho yoga và thiền riêng.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 6,
+      image: FitnessImg,
+      name: 'Fitness tươi tắn',
+      subtitle: 'Vị trí nằm ở trung tâm với view đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+    {
+      id: 7,
+      image: BattleRopeImg,
+      name: 'Fitness khỏe',
+      subtitle: 'Vị trí đẹp rộng rãi thoáng mát',
+      feature: 'Có khu vực tập yoga và nhà tắm.',
+      address: '123 Xa lộ Hà Nội',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Nếu bỏ qua lựa chọn này là bạn đã bỏ qua một nơi tuyệt vời.',
+      comment: 'Rất là tuyệt vời',
+      ratingStar: '4.5',
+      price: '3.000.000 đồng',
+    },
+  ],
+}
+
+export const trainerss = {
+  icon: ListIcn,
+  title: 'Thông tin Huấn luyện viên',
+  programs: [
+    {
+      image: ResistanceImg,
+      name: 'Trần Văn A',
+      subtitle: 'Sở hữu body và lượng kiến thức tốt về thể hình.',
+      feature: 'Huy chương vàng Thể hình năm 2021.',
+      address: '347 Bình Thạnh, TPHCM',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Rất tâm lý và thường xuyên đưa ra lời khyên tốt',
+      ratingStar: '4.9',
+      price: '700.000 đồng',
+    },
+    {
+      image: BoxingImg,
+      name: 'Nguyễn Văn B',
+      subtitle: 'Có nhiều kiến thức nền về dinh dưỡng cho phù hợp từng cơ thể.',
+      feature: 'Là một người thân thiện dễ gần so với vẻ bề ngoài.',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+    {
+      image: BodyPumpImg,
+      name: 'Phạm Hoàng C',
+      subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
+      feature: 'Huy chương vàng Thể hình năm 2021, Huy chương bạc Gym-Training 2022',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+    {
+      image: YogaImg,
+      name: 'Vương Văn D',
+      subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
+      feature: 'Huy chương vàng Thể hình năm 2021, Huy chương bạc Gym-Training 2022',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+    {
+      image: FullBodyImg,
+      name: 'Nguyễn Hoàng E',
+      subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
+      feature: 'Huy chương vàng Thể hình năm 2021, Huy chương bạc Gym-Training 2022',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+    {
+      image: FitnessImg,
+      name: 'Trần Minh G',
+      subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
+      feature: 'Huy chương vàng Thể hình năm 2021, Huy chương bạc Gym-Training 2022',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+    {
+      image: HlvDatImg,
+      name: 'Phạm Huỳnh Tiến Đạt',
+      subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
+      feature: 'Huy chương vàng Thể hình năm 2021, Huy chương bạc Gym-Training 2022',
+      address: '564 Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Huấn luyện viên chăm chỉ nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000 đồng',
+    },
+  ],
+}
+
+export const photoGym = {
+  photo: [
+    { src: "https://ptfitness.vn/wp-content/uploads/2022/06/thiet-ke-phong-tap-the-hinh-dep.jpg" },
+    { src: "https://maytapgym.vn/wp-content/uploads/2018/11/21-1.jpg" },
+    { src: "https://mbhfit.vn/wp-content/uploads/2018/03/thiet-ke-phong-tap-gym.jpg" },
+    { src: "https://cuonggym.com/wp-content/uploads/2019/03/Setup-mo-phong-tap-Kien-Gym-DNG-04.jpg" },
+    { src: "https://setupphonggym.vn/wp-content/uploads/2020/09/mau-thiet-ke-phong-gym-dep.jpg" },
+    { src: "https://ptfitness.vn/wp-content/uploads/2022/06/thiet-ke-phong-tap-the-hinh-dep.jpg" },]
 };
 
 export const pricing = {
@@ -198,13 +398,12 @@ export const faq = {
 
 export const join = {
   image: JoinImg,
-  title: 'Wanna join & have fun?',
+  title: 'Tìm kiếm niềm vui với chúng tôi!',
   subtitle:
-    'We’ll keep you updated on the things you need to know about Gymme. Nothing more, nothing less.',
-  btnText: 'Join now',
+    'Chúng tôi có những điều bạn cần cho việc tập luyện',
+  btnText: 'Tham gia ngay',
 };
 
 export const footer = {
-  logo: Logo,
-  copyrightText: 'All rights reserved. Gymme 2022.',
+  copyrightText: 'Bản quyền thuộc Khang - Trọng, 2022',
 };

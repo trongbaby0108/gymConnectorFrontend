@@ -1,4 +1,4 @@
-.search-item{
+.list-gyms{
     border: 1px solid lightgray;
     padding: 10px;
     border-radius: 5px;
@@ -8,61 +8,66 @@
     margin-bottom: 20px;
 }
 
-.si-img{
+.lgs-img{
     width: 200px;
     height: 200px;
     object-fit: cover;
 }
 
-.si-desc{
+.lgs-desc{
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex: 2;
 }
 
-.si-title{
+.lgs-title{
     font-size: 20px;
     color: #0071c2;
 }
 
-.si-subtitle{
+.lgs-subtitle{
     font-size: 14px;
     font-weight: bold;
 }
 
-.si-feature{
+.lgs-feature{
     font-size: 14px;
 }
 
-.si-cancel-opt{
+.lgs-address{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.lgs-cancel-opt{
     font-size: 14px;
     color: #008009;
     font-weight: bold;
 }
 
-.si-cancel-opt-subt{
+.lgs-cancel-opt-subt{
     font-size: 14px;
     color: #008009;
 }
 
-.si-detail{
+.lgs-detail{
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.si-rating{
+.lgs-rating{
     display: flex;
     justify-content: space-between;
 }
 
-.si-rating>span{
+.lgs-rating>span{
     font-weight: 500;
 }
 
-.si-rating>button{
+.lgs-rating>button{
     background-color: #003580;
     color: antiquewhite;
     padding: 5px;
@@ -70,18 +75,18 @@
     border: none;
 }
 
-.si-detail-text{
+.lgs-detail-text{
     text-align: right;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.si-price{
+.lgs-price{
     font-size: 24px;
 }
 
-.si-check-button{
+.lgs-check-button{
     background-color: #0071c2;
     color: antiquewhite;
     font-weight: bold;

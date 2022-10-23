@@ -5,7 +5,7 @@ import { join } from '../data';
 
 const Join = () => {
   // destructure join data
-  const { image, title, subtitle, btnText } = join;
+  const { image, subtitle, btnText } = join;
   return (
     <section className='bg-neutral-500 min-h-[537px]'>
       <div className='container mx-auto'>
@@ -28,7 +28,7 @@ const Join = () => {
             data-aos-delay='200'
           >
             <h2 className='h1 md:text-[60px] md:leading-[62px] text-white mb-4 lg:mb-6'>
-              Wanna join <span className='text-primary-200'>&</span> have fun?
+              Tham gia <span className='text-primary-200'>&</span> vui cùng chúng tôi.
             </h2>
             <p className='text-body-sm md:text-body-md text-white mb-4 lg:mb-6 max-w-[348px] md:max-w-[470px] lg:max-w-[492px]'>
               {subtitle}

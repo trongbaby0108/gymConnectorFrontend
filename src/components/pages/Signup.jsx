@@ -7,7 +7,7 @@ const Signup = () => {
         <div className='signup-wrapper-1'>
             <div className="signup-container-1">
                 <div className="signup-header-1">
-                    <img src={require('../images/logo-gym.png')}
+                    <img src={require('../images/logo-g.png')}
                         alt="" className="logo-gymfitness" />
                     <h2 className="signup-welcome-1">
                         Chào mừng đến với chúng tôi
