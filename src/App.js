@@ -1,27 +1,28 @@
+import React from 'react';
 
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-import Gym from "./pages/gym/Gym";
-import Home from "./pages/Home/Home";
-import ListGym from "./pages/list-gym/ListGym";
-import ListTrainer from "./pages/list-trainer/ListTrainer";
-import Trainer from "./pages/trainer/Trainer";
+// import aos
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
-function App() {
+import { Route, Routes } from 'react-router-dom';
+import { routes } from './routes/routes';
+
+const App = () => {
+  // aos initialization
+  Aos.init({
+    duration: 2500,
+    delay: 400,
+  });
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/trainers" element={<ListTrainer />} />
-        <Route path="/trainers/:id" element={<Trainer />} />
-        <Route path="/gyms" element={<ListGym />} />
-        <Route path="/gyms/:id" element={<Gym />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      {routes.publicRoutes.map(
+        (item) => {
+          return (<Route path={item.path} element={<item.component />} />)
+        }
+      )}
+    </Routes>
+
   );
-}
+};
 
 export default App;
