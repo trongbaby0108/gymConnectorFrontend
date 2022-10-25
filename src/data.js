@@ -31,6 +31,7 @@ export const nav = [
   { name: 'Trang chủ', href: '/home' },
   { name: 'Phòng tập', href: '/gyms' },
   { name: 'Huấn luyện viên', href: '/trainers' },
+  { name: 'Đơn hàng của bạn', href: '/cart' },
 ];
 
 export const banner = {

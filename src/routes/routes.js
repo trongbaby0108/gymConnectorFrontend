@@ -1,3 +1,4 @@
+import Cart from "../components/pages/Cart/Cart";
 import GymDetail from "../components/pages/Gyms/GymDetail";
 import Gyms from "../components/pages/Gyms/Gyms";
 import Home from "../components/pages/Home";
@@ -14,5 +15,6 @@ export const routes = {
         { path: '/gyms', component: Gyms },
         { path: '/trainers', component: Trainers },
         { path: '/gyms/:id', component: GymDetail },
+        { path: '/cart', component: Cart },
     ]
 }

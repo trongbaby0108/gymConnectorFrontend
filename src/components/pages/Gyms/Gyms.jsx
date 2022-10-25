@@ -1,3 +1,5 @@
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { gymss } from '../../../data';
@@ -28,7 +30,13 @@ const Gyms = () => {
                         {title} <span className='text-primary-200'>.</span>
                     </h2>
                 </div>
-                {/* slider */}
+                {/* search tool */}
+                <div className='section-title-group max-w-[540px] mx-auto px-4 lg:px-0'
+                    data-aos='fade-right'>
+                    <input type="text" placeholder='Nhập nội dung tìm kiếm' className='gym-search' />
+                    <FontAwesomeIcon icon={faSearch} />
+                </div>
+                {/* list */}
                 <div data-aos='fade-up' data-aos-delay='300'>
                     {programs.map((program, idx) => {
                         // destructure program

@@ -1,3 +1,17 @@
+.gym-search{
+    height: 30px;
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -25px;
+    width: 80%;
+    max-width: 1024px;
+}
+
 .list-gyms{
     border: 1px solid lightgray;
     padding: 10px;
