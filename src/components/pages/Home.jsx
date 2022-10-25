@@ -4,9 +4,6 @@ import Banner from '../Banner';
 import Header from '../Header';
 import About from '../About';
 import Workouts from '../Workouts';
-import Pricing from '../Pricing';
-import Community from '../Community';
-import Faq from '../Faq';
 import Join from '../Join';
 import Footer from '../Footer';
 // import aos
@@ -24,9 +21,9 @@ const Home = () => {
             <Banner />
             <About />
             <Workouts />
-            <Pricing />
+            {/* <Pricing />
             <Community />
-            <Faq />
+            <Faq /> */}
             <Join />
             <Footer />
             {/* <div className='h-[4000px]'></div> */}

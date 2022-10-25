@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .gym-wrapper{
@@ -12,19 +12,6 @@
     flex-direction: column;
     gap: 10px;
     position: relative;
-}
-
-.book-now{
-    position: absolute;
-    top: 10px;
-    right: 0;
-    border: none;
-    padding: 10px 20px;
-    background-color: #0071c2;
-    color: aliceblue;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .gym-title{
@@ -126,21 +113,21 @@
 }
 
 .slider-img{
-    width: 55%;
-    height: 70vh;
+    width: 85%;
+    height: 85%;
 }
 
 .close{
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 100px;
     font-size: 30px;
     color: lightgray;
     cursor: pointer;
 }
 
 .arrow{
-    margin: 20px;
+    margin: 100px;
     font-size: 50px;
     color: lightgray;
     cursor: pointer;

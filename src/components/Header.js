@@ -18,20 +18,20 @@ const Header = () => {
   useEffect(() => {
     // scroll event
     window.addEventListener('scroll', () => {
-      window.scrollY > 80 ? setIsActive(true) : setIsActive(false);
+      window.scrollY > 0 ? setIsActive(true) : setIsActive(false);
     });
   });
 
   // destructure header data
-  const { logo, btnLoginText, btnSignupText } = header;
+  const { btnLoginText, btnSignupText } = header;
   return (
     <header
       className={`${isActive ? 'bg-neutral-500 py-[16px]' : 'bg-transparent py-[20px]'
         } fixed max-w-[1440px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
     >
       {/* logo */}
-      <a href='/'>
-        <img className='h-[50px]' src={require('../components/images/logo-g.png')} alt='' />
+      <a href='/home'>
+        <img className='h-[70px]' src={require('../components/images/logo-g.png')} alt='' />
       </a>
 
       {/* nav - initially hidden - show in desktop mode */}
