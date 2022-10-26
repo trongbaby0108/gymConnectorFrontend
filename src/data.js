@@ -20,6 +20,8 @@ import PriceIcn from '../src/assets/img/pricing/icons/price.svg';
 import CommunityIcn from '../src/assets/img/community/icons/community-icn.svg';
 import QuestionMarkIcn from '../src/assets/img/faq/icons/question-mark.svg';
 import ListIcn from '../src/assets/img/workouts/icons/list.svg';
+import CartIcn from '../src/assets/img/workouts/icons/cart.svg';
+
 
 export const header = {
   logo: Logo,
@@ -32,6 +34,7 @@ export const nav = [
   { name: 'Phòng tập', href: '/gyms' },
   { name: 'Huấn luyện viên', href: '/trainers' },
   { name: 'Đơn hàng của bạn', href: '/cart' },
+  { name: 'Thông tin cá nhân', href: '/user' },
 ];
 
 export const banner = {
@@ -193,6 +196,7 @@ export const trainerss = {
   title: 'Thông tin Huấn luyện viên',
   programs: [
     {
+      id: 1,
       image: ResistanceImg,
       name: 'Trần Văn A',
       subtitle: 'Sở hữu body và lượng kiến thức tốt về thể hình.',
@@ -205,6 +209,7 @@ export const trainerss = {
       price: '700.000 đồng',
     },
     {
+      id: 2,
       image: BoxingImg,
       name: 'Nguyễn Văn B',
       subtitle: 'Có nhiều kiến thức nền về dinh dưỡng cho phù hợp từng cơ thể.',
@@ -217,6 +222,7 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
     {
+      id: 3,
       image: BodyPumpImg,
       name: 'Phạm Hoàng C',
       subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
@@ -229,6 +235,7 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
     {
+      id: 4,
       image: YogaImg,
       name: 'Vương Văn D',
       subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
@@ -241,6 +248,7 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
     {
+      id: 5,
       image: FullBodyImg,
       name: 'Nguyễn Hoàng E',
       subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
@@ -253,6 +261,7 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
     {
+      id: 6,
       image: FitnessImg,
       name: 'Trần Minh G',
       subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
@@ -265,6 +274,7 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
     {
+      id: 7,
       image: HlvDatImg,
       name: 'Phạm Huỳnh Tiến Đạt',
       subtitle: 'Sở hữu body và khả năng tổng hợp tạo ra các bài tập tốt',
@@ -277,6 +287,12 @@ export const trainerss = {
       price: '1.000.000 đồng',
     },
   ],
+}
+
+export const carts = {
+  icon: CartIcn,
+  title: 'Đơn hàng của bạn',
+  programs: []
 }
 
 export const photoGym = {

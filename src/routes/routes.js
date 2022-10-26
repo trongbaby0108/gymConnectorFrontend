@@ -5,6 +5,8 @@ import Home from "../components/pages/Home";
 import Login from "../components/pages/Login";
 import Register from "../components/pages/Signup";
 import Trainers from "../components/pages/Trainers/Trainers";
+import TrainerDetail from "../components/pages/Trainers/TrainerDetail";
+
 
 export const routes = {
     publicRoutes: [
@@ -15,6 +17,7 @@ export const routes = {
         { path: '/gyms', component: Gyms },
         { path: '/trainers', component: Trainers },
         { path: '/gyms/:id', component: GymDetail },
+        { path: '/trainers/:id', component: TrainerDetail },
         { path: '/cart', component: Cart },
     ]
 }

@@ -9,6 +9,7 @@ import Footer from '../Footer';
 // import aos
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import Review from '../Review';
 
 const Home = () => {
     Aos.init({
@@ -25,6 +26,7 @@ const Home = () => {
             <Community />
             <Faq /> */}
             <Join />
+            <Review />
             <Footer />
             {/* <div className='h-[4000px]'></div> */}
         </div>
