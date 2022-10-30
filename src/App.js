@@ -16,8 +16,8 @@ const App = () => {
   return (
     <Routes>
       {routes.publicRoutes.map(
-        (item) => {
-          return (<Route path={item.path} element={<item.component />} />)
+        (item, index) => {
+          return (<Route key={index} path={item.path} element={<item.component />} />)
         }
       )}
     </Routes>

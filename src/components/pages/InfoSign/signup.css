@@ -1,0 +1,119 @@
+.signup-wrapper-1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 150vh;
+    background-color: rgb(18, 0, 60);
+}
+
+.signup-container-1{
+    text-align: center;
+    width: 45%;
+    height: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.signup-header-1{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-gymfitness{
+    width: 100px;
+    height: 60px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.signup-welcome-1{
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.signup-body-1{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+}
+
+.signup-bodymain-1{
+    height: 300px;
+    align-items: center;
+}
+
+.signup-form-1{
+    height: 50px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    border: 2px solid gray;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.signup-form-1>input{
+    border-style: none;
+    display: block;
+    outline: none;
+}
+
+.signup-button-google-1{
+    height: 50px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    border: 2px solid gray;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.signup-cutting-1>span{
+    font-size: 16px;
+    color: gray;
+    margin-top: 20px;
+}
+
+.signup-google-image{
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+}
+
+.signup-google-title{
+    font-size: 16px;
+    margin: 5px;
+}
+
+.signup-button-form-1{
+    height: 50px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    border: 2px solid rgb(195, 248, 248);
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+    background-color: rgb(195, 248, 248);
+}
+
+.login-now{
+    color: orange;
+    font-weight: 500;
+    cursor: pointer;
+}

@@ -1,14 +1,15 @@
 import React from 'react'
 // import components
-import Banner from '../Banner';
-import Header from '../Header';
-import About from '../About';
-import Workouts from '../Workouts';
-import Join from '../Join';
-import Footer from '../Footer';
+import Banner from '../Features/Banner';
+import Header from '../Features/Header';
+import About from '../Features/About';
+import Workouts from '../Features/Workouts';
+import Join from '../Features/Join';
+import Footer from '../Features/Footer';
 // import aos
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import Review from '../Features/Review';
 
 const Home = () => {
     Aos.init({
@@ -25,6 +26,7 @@ const Home = () => {
             <Community />
             <Faq /> */}
             <Join />
+            <Review />
             <Footer />
             {/* <div className='h-[4000px]'></div> */}
         </div>
