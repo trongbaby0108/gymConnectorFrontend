@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // import data
-import { nav } from '../data';
+import { nav } from '../../data';
 
 const NavMobile = ({ navMobile }) => {
   return (

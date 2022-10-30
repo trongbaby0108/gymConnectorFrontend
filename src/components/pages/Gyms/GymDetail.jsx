@@ -1,7 +1,7 @@
 import React from 'react'
 import "./gymDetail.css"
-import Footer from '../../Footer';
-import Header from '../../Header';
+import Footer from '../../Features/Footer';
+import Header from '../../Features/Header';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"

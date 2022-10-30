@@ -1,11 +1,12 @@
 import GymDetail from "../components/pages/Gyms/GymDetail";
 import Gyms from "../components/pages/Gyms/Gyms";
 import Home from "../components/pages/Home";
-import Login from "../components/pages/Login";
-import Register from "../components/pages/Signup";
+import Login from "../components/pages/InfoSign/Login";
+import Register from "../components/pages/InfoSign/Signup";
 import Trainers from "../components/pages/Trainers/Trainers";
 import TrainerDetail from "../components/pages/Trainers/TrainerDetail";
 import Dashboard from "../components/Admin/pages/Dashboard";
+import ForgotPass from "../components/pages/InfoSign/ForgotPass";
 
 export const routes = {
     publicRoutes: [
@@ -13,6 +14,7 @@ export const routes = {
         { path: '/home', component: Home },
         { path: '/login', component: Login },
         { path: '/register', component: Register },
+        { path: '/forgotPass', component: ForgotPass },
         { path: '/gyms', component: Gyms },
         { path: '/trainers', component: Trainers },
         { path: '/gyms/:id', component: GymDetail },

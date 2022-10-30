@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import data
-import { join } from '../data';
+import { join } from '../../data';
 
 const Join = () => {
   // destructure join data

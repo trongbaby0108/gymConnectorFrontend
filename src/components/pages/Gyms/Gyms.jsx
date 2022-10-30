@@ -2,10 +2,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { gymss } from '../../../data';
-import Footer from '../../Footer';
+import Footer from '../../Features/Footer';
 import SearchIcn from '../Gyms/search.svg'
 
-import Header from '../../Header';
+import Header from '../../Features/Header';
 import './gyms.css';
 
 const Gyms = () => {

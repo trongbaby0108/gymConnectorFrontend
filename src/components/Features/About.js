@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import data
-import { about } from '../data';
+import { about } from '../../data';
 
 // import icons
 import { IoIosArrowDroprightCircle } from 'react-icons/io';

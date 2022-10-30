@@ -3,14 +3,14 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 150vh;
     background-color: rgb(18, 0, 60);
 }
 
 .login-container-1{
     text-align: center;
-    width: 600px;
-    height: 600px;
+    width: 45%;
+    height: 55%;
     background-color: #fff;
     border-radius: 10px;
 }
@@ -114,4 +114,12 @@
     color: orange;
     font-weight: 500;
     cursor: pointer;
+}
+
+.login-forgot-pass-1{
+    font-weight: 600;
+    font-size: 14px;
+    color: black;
+    text-align: right;
+    margin-right: 20px;
 }

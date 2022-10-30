@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 // import header data
-import { header } from '../data';
+import { header } from '../../data';
 
 // import components
-import Nav from '../components/Nav';
+import Nav from '../Features/Nav';
 import NavMobile from './NavMobile';
 
 // import icons
@@ -31,7 +31,7 @@ const Header = () => {
     >
       {/* logo */}
       <a href='/home'>
-        <img className='h-[70px]' src={require('../components/images/logo-g.png')} alt='' />
+        <img className='h-[70px]' src={require('../images/logo-g.png')} alt='' />
       </a>
 
       {/* nav - initially hidden - show in desktop mode */}

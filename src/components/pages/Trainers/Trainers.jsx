@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { trainerss } from '../../../data';
-import Footer from '../../Footer';
+import Footer from '../../Features/Footer';
 import SearchIcn from '../Gyms/search.svg'
-import Header from '../../Header';
+import Header from '../../Features/Header';
 import './trainers.css';
 import { Link } from 'react-router-dom';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import data
-import { community } from '../data';
+import { community } from '../../data';
 
 // import components
 import CommunitySlider from './CommunitySlider';

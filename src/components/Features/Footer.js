@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import footer data
-import { footer } from '../data';
+import { footer } from '../../data';
 
 const Footer = () => {
   // destructure footer data
@@ -15,7 +15,7 @@ const Footer = () => {
       >
         {/* logo */}
         <a href='/home'>
-          <img className='h-[70px]' src={require('../components/images/logo-g.png')} alt='' />
+          <img className='h-[70px]' src={require('../images/logo-g.png')} alt='' />
         </a>
         {/* copyright text */}
         <p className='text-neutral-300 text-sm'>{copyrightText}</p>

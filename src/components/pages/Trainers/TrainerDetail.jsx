@@ -2,8 +2,8 @@ import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } f
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 import { photoGym, trainerss } from '../../../data';
-import Footer from '../../Footer';
-import Header from '../../Header';
+import Footer from '../../Features/Footer';
+import Header from '../../Features/Header';
 import './trainerDetail.css';
 
 const TrainerDetail = () => {

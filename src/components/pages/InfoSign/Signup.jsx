@@ -7,7 +7,7 @@ const Signup = () => {
         <div className='signup-wrapper-1'>
             <div className="signup-container-1">
                 <div className="signup-header-1">
-                    <img src={require('../images/logo-g.png')}
+                    <img src={require('../../images/logo-g.png')}
                         alt="" className="logo-gymfitness" />
                     <h2 className="signup-welcome-1">
                         Chào mừng đến với chúng tôi
@@ -30,6 +30,12 @@ const Signup = () => {
                             </div>
                             <div className="signup-form-1">
                                 <input type="password" placeholder="Nhập mật khẩu" className="signup-password-1" />
+                            </div>
+                            <div className="signup-form-1">
+                                <input type="password" placeholder="Xác nhận mật khẩu" className="signup-password-1" />
+                            </div>
+                            <div className="signup-form-1">
+                                <input type="text" placeholder="Nhập mã xác nhận" className="signup-password-1" />
                             </div>
                             <div className="signup-button-form-1">
                                 <button className="signup-button-1">Đăng ký</button>

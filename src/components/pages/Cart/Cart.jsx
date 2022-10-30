@@ -1,6 +1,6 @@
 import React from 'react'
 import { carts } from '../../../data'
-import Header from '../../Header'
+import Header from '../../Features/Header'
 
 const Cart = () => {
     const { title, icon, programs } = carts;

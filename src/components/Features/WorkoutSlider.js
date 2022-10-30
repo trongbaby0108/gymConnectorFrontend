@@ -1,6 +1,6 @@
 import React from 'react';
 // import data
-import { workouts } from '../data';
+import { workouts } from '../../data';
 
 // import swiper react components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import '../workoutSlider.css';
+import '../../workoutSlider.css';
 
 // import required modules
 import { Navigation } from 'swiper';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import data
-import { banner } from '../data';
+import { banner } from '../../data';
 
 const Banner = () => {
   // destructure banner data
