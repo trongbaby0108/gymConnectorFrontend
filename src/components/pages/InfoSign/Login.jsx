@@ -11,7 +11,7 @@ const Login = () => {
   }
 
   return (
-    <div className='max-w-[1440px] mx-auto bg-page overflow-hidden relative'>
+    <div className='max-w-[1920px] mx-auto bg-page overflow-hidden relative'>
       <div className='login-wrapper-1'>
         <div className="login-container-1">
           <div className="login-header-1">
@@ -25,10 +25,10 @@ const Login = () => {
             <div className="login-bodymain-1">
               <div className="login-form-wrapper-1">
                 <div className="login-form-1">
-                  <input type="text" placeholder="Nhập tài khoản" className="login-username-1" />
+                  <input type="text" placeholder="Nhập tài khoản" />
                 </div>
                 <div className="login-form-1">
-                  <input type="password" placeholder="Nhập mật khẩu" className="login-password-1" />
+                  <input type="password" placeholder="Nhập mật khẩu" />
                 </div>
                 <div className="login-forgot-pass-1">
                   <Link to={"/forgotPass"}><span>Quên mật khẩu?</span></Link>

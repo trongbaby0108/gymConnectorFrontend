@@ -17,7 +17,7 @@ const Home = () => {
         delay: 400,
     });
     return (
-        <div className='max-w-[1440px] mx-auto bg-page overflow-hidden relative'>
+        <div className='max-w-[1920px] mx-auto bg-page overflow-hidden relative'>
             <Header />
             <Banner />
             <About />

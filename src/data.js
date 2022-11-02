@@ -33,13 +33,12 @@ export const nav = [
   { name: 'Trang chủ', href: '/home' },
   { name: 'Phòng tập', href: '/gyms' },
   { name: 'Huấn luyện viên', href: '/trainers' },
-  { name: 'Đơn hàng của bạn', href: '/cart' },
-  { name: 'Thông tin cá nhân', href: '/user' },
+  { name: 'Thông tin cá nhân', href: '/userInfo' },
 ];
 
 export const banner = {
-  titlePart1: 'Cảm thấy mệt mỏi về thể trạng và số kí lô của mình',
-  titlePart2: '– bạn xứng đáng được đẹp hơn.',
+  titlePart1: 'Fitness & Gym',
+  titlePart2: '– vui khỏe mỗi ngày',
   subtitle:
     'Chúng tôi cung cấp dịch vụ về fitness đa dạng, môi trường tập luyện vui vẻ và năng lượng.',
   textBtn: 'Tham gia ngay',

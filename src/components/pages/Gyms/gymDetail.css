@@ -30,20 +30,16 @@
     font-weight: 500;
 }
 
-.gym-images{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.gym-img-wrapper{
-    width: 33%;
-}
-
-.gym-img{
-    width: 100%;
-    object-fit: cover;
-}
+.carousel {
+    display: inline-flex;
+    overflow-x: hidden;
+  /*  scroll snap is a great feature which will center the image on snap on touch screen devices  */
+    scroll-snap-type: x mandatory;
+  /* all below will hide the scrollbar on all browsers.    */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
 
 .gym-details{
     display: flex;
@@ -90,45 +86,4 @@
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-}
-
-.slider{
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.426);
-    z-index: 999;
-    display: flex;
-    align-items: center;
-}
-
-.slider-wrapper{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.slider-img{
-    width: 85%;
-    height: 85%;
-}
-
-.close{
-    position: absolute;
-    top: 20px;
-    right: 100px;
-    font-size: 30px;
-    color: lightgray;
-    cursor: pointer;
-}
-
-.arrow{
-    margin: 100px;
-    font-size: 50px;
-    color: lightgray;
-    cursor: pointer;
 }
