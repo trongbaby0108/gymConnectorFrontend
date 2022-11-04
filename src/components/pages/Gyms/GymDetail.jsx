@@ -98,6 +98,7 @@ const GymDetail = () => {
                                         Ở đây sẽ đặt các mô tả chi tiết về phòng gym đó để khách hàng đọc và
                                         biết được các thông tin, ưu đãi, dịch vụ mình hưởng thụ.
                                     </p>
+                                    <h1 className="gym-title">Danh sách combo</h1>
                                     <div className='mt-10'>
                                         <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
                                             <div className="px-4 py-2">
