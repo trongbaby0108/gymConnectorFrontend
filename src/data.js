@@ -13,6 +13,9 @@ import CommunityImg3 from '../src/assets/img/community/img3.png';
 import CommunityImg4 from '../src/assets/img/community/img4.png';
 import JoinImg from '../src/assets/img/join/woman.png';
 import HlvDatImg from '../src/assets/img/trainers/hlv-dat.jpg';
+import linh from '../src/assets/img/trainers/linh.jpg';
+import hien from '../src/assets/img/trainers/trapboizz.png';
+import trung from '../src/assets/img/trainers/trung.png';
 // icons
 import UsersIcn from '../src/assets/img/about/icons/users-icn.svg';
 import CalendarIcn from '../src/assets/img/workouts/icons/calendar.svg';
@@ -285,6 +288,45 @@ export const trainerss = {
       comment: 'Huấn luyện viên chăm chỉ nhất năm',
       ratingStar: '5.0',
       price: '1.000.000 đồng',
+    },
+    {
+      id: 8,
+      image: linh,
+      name: 'Vũ Thùy Linh',
+      subtitle: 'Chỉ cần chú thích cháu có thể giúp chú có 1 người dợ tốt',
+      feature: 'Huy chương vàng Người vợ tuyệt dời 2022, Hoa hậu đa cấp 2022',
+      address: 'Quận 2 thành phố Thủ Đức',
+      cancelOpt: 'Hủy đặt miễn phí',
+      cancelOptSubt: 'Tôi sẽ giúp bạn trở nên mạnh mẽ nếu bạn đừng bỏ qua tôi',
+      comment: 'Người vợ chăm chỉ siêng năng nhất năm',
+      ratingStar: '5.0',
+      price: '1.000.000.000 usd',
+    },
+    {
+      id: 9,
+      image: hien,
+      name: 'Hiền trap boizz',
+      subtitle: 'Thích trap mấy em gái non nớt, nhưng bị lại người ta trap',
+      feature: 'Huy chương vàng trap boiz 2022',
+      address: 'Chuồng heo Quận 9 thành phố Thủ Đức',
+      cancelOpt: '',
+      cancelOptSubt: 'chỉ cần đến với anh mấy pé nhận được 1 tình iu tuyệt vời ',
+      comment: 'Trap boizz chăm chỉ siêng năng nhất năm',
+      ratingStar: '5.0',
+      price: 'free cho mấy pé mấy cô',
+    },
+    {
+      id: 10,
+      image: trung,
+      name: 'Trung tình',
+      subtitle: 'Thích mấy cô u40 vẫn còn xinh tươi',
+      feature: 'Nhẹ nhàng 20cm 1 tiếng',
+      address: 'Bất cứ đâu có cô là nhà cháu',
+      cancelOpt: '',
+      cancelOptSubt: 'chỉ cần đến với cháu mấy cô nhận được 1 đêm nồng cháy tuyệt vời ',
+      comment: 'Fuck boizz chăm chỉ siêng năng nhất năm',
+      ratingStar: '5.0',
+      price: 'Thương lượng tùy service ',
     },
   ],
 }
