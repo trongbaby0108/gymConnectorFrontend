@@ -27,11 +27,11 @@ const Header = () => {
   return (
     <header
       className={`${isActive ? 'bg-neutral-500 py-[16px]' : 'bg-transparent py-[20px]'
-        } fixed max-w-[1440px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
+        } fixed max-w-[1920px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
     >
       {/* logo */}
       <a href='/home'>
-        <img className='h-[70px]' src={require('../images/logo-g.png')} alt='' />
+        <img className='h-[70px] rounded-full' src={require('../images/logo-g.png')} alt='' />
       </a>
 
       {/* nav - initially hidden - show in desktop mode */}

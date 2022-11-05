@@ -7,6 +7,7 @@ import Trainers from "../components/pages/Trainers/Trainers";
 import TrainerDetail from "../components/pages/Trainers/TrainerDetail";
 import Dashboard from "../components/Admin/pages/Dashboard";
 import ForgotPass from "../components/pages/InfoSign/ForgotPass";
+import UserInfo from '../components/pages/User/UserInfo'
 
 export const routes = {
     publicRoutes: [
@@ -19,7 +20,7 @@ export const routes = {
         { path: '/trainers', component: Trainers },
         { path: '/gyms/:id', component: GymDetail },
         { path: '/trainers/:id', component: TrainerDetail },
-        //{ path: '/cart', component: Cart },
+        { path: '/userInfo', component: UserInfo },
         { path: '/admin', component: Dashboard }
     ]
 }

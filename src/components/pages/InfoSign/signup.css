@@ -45,13 +45,13 @@
 }
 
 .signup-bodymain-1{
-    height: 300px;
+    height: 70vh;
     align-items: center;
 }
 
-.signup-form-1{
-    height: 50px;
-    width: 300px;
+.signup-form-1>input{
+    height: 7vh;
+    width: 20vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,15 +62,13 @@
     margin: 10px;
 }
 
-.signup-form-1>input{
-    border-style: none;
-    display: block;
-    outline: none;
+.signup-form-1>input:focus{
+    background-color: lightblue;
 }
 
 .signup-button-google-1{
-    height: 50px;
-    width: 300px;
+    height: 7vh;
+    width: 20vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,8 +97,8 @@
 }
 
 .signup-button-form-1{
-    height: 50px;
-    width: 300px;
+    height: 7vh;
+    width: 20vw;
     display: flex;
     justify-content: center;
     align-items: center;
