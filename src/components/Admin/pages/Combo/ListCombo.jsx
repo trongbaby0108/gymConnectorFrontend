@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
-const ListGym = () => {
+const ListCombo = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -18,7 +19,7 @@ const ListGym = () => {
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl">
                   <Link to="/admin/createGym" className="m-1.5">
-                    Thêm phòng tập mới
+                    Thêm Combo mới
                   </Link>
                 </button>
               </div>
@@ -30,13 +31,10 @@ const ListGym = () => {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="py-3 px-6">
-                        Tên phòng tập
+                        Tên Combo
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Địa chỉ
-                      </th>
-                      <th scope="col" className="py-3 px-6">
-                        Hotline
+                        Địa chỉ phòng tập
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Đơn giá
@@ -55,11 +53,10 @@ const ListGym = () => {
                         Fitness khỏe đẹp
                       </th>
                       <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">0123 123 123</td>
                       <td className="py-4 px-6">3.000.000đ</td>
                       <td className="py-4 px-6">
                         <a
-                          href="/admin/editGym"
+                          href="/admin/editCombo"
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
                           Chỉnh sửa
@@ -84,4 +81,4 @@ const ListGym = () => {
   );
 };
 
-export default ListGym;
+export default ListCombo;

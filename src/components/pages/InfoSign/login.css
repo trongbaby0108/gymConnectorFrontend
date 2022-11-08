@@ -3,14 +3,16 @@
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 150vh;
+  max-width: 100%;
+  height: 100vh;
   background-color: rgb(18, 0, 60);
 }
 
 .login-container-1 {
   text-align: center;
-  width: 45%;
-  height: 55%;
+  width: 500px;
+  max-width: 100%;
+  height: fit-content;
   background-color: rgba(255, 255, 255, 0.991);
   border-radius: 10px;
 }
@@ -24,16 +26,16 @@
 }
 
 .logo-gymfitness {
-  width: 20vw;
+  width: fit-content;
   height: 20vh;
   margin-top: 20px;
   border-radius: 5px;
 }
 
 .login-welcome-1 {
-  margin-top: 20px;
   font-weight: bold;
   font-size: 24px;
+  margin: 20px 20px 10px 20px;
 }
 
 .login-body-1 {
@@ -41,7 +43,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-top: 8px;
+  margin: 8px auto;
 }
 
 .login-bodymain-1 {
@@ -50,8 +52,8 @@
 }
 
 .login-form-1 > input {
-  height: 7vh;
-  width: 20vw;
+  height: fit-content;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,8 +70,8 @@
 }
 
 .login-button-google-1 {
-  height: 7vh;
-  width: 20vw;
+  height: fit-content;
+  width: 215.2px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,6 +80,10 @@
   text-align: center;
   cursor: pointer;
   margin: 10px;
+}
+
+.login-button-google-1:hover {
+  opacity: 0.8;
 }
 
 .login-cutting-1 > span {
@@ -98,17 +104,21 @@
 }
 
 .login-button-form-1 {
-  height: 7vh;
-  width: 20vw;
+  height: fit-content;
+  width: 215.2px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 48px;
-  border: 2px solid rgb(195, 248, 248);
+  border: 2px solid rgb(225, 253, 253);
   text-align: center;
   cursor: pointer;
   margin: 10px;
-  background-color: rgb(195, 248, 248);
+  background-color: rgb(225, 253, 253);
+}
+
+.login-button-form-1:hover {
+  opacity: 0.8;
 }
 
 .signup-now {

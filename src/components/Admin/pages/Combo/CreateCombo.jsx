@@ -3,7 +3,7 @@ import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
-const CreateGym = () => {
+const CreateCombo = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -95,4 +95,4 @@ const CreateGym = () => {
   );
 };
 
-export default CreateGym;
+export default CreateCombo;

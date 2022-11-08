@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
-const ListGym = () => {
+const ListUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -14,15 +14,6 @@ const ListGym = () => {
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-            <div className="sm:flex sm:justify-between sm:items-center mb-8">
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl">
-                  <Link to="/admin/createGym" className="m-1.5">
-                    Thêm phòng tập mới
-                  </Link>
-                </button>
-              </div>
-            </div>
             <div className="table-list">
               {/* Table list */}
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -30,16 +21,16 @@ const ListGym = () => {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="py-3 px-6">
-                        Tên phòng tập
+                        Tên người dùng
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Địa chỉ
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Hotline
+                        Số điện thoại
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Đơn giá
+                        Email
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Các thao tác
@@ -56,20 +47,13 @@ const ListGym = () => {
                       </th>
                       <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
                       <td className="py-4 px-6">0123 123 123</td>
-                      <td className="py-4 px-6">3.000.000đ</td>
+                      <td className="py-4 px-6">example@gmail.com</td>
                       <td className="py-4 px-6">
-                        <a
-                          href="/admin/editGym"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Chỉnh sửa
-                        </a>
-                        |
                         <a
                           href="/#"
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
-                          Vô hiệu
+                          Vô hiệu hóa
                         </a>
                       </td>
                     </tr>
@@ -84,4 +68,4 @@ const ListGym = () => {
   );
 };
 
-export default ListGym;
+export default ListUser;

@@ -1,60 +1,147 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import "./login.css"
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import "./login.css";
+import AuthContext from "../../../context/AuthProvider";
+
+import axios from "../../../api/axios";
+const LOGIN_URL = "/auth/login";
 
 const Login = () => {
+  const { setAuth } = useContext(AuthContext);
+  const userRef = useRef();
+  const errRef = useRef();
 
-  const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const goHome = () => {
-    navigate("/home");
-  }
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [user, pwd]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ username: user, password: pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data?.roles;
+      setAuth({ user, pwd, roles, accessToken });
+      setUser("");
+      setPwd("");
+      setSuccess(true);
+    } catch (error) {
+      if (!error?.response) {
+        setErrMsg("Server không có phản hồi");
+      } else if (error.response?.status === 400) {
+        setErrMsg("Kiểm tra lại tài khoản và mật khẩu");
+      } else if (error.response?.status === 401) {
+        setErrMsg("Không được phép cấp quyền");
+      } else {
+        setErrMsg("Đăng nhập không thành công!!!");
+      }
+      errRef.current.focus();
+    }
+  };
 
   return (
-    <div className='max-w-[1920px] mx-auto bg-page overflow-hidden relative'>
-      <div className='login-wrapper-1'>
-        <div className="login-container-1">
-          <div className="login-header-1">
-            <img src={require('../../images/logo-g.png')}
-              alt="" className="logo-gymfitness" />
-            <h2 className="login-welcome-1">
-              Chào mừng đến với chúng tôi
-            </h2>
+    <>
+      {success ? (
+        <div className="max-w-[1920px] h-screen mx-auto bg-page overflow-hidden relative">
+          <div className="text-center font-semibold">
+            <h1>Bạn đã đăng nhập thành công</h1>
+            <span>
+              <a href="/home"> Trở về trang chính</a>
+            </span>
           </div>
-          <div className="login-body-1">
-            <div className="login-bodymain-1">
-              <div className="login-form-wrapper-1">
-                <div className="login-form-1">
-                  <input type="text" placeholder="Nhập tài khoản" />
-                </div>
-                <div className="login-form-1">
-                  <input type="password" placeholder="Nhập mật khẩu" />
-                </div>
-                <div className="login-forgot-pass-1">
-                  <Link to={"/forgotPass"}><span>Quên mật khẩu?</span></Link>
-                </div>
-                <div className="login-button-form-1">
-                  <button className="login-button-1" onClick={goHome}>Đăng nhập</button>
-                </div>
-                <div className="login-cutting-1">
-                  <span>----- HOẶC -----</span>
-                </div>
-                <div className="login-button-google-1">
-                  <img src={require('../../images/icon-google.png')} alt="" className="login-google-image" />
-                  <span className="login-google-title">
-                    Tiếp tục với Google
-                  </span>
-                </div>
-                <div className="login-signup-now-1">
-                  <span>Bạn chưa có tài khoản?</span><Link to='/register' className="signup-now"> Đăng ký</Link>
-                </div>
+        </div>
+      ) : (
+        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
+          <div className="login-wrapper-1">
+            <div className="login-container-1">
+              <div className="login-header-1">
+                <img
+                  src={require("../../images/logo-g.png")}
+                  alt=""
+                  className="logo-gymfitness"
+                />
+                <h2 className="login-welcome-1">Chào mừng đến với chúng tôi</h2>
               </div>
+              <form className="login-body-1" onSubmit={handleSubmit}>
+                <div className="login-bodymain-1">
+                  <div className="login-form-wrapper-1">
+                    <p className={errMsg ? "errmsg" : "offscreen"} ref={errRef}>
+                      {errMsg}
+                    </p>
+                    <div className="login-form-1">
+                      <input
+                        type="text"
+                        placeholder="Nhập tài khoản"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setUser(e.target.value)}
+                        value={user}
+                        required
+                      />
+                    </div>
+                    <div className="login-form-1">
+                      <input
+                        type="password"
+                        placeholder="Nhập mật khẩu"
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        required
+                      />
+                    </div>
+                    <div className="login-forgot-pass-1">
+                      <Link to={"/forgotPass"}>
+                        <span>Quên mật khẩu?</span>
+                      </Link>
+                    </div>
+                    <div className="login-button-form-1">
+                      <button className="login-button-1">Đăng nhập</button>
+                    </div>
+                    <div className="login-cutting-1">
+                      <span>----- HOẶC -----</span>
+                    </div>
+                    <div className="login-button-google-1">
+                      <img
+                        src={require("../../images/icon-google.png")}
+                        alt=""
+                        className="login-google-image"
+                      />
+                      <span className="login-google-title">
+                        Tiếp tục với Google
+                      </span>
+                    </div>
+                    <div className="login-signup-now-1">
+                      <span>Bạn chưa có tài khoản?</span>
+                      <Link to="/register" className="signup-now">
+                        {" "}
+                        Đăng ký
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
-}
+};
 
-export default Login
+export default Login;
