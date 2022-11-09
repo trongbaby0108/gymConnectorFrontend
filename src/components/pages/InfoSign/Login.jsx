@@ -28,19 +28,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ username: user, password: pwd }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth({ user, pwd, roles, accessToken });
-      setUser("");
-      setPwd("");
+      // const response = await axios.post(
+      //   LOGIN_URL,
+      //   JSON.stringify({ username: user, password: pwd }),
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //     withCredentials: true,
+      //   }
+      // );
+      // const accessToken = response?.data?.accessToken;
+      // const roles = response?.data?.roles;
+      // setAuth({ user, pwd, roles, accessToken });
+      // setUser("");
+      // setPwd("");
       setSuccess(true);
     } catch (error) {
       if (!error?.response) {
@@ -59,12 +59,25 @@ const Login = () => {
   return (
     <>
       {success ? (
-        <div className="max-w-[1920px] h-screen mx-auto bg-page overflow-hidden relative">
-          <div className="text-center font-semibold">
-            <h1>Bạn đã đăng nhập thành công</h1>
-            <span>
-              <a href="/home"> Trở về trang chính</a>
-            </span>
+        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
+          <div className="login-wrapper-1">
+            <div className="login-container-1">
+              <div className="login-header-1">
+                <img
+                  src={require("../../images/logo-g.png")}
+                  alt=""
+                  className="logo-gymfitness"
+                />
+                <h2 className="login-welcome-1">Đăng nhập thành công</h2>
+                <Link
+                  to={"/home"}
+                  style={{ color: "orange" }}
+                  className="login-welcome-1"
+                >
+                  Quay về trang chủ.
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -82,7 +95,11 @@ const Login = () => {
               <form className="login-body-1" onSubmit={handleSubmit}>
                 <div className="login-bodymain-1">
                   <div className="login-form-wrapper-1">
-                    <p className={errMsg ? "errmsg" : "offscreen"} ref={errRef}>
+                    <p
+                      aria-live="assertive"
+                      className={errMsg ? "errmsg" : "hidden"}
+                      ref={errRef}
+                    >
                       {errMsg}
                     </p>
                     <div className="login-form-1">
@@ -106,7 +123,7 @@ const Login = () => {
                       />
                     </div>
                     <div className="login-forgot-pass-1">
-                      <Link to={"/forgotPass"}>
+                      <Link to={"/getCode"}>
                         <span>Quên mật khẩu?</span>
                       </Link>
                     </div>

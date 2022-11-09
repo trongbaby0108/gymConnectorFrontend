@@ -16,6 +16,8 @@ import ListTrainer from "../components/Admin/pages/Trainer/ListTrainer";
 import ListCombo from "../components/Admin/pages/Combo/ListCombo";
 import EditCombo from "../components/Admin/pages/Combo/EditCombo";
 import CreateCombo from "../components/Admin/pages/Combo/CreateCombo";
+import GetCode from "../components/pages/InfoSign/GetCode";
+import FillCode from "../components/pages/InfoSign/FillCode";
 
 export const routes = {
   publicRoutes: [
@@ -24,6 +26,8 @@ export const routes = {
     { path: "/login", component: Login },
     { path: "/register", component: Register },
     { path: "/forgotPass", component: ForgotPass },
+    { path: "/getCode", component: GetCode },
+    { path: "/fillCode", component: FillCode },
     { path: "/gyms", component: Gyms },
     { path: "/trainers", component: Trainers },
     { path: "/gyms/:id", component: GymDetail },
