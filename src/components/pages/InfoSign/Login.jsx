@@ -28,19 +28,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // const response = await axios.post(
-      //   LOGIN_URL,
-      //   JSON.stringify({ username: user, password: pwd }),
-      //   {
-      //     headers: { "Content-Type": "application/json" },
-      //     withCredentials: true,
-      //   }
-      // );
-      // const accessToken = response?.data?.accessToken;
-      // const roles = response?.data?.roles;
-      // setAuth({ user, pwd, roles, accessToken });
-      // setUser("");
-      // setPwd("");
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ username: user, password: pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data?.roles;
+      setAuth({ user, pwd, roles, accessToken });
+      setUser("");
+      setPwd("");
       setSuccess(true);
     } catch (error) {
       if (!error?.response) {
