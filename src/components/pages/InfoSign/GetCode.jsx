@@ -21,11 +21,13 @@ const GetCode = () => {
             <div className="login-bodymain-1">
               <div className="login-form-wrapper-1">
                 <div className="login-form-1">
-                  <input
-                    type="text"
-                    placeholder="Nhập email"
-                    autoComplete="off"
-                  />
+                  <div className="form-fill-in">
+                    <input
+                      type="text"
+                      placeholder="Nhập email"
+                      autoComplete="off"
+                    />
+                  </div>
                 </div>
                 <div className="login-button-form-1">
                   <Link to={"/fillCode"} className="login-button-1">

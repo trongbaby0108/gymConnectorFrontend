@@ -52,7 +52,19 @@
   align-items: center;
 }
 
-.login-form-1 > input {
+.login-form-1 {
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-fill-in {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-fill-in > input {
   height: fit-content;
   width: fit-content;
   display: flex;
@@ -64,10 +76,16 @@
   cursor: pointer;
   margin: 10px;
 }
-
-.login-form-1 > input:focus {
-  border-style: none;
+.form-fill-in > input:focus {
   background-color: lightblue;
+}
+
+.form-notification {
+  background-color: rgba(27, 25, 25, 0.8);
+  border-radius: 10px;
+  color: white;
+  width: 215.2px;
+  margin: auto 10px;
 }
 
 .login-button-google-1 {

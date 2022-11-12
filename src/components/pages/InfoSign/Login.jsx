@@ -103,24 +103,28 @@ const Login = () => {
                       {errMsg}
                     </p>
                     <div className="login-form-1">
-                      <input
-                        type="text"
-                        placeholder="Nhập tài khoản"
-                        ref={userRef}
-                        autoComplete="off"
-                        onChange={(e) => setUser(e.target.value)}
-                        value={user}
-                        required
-                      />
+                      <div className="form-fill-in">
+                        <input
+                          type="text"
+                          placeholder="Nhập tài khoản"
+                          ref={userRef}
+                          autoComplete="off"
+                          onChange={(e) => setUser(e.target.value)}
+                          value={user}
+                          required
+                        />
+                      </div>
                     </div>
                     <div className="login-form-1">
-                      <input
-                        type="password"
-                        placeholder="Nhập mật khẩu"
-                        onChange={(e) => setPwd(e.target.value)}
-                        value={pwd}
-                        required
-                      />
+                      <div className="form-fill-in">
+                        <input
+                          type="password"
+                          placeholder="Nhập mật khẩu"
+                          onChange={(e) => setPwd(e.target.value)}
+                          value={pwd}
+                          required
+                        />
+                      </div>
                     </div>
                     <div className="login-forgot-pass-1">
                       <Link to={"/getCode"}>
