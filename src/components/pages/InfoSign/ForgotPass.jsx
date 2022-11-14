@@ -4,6 +4,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./signup.css";
@@ -56,6 +57,28 @@ const ForgotPass = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/signUser/forgetPassword",
+        { username: user, newPassword: pwd, oldPassword: pwd }
+      );
+      setUser("");
+      setPwd("");
+      setSuccess(true);
+      console.log(response);
+    } catch (error) {
+      if (!error?.response) {
+        setErrMsg("Server không có phản hồi");
+      } else if (error.response?.status === 400) {
+        setErrMsg("Kiểm tra lại tài khoản và mật khẩu");
+      } else if (error.response?.status === 401) {
+        setErrMsg("Không được phép cấp quyền");
+      } else {
+        setErrMsg("Đăng nhập không thành công!!!");
+      }
+      errRef.current.focus();
+      console.log(error);
+    }
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
     if (!v1 || !v2) {

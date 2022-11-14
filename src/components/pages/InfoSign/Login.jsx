@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-import AuthContext from "../../../context/AuthProvider";
+//import { userService } from "../../../service";
 
 import axios from "../../../api/axios";
-const LOGIN_URL = "/auth/login";
+const LOGIN_URL = "http://localhost:8080/auth/login";
 
 const Login = () => {
-  const { setAuth } = useContext(AuthContext);
+  // const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
 
@@ -30,18 +30,19 @@ const Login = () => {
     try {
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ username: user, password: pwd }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
+        { username: user, password: pwd }
+        // {
+        //   headers: { "Content-Type": "application/json" },
+        //   // withCredentials: true,
+        // }
       );
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth({ user, pwd, roles, accessToken });
+      //const accessToken = response?.data?.accessToken;
+      //const roles = response?.data?.roles;
+      //setAuth({ user, pwd, roles, accessToken });
       setUser("");
       setPwd("");
       setSuccess(true);
+      console.log(response);
     } catch (error) {
       if (!error?.response) {
         setErrMsg("Server không có phản hồi");
@@ -53,6 +54,7 @@ const Login = () => {
         setErrMsg("Đăng nhập không thành công!!!");
       }
       errRef.current.focus();
+      console.log(error);
     }
   };
 
