@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { gymss } from "../../../data";
 import Footer from "../../Features/Footer";
@@ -6,19 +6,11 @@ import SearchIcn from "../Gyms/search.svg";
 
 import Header from "../../Features/Header";
 import "./gyms.css";
-import axios from "axios";
 
 const Gyms = () => {
   const [keySearch, setKeySearch] = useState("");
-  const [data, setData] = useState([]);
-  const getData = () => {
-    axios.get("http://localhost:8080/home/getGym").then((response) => {
-      setData(response.data);
-    });
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  const [data, setData] = useState(gymss);
+
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <Header />
@@ -51,7 +43,7 @@ const Gyms = () => {
         </div>
         {/* list */}
         <div data-aos="fade-up" data-aos-delay="300">
-          {data
+          {data.programs
             .filter((item) => item.name.toLowerCase().includes(keySearch))
             .map((program) => (
               <div className="list-gyms" key={program.id}>

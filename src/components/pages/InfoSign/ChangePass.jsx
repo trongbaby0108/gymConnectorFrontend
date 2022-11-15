@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
+import axios from "axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -25,6 +26,10 @@ const ChangePass = () => {
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
+
+  const [newPwd, setNewPwd] = useState("");
+  const [validNewPwd, setValidNewPwd] = useState(false);
+  const [newPwdFocus, setNewPwdFocus] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
@@ -49,22 +54,62 @@ const ChangePass = () => {
     console.log(result);
     console.log(pwd);
     setValidPwd(result);
-    const match = pwd === matchPwd;
+  }, [pwd]);
+
+  useEffect(() => {
+    const result = PWD_REGEX.test(newPwd);
+    console.log(result);
+    console.log(newPwd);
+    setValidNewPwd(result);
+    const match = newPwd === matchPwd;
     setValidMatch(match);
-  }, [pwd, matchPwd]);
+  }, [newPwd, matchPwd]);
 
   useEffect(() => {
     setErrMsg("");
-  }, [user, pwd, matchPwd]);
+  }, [user, pwd, newPwd, matchPwd]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const v1 = USER_REGEX.test(user);
-    const v2 = PWD_REGEX.test(pwd);
-    if (!v1 || !v2) {
-      setErrMsg("Sai lỗi cú pháp");
-      return;
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/signUser/changePassword",
+        { username: user, password: pwd, newPassword: newPwd }
+        // {
+        //   headers: { "Content-Type": "application/json" },
+        //   // withCredentials: true,
+        // }
+      );
+      //const accessToken = response?.data?.accessToken;
+      //const roles = response?.data?.roles;
+      //setAuth({ user, pwd, roles, accessToken });
+      setUser("");
+      setPwd("");
+      setNewPwd("");
+      setSuccess(true);
+      console.log(response);
+
+      const v1 = USER_REGEX.test(user);
+      const v2 = PWD_REGEX.test(pwd);
+      const v3 = PWD_REGEX.test(newPwd);
+      if (!v1 || !v2 || !v3) {
+        setErrMsg("Sai lỗi cú pháp");
+        return;
+      }
+    } catch (error) {
+      if (!error?.response) {
+        setErrMsg("Server không có phản hồi");
+      } else if (error.response?.status === 400) {
+        setErrMsg("Kiểm tra lại tài khoản và mật khẩu");
+      } else if (error.response?.status === 401) {
+        setErrMsg("Không được phép cấp quyền");
+      } else {
+        setErrMsg("Đăng nhập không thành công!!!");
+      }
+      errRef.current.focus();
+      console.log(error);
     }
+
     setSuccess(true);
   };
   return (
@@ -222,23 +267,23 @@ const ChangePass = () => {
                           placeholder="Nhập mật khẩu mới"
                           className="login-password-1"
                           autoComplete="off"
-                          onChange={(e) => setPwd(e.target.value)}
+                          onChange={(e) => setNewPwd(e.target.value)}
                           required
-                          aria-invalid={validPwd ? "false" : "true"}
+                          aria-invalid={validNewPwd ? "false" : "true"}
                           aria-describedby="pwdnote"
-                          onFocus={() => setPwdFocus(true)}
-                          onBlur={() => setPwdFocus(false)}
+                          onFocus={() => setNewPwdFocus(true)}
+                          onBlur={() => setNewPwdFocus(false)}
                         />
                         <FontAwesomeIcon
                           icon={faCheck}
                           className={
-                            validPwd ? "valid text-lime-700" : "hidden"
+                            validNewPwd ? "valid text-lime-700" : "hidden"
                           }
                         />
                         <FontAwesomeIcon
                           icon={faTimes}
                           className={
-                            validPwd || !pwd
+                            validNewPwd || !newPwd
                               ? "hidden"
                               : "invalid  text-red-700"
                           }
@@ -248,7 +293,9 @@ const ChangePass = () => {
                         <p
                           id="pwdnote"
                           className={
-                            pwdFocus && !validPwd ? "instructions" : "hidden"
+                            newPwdFocus && !validNewPwd
+                              ? "instructions"
+                              : "hidden"
                           }
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />

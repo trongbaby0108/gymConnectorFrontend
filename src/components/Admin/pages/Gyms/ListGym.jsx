@@ -1,11 +1,21 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [data, setData] = useState([]);
+  const getData = () => {
+    axios.get("http://localhost:8080/admin/gym/getAll").then((response) => {
+      setData(response.data);
+    });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -42,37 +52,47 @@ const ListGym = () => {
                         Đơn giá
                       </th>
                       <th scope="col" className="py-3 px-6">
+                        Hình ảnh
+                      </th>
+                      <th scope="col" className="py-3 px-6">
                         Các thao tác
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        Fitness khỏe đẹp
-                      </th>
-                      <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">0123 123 123</td>
-                      <td className="py-4 px-6">3.000.000đ</td>
-                      <td className="py-4 px-6">
-                        <a
-                          href="/admin/editGym"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Chỉnh sửa
-                        </a>
-                        |
-                        <a
-                          href="/#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Vô hiệu
-                        </a>
-                      </td>
-                    </tr>
+                    {data.map((program) => {
+                      return (
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {program.name}
+                          </th>
+                          <td className="py-4 px-6">{program.address}</td>
+                          <td className="py-4 px-6">{program.phone}</td>
+                          <td className="py-4 px-6">3.000.000đ</td>
+                          <td className="py-4 px-6">
+                            <img src={program.avatar} alt="" />
+                          </td>
+                          <td className="py-4 px-6 flex justify-between">
+                            <a
+                              href="/admin/editGym"
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Chỉnh sửa
+                            </a>
+                            |
+                            <a
+                              href="/#"
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Vô hiệu
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

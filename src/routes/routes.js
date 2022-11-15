@@ -18,6 +18,8 @@ import EditCombo from "../components/Admin/pages/Combo/EditCombo";
 import CreateCombo from "../components/Admin/pages/Combo/CreateCombo";
 import GetCode from "../components/pages/InfoSign/GetCode";
 import FillCode from "../components/pages/InfoSign/FillCode";
+import ChangePass from "../components/pages/InfoSign/ChangePass";
+import Payment from "../components/pages/Payment/Payment";
 
 export const routes = {
   publicRoutes: [
@@ -26,6 +28,7 @@ export const routes = {
     { path: "/login", component: Login },
     { path: "/register", component: Register },
     { path: "/forgotPass", component: ForgotPass },
+    { path: "/changePass", component: ChangePass },
     { path: "/getCode", component: GetCode },
     { path: "/fillCode", component: FillCode },
     { path: "/gyms", component: Gyms },
@@ -42,5 +45,6 @@ export const routes = {
     { path: "/admin/listCombo", component: ListCombo },
     { path: "/admin/createCombo", component: CreateCombo },
     { path: "/admin/editCombo", component: EditCombo },
+    { path: "/payment", component: Payment },
   ],
 };
