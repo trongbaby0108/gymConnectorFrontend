@@ -1,17 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import "./signup.css";
+import "./login.css";
 import {
   faCheck,
   faTimes,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useRef } from "react";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const Signup = () => {
+const ChangePass = () => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -68,47 +71,41 @@ const Signup = () => {
     <>
       {success ? (
         <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="signup-wrapper-1">
-            <div className="signup-container-1">
-              <div className="signup-header-1">
+          <div className="login-wrapper-1">
+            <div className="login-container-1">
+              <div className="login-header-1">
                 <img
                   src={require("../../images/logo-g.png")}
                   alt=""
                   className="logo-gymfitness"
                 />
-                <h2 className="signup-welcome-1">Đăng ký thành công</h2>
-                <h3 className="signup-welcome-1">Vui lòng đăng nhập lại.</h3>
-              </div>
-              <div className="signup-body-1">
-                <div className="signup-bodymain-1">
-                  <div className="signup-form-wrapper-1">
-                    <Link to="/login" className="login-now">
-                      {" "}
-                      Đăng nhập
-                    </Link>
-                  </div>
-                </div>
+                <h2 className="login-welcome-1">Đổi mật khẩu thành công!</h2>
+                <Link
+                  to={"/home"}
+                  style={{ color: "orange" }}
+                  className="login-welcome-1"
+                >
+                  Quay về trang chủ.
+                </Link>
               </div>
             </div>
           </div>
         </div>
       ) : (
         <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="signup-wrapper-1">
-            <div className="signup-container-1">
-              <div className="signup-header-1">
+          <div className="login-wrapper-1">
+            <div className="login-container-1">
+              <div className="login-header-1">
                 <img
                   src={require("../../images/logo-g.png")}
                   alt=""
                   className="logo-gymfitness"
                 />
-                <h2 className="signup-welcome-1">
-                  Chào mừng đến với chúng tôi
-                </h2>
+                <h2 className="login-welcome-1">Vui lòng nhập thông tin</h2>
               </div>
-              <form className="signup-body-1" onSubmit={handleSubmit}>
-                <div className="signup-bodymain-1">
-                  <div className="signup-form-wrapper-1">
+              <form className="login-body-1" onSubmit={handleSubmit}>
+                <div className="login-bodymain-1">
+                  <div className="login-form-wrapper-1">
                     <p
                       className={errMsg ? "errmsg" : "offscreen"}
                       aria-live="assertive"
@@ -116,36 +113,6 @@ const Signup = () => {
                     >
                       {errMsg}
                     </p>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập họ tên"
-                          className="signup-name-1"
-                          autoComplete="off"
-                        />
-                      </div>
-                    </div>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập số điện thoại"
-                          className="signup-phonenum-1"
-                          autoComplete="off"
-                        />
-                      </div>
-                    </div>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập email"
-                          className="signup-email-address-1"
-                          autoComplete="off"
-                        />
-                      </div>
-                    </div>
                     <div className="signup-form-1">
                       <div className="form-fill-in">
                         <input
@@ -195,13 +162,13 @@ const Signup = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="signup-form-1">
+                    <div className="login-form-1">
                       <div className="form-fill-in">
                         <input
                           type="password"
                           id="password"
-                          placeholder="Nhập mật khẩu mới"
-                          className="signup-password-1"
+                          placeholder="Nhập mật khẩu cũ"
+                          className="login-password-1"
                           autoComplete="off"
                           onChange={(e) => setPwd(e.target.value)}
                           required
@@ -247,13 +214,65 @@ const Signup = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="signup-form-1">
+                    <div className="login-form-1">
+                      <div className="form-fill-in">
+                        <input
+                          type="password"
+                          id="password"
+                          placeholder="Nhập mật khẩu mới"
+                          className="login-password-1"
+                          autoComplete="off"
+                          onChange={(e) => setPwd(e.target.value)}
+                          required
+                          aria-invalid={validPwd ? "false" : "true"}
+                          aria-describedby="pwdnote"
+                          onFocus={() => setPwdFocus(true)}
+                          onBlur={() => setPwdFocus(false)}
+                        />
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className={
+                            validPwd ? "valid text-lime-700" : "hidden"
+                          }
+                        />
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          className={
+                            validPwd || !pwd
+                              ? "hidden"
+                              : "invalid  text-red-700"
+                          }
+                        />
+                      </div>
+                      <div className="form-notification">
+                        <p
+                          id="pwdnote"
+                          className={
+                            pwdFocus && !validPwd ? "instructions" : "hidden"
+                          }
+                        >
+                          <FontAwesomeIcon icon={faInfoCircle} />
+                          {"  "}8 đến 24 ký tự.
+                          <br />
+                          Phải bao gồm chữ hoa và chữ thường, một số và một ký
+                          tự đặc biệt.
+                          <br />
+                          Các ký tự đặc biệt được phép:{" "}
+                          <span aria-label="exclamation mark">!</span>{" "}
+                          <span aria-label="at symbol">@</span>{" "}
+                          <span aria-label="hashtag">#</span>{" "}
+                          <span aria-label="dollar sign">$</span>{" "}
+                          <span aria-label="percent">%</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="login-form-1">
                       <div className="form-fill-in">
                         <input
                           type="password"
                           id="confirm_pwd"
                           placeholder="Xác nhận mật khẩu"
-                          className="signup-password-1"
+                          className="login-password-1"
                           autoComplete="off"
                           onChange={(e) => setMatchPwd(e.target.value)}
                           required
@@ -293,35 +312,16 @@ const Signup = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập mã xác nhận"
-                          className="signup-password-1"
-                          autoComplete="off"
-                        />
-                      </div>
+                    <div className="login-button-form-1">
+                      <button className="login-button-1">Cập nhật</button>
                     </div>
-                    <div className="signup-button-form-1">
-                      <button className="signup-button-1">Đăng ký</button>
+                    <div className="login-signup-now-1">
+                      <span>Bạn quên mật khẩu?</span>
+                      <Link to={"/forgotPass"} className="login-now">
+                        {" "}
+                        Lấy mật khẩu
+                      </Link>
                     </div>
-                  </div>
-                  {/* <div className="signup-cutting-1">
-                            <span>----- HOẶC -----</span>
-                        </div>
-                        <div className="signup-button-google-1">
-                            <img src={require('../images/icon-google.png')} alt="" className="signup-google-image" />
-                            <span className="signup-google-title">
-                                Tiếp tục với Google
-                            </span>
-                        </div> */}
-                  <div className="signup-login-now-1">
-                    <span>Bạn đã có tài khoản?</span>
-                    <Link to="/login" className="login-now">
-                      {" "}
-                      Đăng nhập
-                    </Link>
                   </div>
                 </div>
               </form>
@@ -333,4 +333,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ChangePass;
