@@ -13,7 +13,6 @@ const Gyms = () => {
   const [addressSearch, setAddressSearch] = useState("");
   //const [priceSearch, setPriceSearch] = useState("");
   const [data, setData] = useState([]);
-
   const [openOptions, setOpenOptions] = useState(false);
 
   const arr = data.filter((item) => {

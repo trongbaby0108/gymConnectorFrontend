@@ -1,169 +1,132 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import "./login.css";
-//import { userService } from "../../../service";
-
-import axios from "../../../api/axios";
-const LOGIN_URL = "http://localhost:8080/auth/login";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
-  // const { setAuth } = useContext(AuthContext);
-  const userRef = useRef();
-  const errRef = useRef();
-
-  const [user, setUser] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, pwd]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        { username: user, password: pwd }
-        // {
-        //   headers: { "Content-Type": "application/json" },
-        //   // withCredentials: true,
-        // }
-      );
-      //const accessToken = response?.data?.accessToken;
-      //const roles = response?.data?.roles;
-      //setAuth({ user, pwd, roles, accessToken });
-      setUser("");
-      setPwd("");
-      setSuccess(true);
-      console.log(response);
-    } catch (error) {
-      if (!error?.response) {
-        setErrMsg("Server không có phản hồi");
-      } else if (error.response?.status === 400) {
-        setErrMsg("Kiểm tra lại tài khoản và mật khẩu");
-      } else if (error.response?.status === 401) {
-        setErrMsg("Không được phép cấp quyền");
-      } else {
-        setErrMsg("Đăng nhập không thành công!!!");
-      }
-      errRef.current.focus();
-      console.log(error);
-    }
-  };
-
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .required("Không được bỏ trống mục này")
+        .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
+      password: Yup.string()
+        .required("Không được bỏ trống mục này")
+        .matches(
+          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
+          "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
+        ),
+    }),
+    onSubmit: (values) => {
+      window.alert("Đăng nhập thành công");
+      console.log(values);
+    },
+  });
   return (
-    <>
-      {success ? (
-        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="login-wrapper-1">
-            <div className="login-container-1">
-              <div className="login-header-1">
-                <img
-                  src={require("../../images/logo-g.png")}
-                  alt=""
-                  className="logo-gymfitness"
-                />
-                <h2 className="login-welcome-1">Đăng nhập thành công</h2>
-                <Link
-                  to={"/home"}
-                  style={{ color: "orange" }}
-                  className="login-welcome-1"
-                >
-                  Quay về trang chủ.
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="login-wrapper-1">
-            <div className="login-container-1">
-              <div className="login-header-1">
-                <img
-                  src={require("../../images/logo-g.png")}
-                  alt=""
-                  className="logo-gymfitness"
-                />
-                <h2 className="login-welcome-1">Chào mừng đến với chúng tôi</h2>
-              </div>
-              <form className="login-body-1" onSubmit={handleSubmit}>
-                <div className="login-bodymain-1">
-                  <div className="login-form-wrapper-1">
-                    <p
-                      aria-live="assertive"
-                      className={errMsg ? "errmsg" : "hidden"}
-                      ref={errRef}
-                    >
-                      {errMsg}
+    <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
+      <section className="bg-gradient-to-tl from-pink-300 to-indigo-500 dark:bg-gray-900">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <a
+            href="/home"
+            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <img
+              className="w-36 h-20 mr-2"
+              src={require("../../images/logo-g.png")}
+              alt="logo"
+            />
+          </a>
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Đăng nhập
+              </h1>
+              <form
+                className="space-y-4 md:space-y-6"
+                action="#"
+                onSubmit={formik.handleSubmit}
+              >
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Tài khoản
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="abcde"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.username && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.username}
                     </p>
-                    <div className="login-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập tài khoản"
-                          ref={userRef}
-                          autoComplete="off"
-                          onChange={(e) => setUser(e.target.value)}
-                          value={user}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="login-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="password"
-                          placeholder="Nhập mật khẩu"
-                          onChange={(e) => setPwd(e.target.value)}
-                          value={pwd}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="login-forgot-pass-1">
-                      <Link to={"/getCode"}>
-                        <span>Quên mật khẩu?</span>
-                      </Link>
-                    </div>
-                    <div className="login-button-form-1">
-                      <button className="login-button-1">Đăng nhập</button>
-                    </div>
-                    <div className="login-cutting-1">
-                      <span>----- HOẶC -----</span>
-                    </div>
-                    <div className="login-button-google-1">
-                      <img
-                        src={require("../../images/icon-google.png")}
-                        alt=""
-                        className="login-google-image"
-                      />
-                      <span className="login-google-title">
-                        Tiếp tục với Google
-                      </span>
-                    </div>
-                    <div className="login-signup-now-1">
-                      <span>Bạn chưa có tài khoản?</span>
-                      <Link to="/register" className="signup-now">
-                        {" "}
-                        Đăng ký
-                      </Link>
-                    </div>
-                  </div>
+                  )}
                 </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Mật khẩu
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.password && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.password}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Đăng nhập
+                </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  <Link
+                    to={"/getCode"}
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Quên mật khẩu?
+                  </Link>
+                </p>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Bạn chưa có tài khoản đăng nhập?{" "}
+                  <Link
+                    to={"/register"}
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Đăng ký ngay
+                  </Link>
+                </p>
               </form>
             </div>
           </div>
         </div>
-      )}
-    </>
+      </section>
+    </div>
   );
 };
 
