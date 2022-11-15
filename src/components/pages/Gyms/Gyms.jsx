@@ -116,7 +116,7 @@ const Gyms = () => {
               >
                 <a href={"/gyms/" + program.id}>
                   <img
-                    className="p-8 rounded-t-lg"
+                    className="p-8 rounded-t-lg w-full h-64"
                     src={program.avatar}
                     alt="product"
                   />
