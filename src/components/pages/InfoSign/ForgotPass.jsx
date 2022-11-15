@@ -1,321 +1,151 @@
-import {
-  faCheck,
-  faInfoCircle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useFormik } from "formik";
+import React from "react";
 import { Link } from "react-router-dom";
-import "./signup.css";
-
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+import * as Yup from "yup";
 
 const ForgotPass = () => {
-  const userRef = useRef();
-  const errRef = useRef();
-
-  const [user, setUser] = useState("");
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
-
-  const [pwd, setPwd] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
-
-  const [matchPwd, setMatchPwd] = useState("");
-  const [validMatch, setValidMatch] = useState(false);
-  const [matchFocus, setMatchFocus] = useState(false);
-
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    const result = USER_REGEX.test(user);
-    console.log(result);
-    console.log(user);
-    setValidName(result);
-  }, [user]);
-
-  useEffect(() => {
-    const result = PWD_REGEX.test(pwd);
-    console.log(result);
-    console.log(pwd);
-    setValidPwd(result);
-    const match = pwd === matchPwd;
-    setValidMatch(match);
-  }, [pwd, matchPwd]);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, pwd, matchPwd]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/signUser/forgetPassword",
-        { username: user, newPassword: pwd, oldPassword: pwd }
-      );
-      setUser("");
-      setPwd("");
-      setSuccess(true);
-      console.log(response);
-    } catch (error) {
-      if (!error?.response) {
-        setErrMsg("Server không có phản hồi");
-      } else if (error.response?.status === 400) {
-        setErrMsg("Kiểm tra lại tài khoản và mật khẩu");
-      } else if (error.response?.status === 401) {
-        setErrMsg("Không được phép cấp quyền");
-      } else {
-        setErrMsg("Đăng nhập không thành công!!!");
-      }
-      errRef.current.focus();
-      console.log(error);
-    }
-    const v1 = USER_REGEX.test(user);
-    const v2 = PWD_REGEX.test(pwd);
-    if (!v1 || !v2) {
-      setErrMsg("Sai lỗi cú pháp");
-      return;
-    }
-    setSuccess(true);
-  };
-
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+      confirmedPassword: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .required("Không được bỏ trống mục này")
+        .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
+      password: Yup.string()
+        .required("Không được bỏ trống mục này")
+        .matches(
+          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
+          "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
+        ),
+      confirmedPassword: Yup.string()
+        .required("Không được bỏ trống mục này")
+        .oneOf([Yup.ref("password"), null], "Mật khẩu không trùng khớp"),
+    }),
+    onSubmit: (values) => {
+      window.alert("Đổi mật khẩu thành công");
+      console.log(values);
+    },
+  });
   return (
-    <>
-      {success ? (
-        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="signup-wrapper-1">
-            <div className="signup-container-1">
-              <div className="signup-header-1">
-                <img
-                  src={require("../../images/logo-g.png")}
-                  alt=""
-                  className="logo-gymfitness"
-                />
-                <h2 className="signup-welcome-1">
-                  Cập nhật mật khẩu thành công!
-                </h2>
-                <h3 className="signup-welcome-1">Vui lòng đăng nhập lại.</h3>
-              </div>
-              <div className="signup-body-1">
-                <div className="signup-bodymain-1">
-                  <div className="signup-form-wrapper-1">
-                    <Link to="/login" className="login-now">
-                      {" "}
-                      Đăng nhập
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
-          <div className="signup-wrapper-1">
-            <div className="signup-container-1">
-              <div className="signup-header-1">
-                <img
-                  src={require("../../images/logo-g.png")}
-                  alt=""
-                  className="logo-gymfitness"
-                />
-                <h2 className="signup-welcome-1">
-                  Điền thông tin lấy lại mật khẩu
-                </h2>
-              </div>
-              <form className="signup-body-1" onSubmit={handleSubmit}>
-                <div className="signup-bodymain-1">
-                  <div className="signup-form-wrapper-1">
-                    <p
-                      className={errMsg ? "errmsg" : "hidden"}
-                      aria-live="assertive"
-                      ref={errRef}
-                    >
-                      {errMsg}
+    <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
+      <section className="bg-gradient-to-tl from-pink-400 to-indigo-500 dark:bg-gray-900">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <a
+            href="/home"
+            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <img
+              className="w-36 h-20 mr-2"
+              src={require("../../images/logo-g.png")}
+              alt="logo"
+            />
+          </a>
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Quên mật khẩu?
+              </h1>
+              <form
+                className="space-y-4 md:space-y-6"
+                action="#"
+                onSubmit={formik.handleSubmit}
+              >
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Tài khoản
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="abcde"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.username && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.username}
                     </p>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="text"
-                          placeholder="Nhập tài khoản"
-                          className="signup-username-1"
-                          autoComplete="off"
-                          id="username"
-                          ref={userRef}
-                          onChange={(e) => setUser(e.target.value)}
-                          required
-                          aria-invalid={validName ? "false" : "true"}
-                          aria-describedby="uidnote"
-                          onFocus={() => setUserFocus(true)}
-                          onBlur={() => setUserFocus(true)}
-                        />
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          className={
-                            validName ? "valid text-lime-700" : "hidden"
-                          }
-                        />
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          className={
-                            validName || !user
-                              ? "hidden"
-                              : "invalid  text-red-700"
-                          }
-                        />
-                      </div>
-                      <div className="form-notification">
-                        <p
-                          id="uidnote"
-                          className={
-                            userFocus && user && !validName
-                              ? "instructions"
-                              : "hidden"
-                          }
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                          4 đến 24 ký tự.
-                          <br />
-                          Bắt đầu bằng chữ cái.
-                          <br />
-                          Cho phép các chữ cái, số, dấu gạch dưới, dấu gạch nối.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="password"
-                          id="password"
-                          placeholder="Nhập mật khẩu"
-                          className="signup-password-1"
-                          autoComplete="off"
-                          onChange={(e) => setPwd(e.target.value)}
-                          required
-                          aria-invalid={validPwd ? "false" : "true"}
-                          aria-describedby="pwdnote"
-                          onFocus={() => setPwdFocus(true)}
-                          onBlur={() => setPwdFocus(false)}
-                        />
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          className={
-                            validPwd ? "valid text-lime-700" : "hidden"
-                          }
-                        />
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          className={
-                            validPwd || !pwd
-                              ? "hidden"
-                              : "invalid  text-red-700"
-                          }
-                        />
-                      </div>
-                      <div className="form-notification">
-                        <p
-                          id="pwdnote"
-                          className={
-                            pwdFocus && !validPwd ? "instructions" : "hidden"
-                          }
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                          {"  "}8 đến 24 ký tự.
-                          <br />
-                          Phải bao gồm chữ hoa và chữ thường, một số và một ký
-                          tự đặc biệt.
-                          <br />
-                          Các ký tự đặc biệt được phép:{" "}
-                          <span aria-label="exclamation mark">!</span>{" "}
-                          <span aria-label="at symbol">@</span>{" "}
-                          <span aria-label="hashtag">#</span>{" "}
-                          <span aria-label="dollar sign">$</span>{" "}
-                          <span aria-label="percent">%</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="signup-form-1">
-                      <div className="form-fill-in">
-                        <input
-                          type="password"
-                          id="confirm_pwd"
-                          placeholder="Xác nhận mật khẩu"
-                          className="signup-password-1"
-                          autoComplete="off"
-                          onChange={(e) => setMatchPwd(e.target.value)}
-                          required
-                          aria-invalid={validMatch ? "false" : "true"}
-                          aria-describedby="confirmnote"
-                          onFocus={() => setMatchFocus(true)}
-                          onBlur={() => setMatchFocus(false)}
-                        />
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          className={
-                            validMatch && matchPwd
-                              ? "valid text-lime-700"
-                              : "hidden"
-                          }
-                        />
-                        <FontAwesomeIcon
-                          icon={faTimes}
-                          className={
-                            validMatch || !matchPwd
-                              ? "hidden"
-                              : "invalid  text-red-700"
-                          }
-                        />
-                      </div>
-                      <div className="form-notification">
-                        <p
-                          id="confirmnote"
-                          className={
-                            matchFocus && !validMatch
-                              ? "instructions"
-                              : "hidden"
-                          }
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                          Phải khớp với trường nhập mật khẩu ở trên.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="signup-button-form-1">
-                      <button className="signup-button-1">Cập nhật</button>
-                    </div>
-                  </div>
-                  {/* <div className="signup-cutting-1">
-                            <span>----- HOẶC -----</span>
-                        </div>
-                        <div className="signup-button-google-1">
-                            <img src={require('../images/icon-google.png')} alt="" className="signup-google-image" />
-                            <span className="signup-google-title">
-                                Tiếp tục với Google
-                            </span>
-                        </div> */}
-                  <div className="signup-login-now-1">
-                    <span>Bạn đã có tài khoản?</span>
-                    <Link to="/login" className="login-now">
-                      {" "}
-                      Đăng nhập
-                    </Link>
-                  </div>
+                  )}
                 </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Mật khẩu
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.password && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.password}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="confirmedPassword"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Xác nhận mật khẩu
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmedPassword"
+                    id="confirmedPassword"
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.confirmedPassword}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.confirmedPassword && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.confirmedPassword}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Đổi mật khẩu
+                </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Bạn chưa có tài khoản đăng nhập?{" "}
+                  <Link
+                    to={"/register"}
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Đăng ký ngay
+                  </Link>
+                </p>
               </form>
             </div>
           </div>
         </div>
-      )}
-    </>
+      </section>
+    </div>
   );
 };
 
