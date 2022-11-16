@@ -49,9 +49,6 @@ const ListGym = () => {
                         Hotline
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Đơn giá
-                      </th>
-                      <th scope="col" className="py-3 px-6">
                         Hình ảnh
                       </th>
                       <th scope="col" className="py-3 px-6">
@@ -71,7 +68,6 @@ const ListGym = () => {
                           </th>
                           <td className="py-4 px-6">{program.address}</td>
                           <td className="py-4 px-6">{program.phone}</td>
-                          <td className="py-4 px-6">3.000.000đ</td>
                           <td className="py-4 px-6">
                             <img src={program.avatar} alt="" />
                           </td>
