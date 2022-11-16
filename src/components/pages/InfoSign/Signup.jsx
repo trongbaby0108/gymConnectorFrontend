@@ -251,7 +251,7 @@ const Signup = () => {
                   Bạn đã có tài khoản đăng nhập?{" "}
                   <Link
                     to={"/login"}
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="font-medium text-orange-500 hover:underline dark:text-primary-500"
                   >
                     Đăng nhập ngay
                   </Link>

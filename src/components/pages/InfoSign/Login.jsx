@@ -1,27 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
-      password: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .matches(
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-          "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
-        ),
+      username: Yup.string().required("Không được bỏ trống mục này"),
+      // .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
+      password: Yup.string().required("Không được bỏ trống mục này"),
+      // .matches(
+      //   /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
+      //   "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
     }),
-    onSubmit: (values) => {
-      window.alert("Đăng nhập thành công");
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post("/auth/login", {
+          username: formik.values.username,
+          password: formik.values.password,
+        });
+        window.alert("Đăng nhập thành công");
+        navigate("/home");
+        if (Storage !== undefined) {
+          localStorage.setItem("token", response.data);
+        }
+        console.log(localStorage.getItem("token"));
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
       console.log(values);
     },
   });
@@ -116,7 +130,7 @@ const Login = () => {
                   Bạn chưa có tài khoản đăng nhập?{" "}
                   <Link
                     to={"/register"}
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="font-medium text-orange-500 hover:underline dark:text-primary-500"
                   >
                     Đăng ký ngay
                   </Link>

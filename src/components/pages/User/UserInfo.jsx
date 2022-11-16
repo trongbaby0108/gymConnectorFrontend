@@ -228,7 +228,7 @@ const UserInfo = () => {
                   }
                 />
                 {formik.errors.avatar && (
-                  <p className="max-w-full text-xs text-red-500">
+                  <p className="max-w-full text-sm text-red-500">
                     {formik.errors.avatar}
                   </p>
                 )}
