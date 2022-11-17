@@ -1,15 +1,25 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import PreviewImage from "../../Features/PreviewImage";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../../redux/apiRequest";
+import { useState } from "react";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [imageUP, setImageUP] = useState({});
+
   const formik = useFormik({
     initialValues: {
       email: "",
       name: "",
       phone: "",
       address: "",
+      avatar: "", //ngay này phải là 1 object media thì mở gửi ảnh lên dc
       username: "",
       password: "",
       confirmedPassword: "",
@@ -43,12 +53,76 @@ const Signup = () => {
           "Vui lòng điền đúng định dạng số điện thoại"
         ),
       address: Yup.string().required("Không được bỏ trống mục này"),
+      avatar: Yup.mixed()
+        .required("Không được bỏ trống mục này")
+        .test(
+          "FILE_SIZE",
+          "Ảnh quá lớn",
+          (value) => value && value.size < 1280 * 1280
+        )
+        .test(
+          "FILE_TYPE",
+          "Không tồn tại hoặc không đúng định dạng",
+          (value) =>
+            value &&
+            ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
+        ),
     }),
-    onSubmit: (values) => {
-      window.alert("Đăng ký thành công");
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const newUser = {
+          username: formik.values.username,
+          password: formik.values.password,
+          email: formik.values.email,
+          address: formik.values.address,
+          name: formik.values.name,
+          phone: formik.values.phone,
+        };
+        //registerUser(newUser, dispatch, navigate);
+        axios.post("http://localhost:8080/signUser/save", newUser);
+        upImg();
+        sendCode();
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
+
+  function upImg() {
+    return () => {
+      //up ảnh
+      const reader = new FileReader();
+      reader.readAsDataURL(formik.values.avatar);
+      reader.onload = () => {
+        setImageUP(reader.result);
+      };
+      const imgFormData = new FormData();
+      imgFormData.append("username", formik.values.username);
+      imgFormData.append("avatar", formik.values.avatar);
+
+      const imgResponse = axios({
+        method: "post",
+        url: "http://localhost:8080/signUser/uploadAvatar",
+        data: imgFormData,
+      });
+      console.log(imgResponse.data);
+    };
+  }
+  //mấy này nó gửi đi lâu lắm nên kiểu là
+  // gọi nhưng để nó tự hoạt động hk chờ nó rep
+
+  function sendCode() {
+    return () => {
+      const sendForm = new FormData();
+      sendForm.append("username", formik.values.username);
+      const sendResponse = axios({
+        method: "get", //hay lắm phắt
+        url: "http://localhost:8080/signUser/sendToken",
+        data: sendForm,
+      });
+      console.log(sendResponse.data);
+    };
+  }
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <section className="bg-gradient-to-tl from-pink-300 to-indigo-500 dark:bg-gray-900">
@@ -225,7 +299,7 @@ const Signup = () => {
                     Xác nhận mật khẩu
                   </label>
                   <input
-                    type="confirm-password"
+                    type="password"
                     name="confirmedPassword"
                     id="confirmedPassword"
                     placeholder="••••••••"
@@ -241,6 +315,31 @@ const Signup = () => {
                     </p>
                   )}
                 </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Hình ảnh (đuôi file là .png, .jpeg, .jpg)
+                  </label>
+                  <input
+                    type="file"
+                    name="avatar"
+                    id="avatar"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    onChange={(e) =>
+                      formik.setFieldValue("avatar", e.target.files[0])
+                    }
+                  />
+                  {formik.values.avatar && (
+                    <PreviewImage file={formik.values.avatar} />
+                  )}
+                  {formik.errors.avatar && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.avatar}
+                    </p>
+                  )}
+                </div>
+
                 <button
                   type="submit"
                   className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
