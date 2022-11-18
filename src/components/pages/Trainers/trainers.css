@@ -1,4 +1,40 @@
+<<<<<<< HEAD
 .list-gyms{
+=======
+<<<<<<<< HEAD:src/components/pages/Gyms/gyms.css
+.list-gyms{
+========
+.trainer-section-search{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.trainer-search{
+    height: 30px;
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    position: absolute;
+    width: 35%;
+    max-width: 1024px;
+}
+
+.trainer-search-button{
+    width: 30px;
+    height: 30px;
+    margin-left: 37%;
+    cursor: pointer;
+}
+
+.list-trainers{
+>>>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8:src/components/pages/Trainers/trainers.css
+>>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8
     border: 1px solid lightgray;
     padding: 10px;
     border-radius: 5px;
@@ -93,5 +129,9 @@
     padding: 10px 5px;
     border: none;
     cursor: pointer;
+<<<<<<< HEAD
+=======
+    text-align: center;
+>>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8
     border-radius: 5px;
 }
