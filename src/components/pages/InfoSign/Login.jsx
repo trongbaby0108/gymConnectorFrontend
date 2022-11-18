@@ -35,10 +35,6 @@ const Login = () => {
       url: "http://localhost:8080/signUser/createGoogleUser",
       data: formData,
     });
-    // console.log(res);
-    // localStorage.setItem("emailG", formData.get("email"));
-    // localStorage.setItem("nameG", formData.get("name"));
-    // localStorage.setItem("avatarG", formData.get("avatar"));
     if (res.status === 200) {
       try {
         const response = await axios.post("/auth/login", {
