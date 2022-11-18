@@ -16,6 +16,8 @@ const Home = () => {
         duration: 2500,
         delay: 400,
     });
+
+    console.log(localStorage.getItem('userInfo'));
     return (
         <div className='max-w-[1920px] mx-auto bg-page overflow-hidden relative'>
             <Header />
