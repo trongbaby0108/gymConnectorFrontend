@@ -1,8 +1,11 @@
+import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 const FillCode = () => {
+  const username = useParams();
   const formik = useFormik({
     initialValues: {
       code: "",
@@ -14,6 +17,18 @@ const FillCode = () => {
     }),
     onSubmit: (values) => {},
   });
+
+  const sendCode = () => {
+    const sendForm = new FormData();
+    sendForm.append("username", username);
+    const sendResponse = axios({
+      method: "get",
+      url: "http://localhost:8080/signUser/sendToken",
+      data: sendForm,
+    });
+    console.log(sendResponse.data);
+  };
+
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <section className="bg-gradient-to-tl from-pink-400 to-indigo-500 dark:bg-gray-900">

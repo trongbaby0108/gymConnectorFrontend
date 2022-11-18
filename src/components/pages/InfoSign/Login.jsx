@@ -61,24 +61,25 @@ const Login = () => {
         username: formik.values.username,
         password: formik.values.password,
       };
-      loginUser(newUser, dispatch, navigate);
+      //loginUser(newUser, dispatch, navigate);
 
-      // try {
-      //   const response = await axios.post("/auth/login", {
-      //     username: formik.values.username,
-      //     password: formik.values.password,
-      //   });
-      //   window.alert("Đăng nhập thành công");
-      //   navigate("/home");
-      //   if (Storage !== undefined) {
-      //     localStorage.setItem("token", response.data);
-      //   }
-      //   console.log(localStorage.getItem("token"));
-      //   console.log(response);
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      // console.log(values);
+      try {
+        const response = await axios.post("/auth/login", {
+          username: formik.values.username,
+          password: formik.values.password,
+        });
+        console.log(response.data);
+        window.alert("Đăng nhập thành công");
+        //navigate("/home");
+        // if (Storage !== undefined) {
+        //   localStorage.setItem("token", response.data);
+        // }
+        // console.log(localStorage.getItem("token"));
+        // console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+      console.log(values);
     },
   });
   return (

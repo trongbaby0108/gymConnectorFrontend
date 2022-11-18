@@ -37,21 +37,19 @@ const Signup = () => {
       username: Yup.string()
         .required("Không được bỏ trống mục này")
         .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
-      password: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .matches(
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-          "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
-        ),
+      password: Yup.string().required("Không được bỏ trống mục này"),
+      // .matches(
+      //   /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
+      //   "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
+      // ),
       confirmedPassword: Yup.string()
         .required("Không được bỏ trống mục này")
         .oneOf([Yup.ref("password"), null], "Mật khẩu không trùng khớp"),
-      phone: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .matches(
-          /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-          "Vui lòng điền đúng định dạng số điện thoại"
-        ),
+      phone: Yup.string().required("Không được bỏ trống mục này"),
+      // .matches(
+      //   /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+      //   "Vui lòng điền đúng định dạng số điện thoại"
+      // ),
       address: Yup.string().required("Không được bỏ trống mục này"),
       avatar: Yup.mixed()
         .required("Không được bỏ trống mục này")
@@ -79,50 +77,38 @@ const Signup = () => {
           phone: formik.values.phone,
         };
         //registerUser(newUser, dispatch, navigate);
-        axios.post("http://localhost:8080/signUser/save", newUser);
+        const res = await axios.post(
+          "http://localhost:8080/signUser/save",
+          newUser
+        );
+        console.log(res);
         upImg();
-        sendCode();
+        navigate("/fillCode/" + newUser.username);
       } catch (error) {
         console.log(error);
       }
     },
   });
 
-  function upImg() {
-    return () => {
-      //up ảnh
-      const reader = new FileReader();
-      reader.readAsDataURL(formik.values.avatar);
-      reader.onload = () => {
-        setImageUP(reader.result);
-      };
-      const imgFormData = new FormData();
-      imgFormData.append("username", formik.values.username);
-      imgFormData.append("avatar", formik.values.avatar);
-
-      const imgResponse = axios({
-        method: "post",
-        url: "http://localhost:8080/signUser/uploadAvatar",
-        data: imgFormData,
-      });
-      console.log(imgResponse.data);
+  const upImg = () => {
+    console.log("sendupImgCode...");
+    const reader = new FileReader();
+    reader.readAsDataURL(formik.values.avatar);
+    reader.onload = () => {
+      setImageUP(reader.result);
     };
-  }
-  //mấy này nó gửi đi lâu lắm nên kiểu là
-  // gọi nhưng để nó tự hoạt động hk chờ nó rep
+    const imgFormData = new FormData();
+    imgFormData.append("username", formik.values.username);
+    imgFormData.append("avatar", formik.values.avatar);
 
-  function sendCode() {
-    return () => {
-      const sendForm = new FormData();
-      sendForm.append("username", formik.values.username);
-      const sendResponse = axios({
-        method: "get", //hay lắm phắt
-        url: "http://localhost:8080/signUser/sendToken",
-        data: sendForm,
-      });
-      console.log(sendResponse.data);
-    };
-  }
+    const imgResponse = axios({
+      method: "post",
+      url: "http://localhost:8080/signUser/uploadAvatar",
+      data: imgFormData,
+    });
+    console.log(imgResponse);
+  };
+
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <section className="bg-gradient-to-tl from-pink-300 to-indigo-500 dark:bg-gray-900">

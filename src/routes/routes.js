@@ -30,7 +30,7 @@ export const routes = {
     { path: "/forgotPass", component: ForgotPass },
     { path: "/changePass", component: ChangePass },
     { path: "/getCode", component: GetCode },
-    { path: "/fillCode", component: FillCode },
+    { path: "/fillCode/:username", component: FillCode },
     { path: "/gyms", component: Gyms },
     { path: "/trainers", component: Trainers },
     { path: "/gyms/:id", component: GymDetail },
