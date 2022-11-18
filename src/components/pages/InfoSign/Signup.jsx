@@ -4,14 +4,12 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import PreviewImage from "../../Features/PreviewImage";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../../redux/apiRequest";
-import { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { registerUser } from "../../../redux/apiRequest";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [imageUP, setImageUP] = useState({});
+  //const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +29,7 @@ const Signup = () => {
       email: Yup.string()
         .required("Không được bỏ trống mục này")
         .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
           "Vui lòng điền địa chỉ email đúng định dạng"
         ),
       username: Yup.string()
@@ -82,6 +80,7 @@ const Signup = () => {
           newUser
         );
         console.log(res);
+        sendCode(newUser.username);
         upImg();
         navigate("/fillCode/" + newUser.username);
       } catch (error) {
@@ -90,13 +89,17 @@ const Signup = () => {
     },
   });
 
+  const sendCode = async (username) => {
+    const sendForm = new FormData();
+    sendForm.append("username", username);
+    const sendResponse = await axios.post(
+      "http://localhost:8080/signUser/sendToken",
+      sendForm
+    );
+    console.log(sendResponse.data);
+  };
+
   const upImg = () => {
-    console.log("sendupImgCode...");
-    const reader = new FileReader();
-    reader.readAsDataURL(formik.values.avatar);
-    reader.onload = () => {
-      setImageUP(reader.result);
-    };
     const imgFormData = new FormData();
     imgFormData.append("username", formik.values.username);
     imgFormData.append("avatar", formik.values.avatar);

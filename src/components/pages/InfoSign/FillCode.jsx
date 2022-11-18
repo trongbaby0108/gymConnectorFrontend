@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 const FillCode = () => {
-  const username = useParams();
+  const data = useParams();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       code: "",
@@ -15,19 +16,17 @@ const FillCode = () => {
         .required("Không được bỏ trống mục này")
         .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
     }),
-    onSubmit: (values) => {},
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append("token", formik.values.code);
+      formData.append("username", data.username);
+      const confirmToken = await axios.post(
+        "http://localhost:8080/signUser/sendToken",
+        formData
+      );
+      if (confirmToken.status === 200) navigate("/login");
+    },
   });
-
-  const sendCode = () => {
-    const sendForm = new FormData();
-    sendForm.append("username", username);
-    const sendResponse = axios({
-      method: "get",
-      url: "http://localhost:8080/signUser/sendToken",
-      data: sendForm,
-    });
-    console.log(sendResponse.data);
-  };
 
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
