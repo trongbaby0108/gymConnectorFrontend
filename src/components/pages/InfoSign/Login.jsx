@@ -6,12 +6,11 @@ import axios from "axios";
 import GoogleLogin from "react-google-login";
 import { gapi } from "gapi-script";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../../redux/apiRequest";
+// import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
   useEffect(() => {
     gapi.load("client:auth2", () => {
@@ -36,10 +35,42 @@ const Login = () => {
       url: "http://localhost:8080/signUser/createGoogleUser",
       data: formData,
     });
-    console.log(res);
-    localStorage.setItem("emailG", formData.get("email"));
-    localStorage.setItem("nameG", formData.get("name"));
-    localStorage.setItem("avatarG", formData.get("avatar"));
+    // console.log(res);
+    // localStorage.setItem("emailG", formData.get("email"));
+    // localStorage.setItem("nameG", formData.get("name"));
+    // localStorage.setItem("avatarG", formData.get("avatar"));
+    if (res.status === 200) {
+      try {
+        const response = await axios.post("/auth/login", {
+          username: formData.get("email"),
+          password: formData.get("email"),
+        });
+        console.log(response.data);
+        window.alert("Đăng nhập thành công");
+        if (Storage !== undefined) {
+          localStorage.setItem("token", response.data);
+        }
+        const form = new FormData();
+        form.append("jwt", response.data);
+        const userInfo = await axios.post("/auth/getUserInfo", form);
+
+        if (userInfo.status === 200) {
+          console.log(userInfo.data);
+          localStorage.setItem("address", userInfo.data.address);
+          localStorage.setItem("avatar", userInfo.data.avatar);
+          localStorage.setItem("email", userInfo.data.email);
+          localStorage.setItem("enable", userInfo.data.enable);
+          localStorage.setItem("id", userInfo.data.id);
+          localStorage.setItem("name", userInfo.data.name);
+          localStorage.setItem("phone", userInfo.data.phone);
+          localStorage.setItem("username", userInfo.data.username);
+          localStorage.setItem("role", userInfo.data.role);
+          navigate("/home");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
     setLoginData(formData.get("email"));
   };
 
@@ -57,10 +88,6 @@ const Login = () => {
       //   "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
     }),
     onSubmit: async (values) => {
-      const newUser = {
-        username: formik.values.username,
-        password: formik.values.password,
-      };
       //loginUser(newUser, dispatch, navigate);
 
       try {
@@ -70,10 +97,27 @@ const Login = () => {
         });
         console.log(response.data);
         window.alert("Đăng nhập thành công");
-        //navigate("/home");
-        // if (Storage !== undefined) {
-        //   localStorage.setItem("token", response.data);
-        // }
+        if (Storage !== undefined) {
+          localStorage.setItem("token", response.data);
+        }
+        const form = new FormData();
+        form.append("jwt", response.data);
+        const userInfo = await axios.post("/auth/getUserInfo", form);
+
+        if (userInfo.status === 200) {
+          console.log(userInfo.data);
+          localStorage.setItem("address", userInfo.data.address);
+          localStorage.setItem("avatar", userInfo.data.avatar);
+          localStorage.setItem("email", userInfo.data.email);
+          localStorage.setItem("enable", userInfo.data.enable);
+          localStorage.setItem("id", userInfo.data.id);
+          localStorage.setItem("name", userInfo.data.name);
+          localStorage.setItem("phone", userInfo.data.phone);
+          localStorage.setItem("username", userInfo.data.username);
+          localStorage.setItem("role", userInfo.data.role);
+          navigate("/home");
+        }
+
         // console.log(localStorage.getItem("token"));
         // console.log(response);
       } catch (error) {

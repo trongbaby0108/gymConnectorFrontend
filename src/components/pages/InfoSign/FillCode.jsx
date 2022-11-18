@@ -21,10 +21,10 @@ const FillCode = () => {
       formData.append("token", formik.values.code);
       formData.append("username", data.username);
       const confirmToken = await axios.post(
-        "http://localhost:8080/signUser/sendToken",
+        "http://localhost:8080/signUser/confirmToken",
         formData
       );
-      if (confirmToken.status === 200) navigate("/login");
+      if (confirmToken.data === "OK") navigate("/login");
     },
   });
 
