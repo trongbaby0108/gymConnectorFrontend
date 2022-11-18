@@ -9,6 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import CurrencyFormatter from "currency-formatter";
+import DetailIcn from "./fitness.svg";
 
 const GymDetail = () => {
   // // image slider
@@ -111,13 +112,23 @@ const GymDetail = () => {
       <section className="bg-neutral-500 h-[100px]">
         <div className="container mx-auto h-full"></div>
       </section>
+      <div
+        className="section-title-group max-w-[900px] mx-auto px-4 lg:px-0"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <img src={DetailIcn} alt="" />
+        <h2 className="h2 section-title">
+          Thông tin chi tiết về phòng tập
+          <span className="text-primary-200">.</span>
+        </h2>
+      </div>
       <section className="section">
         {arr.map((program, idx) => {
           return (
             <div data-aos="fade-up" data-aos-delay="300" key={idx}>
               <div className="gym-container">
                 <div className="gym-wrapper">
-                  <h1 className="gym-title">Thông tin chi tiết về phòng tập</h1>
                   <div className="gym-address">
                     <FontAwesomeIcon icon={faLocationDot} />
                     <span>{program.address}</span>
@@ -214,7 +225,7 @@ const GymDetail = () => {
                               {program.name}
                             </h1>
                             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                              Mô tả combo
+                              Mô tả hlv
                             </p>
                           </div>
 
@@ -238,6 +249,68 @@ const GymDetail = () => {
                       </div>
                     );
                   })}
+                  {/* comment */}
+                  <form>
+                    <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                      <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                        <label className="sr-only">Bình luận</label>
+                        <textarea
+                          id="comment"
+                          rows="4"
+                          className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                          placeholder="Viết bình luận của bạn..."
+                          required
+                        ></textarea>
+                      </div>
+                      <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                        <button
+                          type="submit"
+                          className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                        >
+                          Đăng lên
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <p className="ml-auto text-xs text-gray-500 dark:text-gray-400">
+                    Mọi người bình luận văn minh và cư xử đúng mực.
+                  </p>
+                  {/* list comments */}
+                  <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                      <div className="w-full h-full bg-white dark:bg-gray-800">
+                        <div className="w-full bg-white dark:bg-gray-800 text-black dark:text-gray-200 p-4 antialiased flex max-w-4xl">
+                          <img
+                            className="rounded-full h-8 w-8 mr-2 mt-1 "
+                            src="https://picsum.photos/id/1027/200/200"
+                            alt="avatar"
+                          />
+                          <div>
+                            <div className="bg-gray-100 dark:bg-gray-700 rounded-3xl px-4 pt-2 pb-2.5">
+                              <div className="font-semibold text-sm leading-relaxed">
+                                Jon Doe
+                              </div>
+                              <div className="text-normal leading-snug md:leading-normal">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut
+                                enim ad minim veniam, quis nostrud exercitation
+                                ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in
+                                reprehenderit in voluptate velit esse cillum
+                                dolore eu fugiat nulla pariatur. Excepteur sint
+                                occaecat cupidatat non proident, sunt in culpa
+                                qui officia deserunt mollit anim id est laborum.
+                              </div>
+                            </div>
+                            <div className="text-sm ml-4 mt-0.5 text-gray-500 dark:text-gray-400">
+                              thời gian bình luận
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
