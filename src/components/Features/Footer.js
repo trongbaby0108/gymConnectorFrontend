@@ -15,7 +15,11 @@ const Footer = () => {
       >
         {/* logo */}
         <a href='/home'>
+<<<<<<< HEAD:src/components/Footer.js
+          <img className='h-[70px]' src={require('../components/images/logo-g.png')} alt='' />
+=======
           <img className='h-[70px]' src={require('../images/logo-g.png')} alt='' />
+>>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8:src/components/Features/Footer.js
         </a>
         {/* copyright text */}
         <p className='text-neutral-300 text-sm'>{copyrightText}</p>
