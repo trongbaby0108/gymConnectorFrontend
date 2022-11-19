@@ -41,7 +41,7 @@ const Gyms = () => {
       <section className="section w-11/12 m-auto">
         {/* section title */}
         <div
-          className="section-title-group max-w-[540px] mx-auto px-4 lg:px-0"
+          className="section-title-group max-w-[600px] mx-auto px-4 lg:px-0"
           data-aos="fade-up"
           data-aos-delay="200"
         >

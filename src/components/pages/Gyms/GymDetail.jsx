@@ -9,6 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import CurrencyFormatter from "currency-formatter";
+import DetailIcn from "./fitness.svg";
 
 const GymDetail = () => {
   // // image slider
@@ -109,29 +110,35 @@ const GymDetail = () => {
       <section className="bg-neutral-500 h-[100px]">
         <div className="container mx-auto h-full"></div>
       </section>
+      <div
+        className="section-title-group max-w-[900px] mx-auto px-4 lg:px-0"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <img src={DetailIcn} alt="" />
+        <h2 className="h2 section-title">
+          Thông tin chi tiết về phòng tập
+          <span className="text-primary-200">.</span>
+        </h2>
+      </div>
       <section className="section">
         {/* {arr.map((program, idx) => {
           return (
-            
-          );
-          
-        })} */}
-
-        <div data-aos="fade-up" data-aos-delay="300" key={data.id}>
-          <div className="gym-container">
-            <div className="gym-wrapper">
-              <h1 className="gym-title">Thông tin chi tiết về phòng tập</h1>
-              <div className="gym-address">
-                <FontAwesomeIcon icon={faLocationDot} />
-                <span>{data.address}</span>
-              </div>
-              <span className="gym-price-highlight">
-                Hãy đặt ngay để có thể tham gia cùng chúng tôi
-              </span>
-              <div className="p-12 flex justify-center w-screen md:w-[1024px] items-center">
-                <div className="relative w-full">
-                  <div className="carousel">
-                    {/* {sliderControl(true)}
+            <div data-aos="fade-up" data-aos-delay="300" key={idx}>
+              <div className="gym-container">
+                <div className="gym-wrapper">
+                  <h1 className="gym-title">Thông tin chi tiết về phòng tập</h1>
+                  <div className="gym-address">
+                    <FontAwesomeIcon icon={faLocationDot} />
+                    <span>{program.address}</span>
+                  </div>
+                  <span className="gym-price-highlight">
+                    Hãy đặt ngay để có thể tham gia cùng chúng tôi
+                  </span>
+                  <div className="p-12 flex justify-center w-screen md:w-[1024px] items-center">
+                    <div className="relative w-full">
+                      <div className="carousel">
+                        {/* {sliderControl(true)}
                         {photo.map((img, i) => (
                           <div
                             className="w-full flex-shrink-0"
@@ -208,23 +215,21 @@ const GymDetail = () => {
                           Đặt combo
                         </button>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
-              <h1 className="gym-title mt-6">Danh sách Combo</h1>
-              {dataPT.map((program) => {
-                return (
-                  <div className="mt-10">
-                    <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                      <div className="px-4 py-2">
-                        <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
-                          {program.name}
-                        </h1>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                          Mô tả combo
-                        </p>
-                      </div>
+                    );
+                  })}
+                  <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
+                  {dataPT.map((program) => {
+                    return (
+                      <div className="mt-10">
+                        <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                          <div className="px-4 py-2">
+                            <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
+                              {program.name}
+                            </h1>
+                            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                              Mô tả combo
+                            </p>
+                          </div>
 
                       <img
                         className="object-cover w-full h-[90px] mt-2"
@@ -242,10 +247,10 @@ const GymDetail = () => {
                           Đặt ngay
                         </button>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
