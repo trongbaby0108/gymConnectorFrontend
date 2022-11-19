@@ -28,3 +28,14 @@ export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerFailed());
   }
 };
+
+export const loginPT = async (user, dispatch, navigate) => {
+  dispatch(loginStart());
+  try {
+    const res = await axios.post("/auth/login", user);
+    dispatch(loginSuccess(res.data));
+    navigate("/home");
+  } catch (error) {
+    dispatch(loginFailed());
+  }
+};
