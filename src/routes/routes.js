@@ -37,12 +37,20 @@ import GetCode from "../components/pages/InfoSign/GetCode";
 import FillCode from "../components/pages/InfoSign/FillCode";
 import ChangePass from "../components/pages/InfoSign/ChangePass";
 import Payment from "../components/pages/Payment/Payment";
+import QuestionLogin from "../components/pages/InfoSign/QuestionLogin";
+import TrainerLogin from "../components/pages/Trainers/TrainerLogin";
+import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
+import AdminLogin from "../components/Admin/pages/AdminLogin";
 
 export const routes = {
   publicRoutes: [
     { path: "/", component: Home },
     { path: "/home", component: Home },
     { path: "/login", component: Login },
+    { path: "/questLogin", component: QuestionLogin },
+    { path: "/ptLogin", component: TrainerLogin },
+    { path: "/ptRegister", component: RegisterTrainer },
+    { path: "/adminLogin", component: AdminLogin },
     { path: "/register", component: Register },
     { path: "/forgotPass", component: ForgotPass },
     { path: "/changePass", component: ChangePass },

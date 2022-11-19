@@ -111,6 +111,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import CurrencyFormatter from "currency-formatter";
+import DetailIcn from "./fitness.svg";
 
 const GymDetail = () => {
   // // image slider
@@ -119,30 +120,38 @@ const GymDetail = () => {
   const [data, setData] = useState([]);
   const [dataCombo, setDataCombo] = useState([]);
   const [dataPT, setDataPT] = useState([]);
+  const [dataComment, setDataComment] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
   const getDetailGym = () => {
-    const getDetailGym = axios
+    axios
       .get(`http://localhost:8080/home/getGymById/${params.id}`)
       .then((response) => {
         setData(response.data);
-      });
-    console.log("hello" + getDetailGym.data);
-  };
-
-  const getPT = () => {
-    axios
-      .get(`http://localhost:8080/home/getComboByGym/${params.id}`)
-      .then((response) => {
-        setDataPT(response.data);
       });
   };
 
   const getCombo = () => {
     axios
-      .get(`http://localhost:8080/home/getPTByGym/${params.id}`)
+      .get(`http://localhost:8080/home/getComboByGym/${params.id}`)
       .then((response) => {
         setDataCombo(response.data);
+      });
+  };
+
+  const getPT = () => {
+    axios
+      .get(`http://localhost:8080/home/getPTByGym/${params.id}`)
+      .then((response) => {
+        setDataPT(response.data);
+      });
+  };
+
+  const getComment = () => {
+    axios
+      .get(`http://localhost:8080/home/getRateByGym/${params.id}`)
+      .then((response) => {
+        setDataComment(response.data);
       });
   };
 
@@ -150,11 +159,8 @@ const GymDetail = () => {
     getDetailGym();
     getCombo();
     getPT();
+    getComment();
   }, []);
-
-  // const arr = data.filter((item) => {
-  //   return item.id.toString() === params.id;
-  // });
 
   // photo slider when we get a lot of pictures
   // const refs = photo.reduce((acc, val, i) => {
@@ -211,18 +217,27 @@ const GymDetail = () => {
       <section className="bg-neutral-500 h-[100px]">
         <div className="container mx-auto h-full"></div>
       </section>
+      <div
+        className="section-title-group max-w-[900px] mx-auto px-4 lg:px-0"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <img src={DetailIcn} alt="" />
+        <h2 className="h2 section-title">
+          Thông tin chi tiết về phòng tập
+          <span className="text-primary-200">.</span>
+        </h2>
+      </div>
       <section className="section">
-        {/* {arr.map((program, idx) => {
+        {/* {dataCombo.map((program, idx) => {
           return (
             
           );
-          
         })} */}
 
         <div data-aos="fade-up" data-aos-delay="300" key={data.id}>
           <div className="gym-container">
             <div className="gym-wrapper">
-              <h1 className="gym-title">Thông tin chi tiết về phòng tập</h1>
               <div className="gym-address">
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{data.address}</span>
@@ -265,19 +280,9 @@ const GymDetail = () => {
                     hưởng thụ.
                   </p>
                 </div>
-                <div className="gym-details-price">
-                  <h1>Bình luận</h1>
-                  <span>Tiêu đề</span>
-                  <h2>
-                    <b>Đơn giá</b>
-                  </h2>
-                  <button>
-                    <Link to={"/payment"}>Đặt ngay</Link>
-                  </button>
-                </div>
               </div>
-              <h1 className="gym-title mt-6">Danh sách combo</h1>
-              {dataCombo.map((trainer) => {
+              <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
+              {dataPT.map((trainer) => {
                 return (
                   <div className="mt-10">
                     <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -286,7 +291,7 @@ const GymDetail = () => {
                           {trainer.name}
                         </h1>
                         <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                          Mô tả combo
+                          Mô tả Huấn luyện viên
                         </p>
                       </div>
                       <img
@@ -302,20 +307,18 @@ const GymDetail = () => {
                           })}
                         </h1>
                         <button
-                          onClick={() => {
-                            navigate("/trainers/" + trainer.id);
-                          }}
+                          onClick={() => navigate("/trainers/" + trainer.id)}
                           className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
                         >
-                          Đặt combo
+                          Xem Huấn luyện viên
                         </button>
                       </div>
                     </div>
                   </div>
                 );
               })}
-              <h1 className="gym-title mt-6">Danh sách Combo</h1>
-              {dataPT.map((program) => {
+              <h1 className="gym-title mt-6">Danh sách Gói tập</h1>
+              {dataCombo.map((program) => {
                 return (
                   <div className="mt-10">
                     <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -324,7 +327,7 @@ const GymDetail = () => {
                           {program.name}
                         </h1>
                         <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                          Mô tả combo
+                          Mô tả hlv
                         </p>
                       </div>
 
@@ -336,7 +339,7 @@ const GymDetail = () => {
 
                       <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
                         <h1 className="text-lg font-bold text-white">
-                          {CurrencyFormatter.format(program.fee, {
+                          {CurrencyFormatter.format(program.price, {
                             code: "VND",
                           })}
                         </h1>
@@ -348,6 +351,77 @@ const GymDetail = () => {
                   </div>
                 );
               })}
+              {/* comment */}
+              <form>
+                <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                  <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                    <label className="sr-only">Bình luận</label>
+                    <textarea
+                      id="comment"
+                      rows="4"
+                      className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+                      placeholder="Viết bình luận của bạn..."
+                      required
+                    ></textarea>
+                  </div>
+                  <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                    >
+                      Đăng lên
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <p className="ml-auto text-xs text-gray-500 dark:text-gray-400">
+                Mọi người bình luận văn minh và cư xử đúng mực.
+              </p>
+              {/* list comments */}
+              <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  {dataComment.map((comment) => {
+                    return (
+                      <div className="w-full h-full bg-white dark:bg-gray-800">
+                        <div className="w-full bg-white dark:bg-gray-800 text-black dark:text-gray-200 p-4 antialiased flex max-w-4xl">
+                          <img
+                            className="rounded-full h-8 w-8 mr-2 mt-1 "
+                            src={comment.avatar}
+                            alt="avatar"
+                          />
+                          <div>
+                            <div className="bg-gray-100 dark:bg-gray-700 rounded-3xl px-4 pt-2 pb-2.5">
+                              <div className="font-semibold text-sm leading-relaxed">
+                                {comment.name}
+                              </div>
+
+                              <div class="flex items-center">
+                                <svg
+                                  aria-hidden="true"
+                                  class="w-5 h-5 text-yellow-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <title>Rating star</title>
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                                  {comment.vote}
+                                </p>
+                                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                  {comment.content}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
