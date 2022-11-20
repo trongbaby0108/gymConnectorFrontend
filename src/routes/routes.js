@@ -1,23 +1,3 @@
-import GymDetail from "../components/pages/Gyms/GymDetail";
-import Gyms from "../components/pages/Gyms/Gyms";
-import Home from "../components/pages/Home";
-<<<<<<< HEAD
-import Login from "../components/pages/Login";
-import Register from "../components/pages/Signup";
-import Trainers from "../components/pages/Trainers/Trainers";
-
-export const routes = {
-    publicRoutes: [
-        { path: '/', component: Home },
-        { path: '/home', component: Home },
-        { path: '/login', component: Login },
-        { path: '/register', component: Register },
-        { path: '/gyms', component: Gyms },
-        { path: '/trainers', component: Trainers },
-        { path: '/gyms/:id', component: GymDetail },
-    ]
-}
-=======
 import Login from "../components/pages/InfoSign/Login";
 import Register from "../components/pages/InfoSign/Signup";
 import Trainers from "../components/pages/Trainers/Trainers";
@@ -41,6 +21,10 @@ import QuestionLogin from "../components/pages/InfoSign/QuestionLogin";
 import TrainerLogin from "../components/pages/Trainers/TrainerLogin";
 import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
 import AdminLogin from "../components/Admin/pages/AdminLogin";
+import Home from "../components/pages/Home";
+import Gyms from "../components/pages/Gyms/Gyms";
+import GymDetail from "../components/pages/Gyms/GymDetail";
+import TrainerInfo from "../components/pages/Trainers/TrainerInfo";
 
 export const routes = {
   publicRoutes: [
@@ -61,6 +45,7 @@ export const routes = {
     { path: "/gyms/:id", component: GymDetail },
     { path: "/trainers/:id", component: TrainerDetail },
     { path: "/userInfo", component: UserInfo },
+    { path: "/trainerInfo", component: TrainerInfo },
     { path: "/admin", component: Dashboard },
     { path: "/admin/listGym", component: ListGym },
     { path: "/admin/createGym", component: CreateGym },
@@ -73,4 +58,3 @@ export const routes = {
     { path: "/payment", component: Payment },
   ],
 };
->>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8

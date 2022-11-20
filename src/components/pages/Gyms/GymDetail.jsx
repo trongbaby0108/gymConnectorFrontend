@@ -1,10 +1,13 @@
-
 import React from "react";
 import "./gymDetail.css";
 import Footer from "../../Features/Footer";
 import Header from "../../Features/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faMailBulk,
+  faPhoneVolume,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
@@ -128,12 +131,6 @@ const GymDetail = () => {
         </h2>
       </div>
       <section className="section">
-        {/* {dataCombo.map((program, idx) => {
-          return (
-            
-          );
-        })} */}
-
         <div data-aos="fade-up" data-aos-delay="300" key={data.id}>
           <div className="gym-container">
             <div className="gym-wrapper">
@@ -144,24 +141,9 @@ const GymDetail = () => {
               <span className="gym-price-highlight">
                 Hãy đặt ngay để có thể tham gia cùng chúng tôi
               </span>
-              <div className="p-12 flex justify-center w-screen md:w-[1024px] items-center">
+              <div className="p-4 flex justify-center w-screen md:w-[1024px] items-center">
                 <div className="relative w-full">
                   <div className="carousel">
-                    {/* {sliderControl(true)}
-                        {photo.map((img, i) => (
-                          <div
-                            className="w-full flex-shrink-0"
-                            key={i}
-                            ref={refs[i]}
-                          >
-                            <img
-                              src={img.src}
-                              className="w-full object-contain"
-                              alt=""
-                            />
-                          </div>
-                        ))}
-                        {sliderControl()} */}
                     <img
                       src={data.avatar}
                       className="w-full object-contain"
@@ -173,83 +155,103 @@ const GymDetail = () => {
               <div className="gym-details">
                 <div className="gym-details-texts">
                   <h1 className="gym-title">{data.name}</h1>
-                  <p className="gym-desc">
-                    Ở đây sẽ đặt các mô tả chi tiết về phòng gym đó để khách
-                    hàng đọc và biết được các thông tin, ưu đãi, dịch vụ mình
-                    hưởng thụ.
-                  </p>
+                  <p className="mt-4 text-2xl text-black">Thông tin liên hệ:</p>
+                  <div className="flex mt-2">
+                    <FontAwesomeIcon
+                      className="w-6 h-6 mr-4"
+                      icon={faMailBulk}
+                    ></FontAwesomeIcon>
+                    <p className="text-xl text-black">{data.email}</p>
+                  </div>
+                  <div className="flex mt-2">
+                    <FontAwesomeIcon
+                      className="w-6 h-6 mr-4"
+                      icon={faPhoneVolume}
+                    ></FontAwesomeIcon>
+                    <p className="text-xl text-black">{data.phone}</p>
+                  </div>
                 </div>
               </div>
-              <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
-              {dataPT.map((trainer) => {
-                return (
-                  <div className="mt-10">
-                    <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                      <div className="px-4 py-2">
-                        <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
-                          {trainer.name}
-                        </h1>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                          Mô tả Huấn luyện viên
-                        </p>
-                      </div>
-                      <img
-                        className="object-cover w-full h-[90px] mt-2"
-                        src={trainer.avatar}
-                        alt="NIKE AIR"
-                      />
+              <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    {dataPT.map((trainer) => {
+                      return (
+                        <div className="mt-10" key={trainer.id}>
+                          <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                            <div className="px-4 py-2">
+                              <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
+                                {trainer.name}
+                              </h1>
+                              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                {trainer.address}
+                              </p>
+                            </div>
+                            <img
+                              className="object-cover w-full h-[200px] mt-2"
+                              src={trainer.avatar}
+                              alt=""
+                            />
 
-                      <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
-                        <h1 className="text-lg font-bold text-white">
-                          {CurrencyFormatter.format(trainer.fee, {
-                            code: "VND",
-                          })}
-                        </h1>
-                        <button
-                          onClick={() => navigate("/trainers/" + trainer.id)}
-                          className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-                        >
-                          Xem Huấn luyện viên
-                        </button>
-                      </div>
-                    </div>
+                            <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
+                              <h1 className="text-lg font-bold text-white">
+                                {CurrencyFormatter.format(trainer.fee, {
+                                  code: "VND",
+                                })}
+                              </h1>
+                              <button
+                                onClick={() =>
+                                  navigate("/trainers/" + trainer.id)
+                                }
+                                className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                              >
+                                Xem Huấn luyện viên
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              </div>
               <h1 className="gym-title mt-6">Danh sách Gói tập</h1>
-              {dataCombo.map((program) => {
-                return (
-                  <div className="mt-10">
-                    <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                      <div className="px-4 py-2">
-                        <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
-                          {program.name}
-                        </h1>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                          Mô tả hlv
-                        </p>
-                      </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                {dataCombo.map((program) => {
+                  return (
+                    <div className="mt-10" key={program.id}>
+                      <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                        <div className="px-4 py-2">
+                          <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
+                            {program.name}
+                          </h1>
+                          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                            Mô tả hlv
+                          </p>
+                        </div>
 
-                      <img
-                        className="object-cover w-full h-[90px] mt-2"
-                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=320&q=80"
-                        alt="NIKE AIR"
-                      />
+                        <img
+                          className="object-cover w-full h-[140px] mt-2"
+                          src="http://tranhtreotuong.vn/images/tranh-treo-tuong-2020/tranh-treo-tuong-phong-tap-gym/12-1.jpg"
+                          alt=""
+                        />
 
-                      <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
-                        <h1 className="text-lg font-bold text-white">
-                          {CurrencyFormatter.format(program.price, {
-                            code: "VND",
-                          })}
-                        </h1>
-                        <button className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none">
-                          Đặt ngay
-                        </button>
+                        <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
+                          <h1 className="text-lg font-bold text-white">
+                            {CurrencyFormatter.format(program.price, {
+                              code: "VND",
+                            })}
+                          </h1>
+                          <button className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none">
+                            Đặt ngay
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
               {/* comment */}
               <form>
                 <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
@@ -281,7 +283,10 @@ const GymDetail = () => {
                 <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                   {dataComment.map((comment) => {
                     return (
-                      <div className="w-full h-full bg-white dark:bg-gray-800">
+                      <div
+                        className="w-full h-full bg-white dark:bg-gray-800"
+                        key={comment.id}
+                      >
                         <div className="w-full bg-white dark:bg-gray-800 text-black dark:text-gray-200 p-4 antialiased flex max-w-4xl">
                           <img
                             className="rounded-full h-8 w-8 mr-2 mt-1 "
@@ -293,11 +298,10 @@ const GymDetail = () => {
                               <div className="font-semibold text-sm leading-relaxed">
                                 {comment.name}
                               </div>
-
-                              <div class="flex items-center">
+                              <div className="flex items-center">
                                 <svg
                                   aria-hidden="true"
-                                  class="w-5 h-5 text-yellow-400"
+                                  className="w-5 h-5 text-yellow-400"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -305,11 +309,11 @@ const GymDetail = () => {
                                   <title>Rating star</title>
                                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                 </svg>
-                                <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                                <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                                   {comment.vote}
                                 </p>
-                                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                <div className="text-sm font-medium text-gray-900 dark:text-white">
                                   {comment.content}
                                 </div>
                               </div>
@@ -331,4 +335,3 @@ const GymDetail = () => {
 };
 
 export default GymDetail;
-

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { gymss } from "../../../data";
@@ -84,17 +83,6 @@ const Gyms = () => {
                       />
                     </div>
                   </div>
-                  {/* <div className="option-item">
-                    <span className="option-text">Giá cả</span>
-                    <div className="option-counter">
-                      <input
-                        type="text"
-                        placeholder="Nhập giá"
-                        className="option-input"
-                        onChange={(e) => setPriceSearch(e.target.value)}
-                      />
-                    </div>
-                  </div> */}
                 </div>
               )}
             </div>
@@ -169,4 +157,3 @@ const Gyms = () => {
 };
 
 export default Gyms;
-
