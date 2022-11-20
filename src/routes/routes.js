@@ -24,6 +24,7 @@ import QuestionLogin from "../components/pages/InfoSign/QuestionLogin";
 import TrainerLogin from "../components/pages/Trainers/TrainerLogin";
 import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
 import AdminLogin from "../components/Admin/pages/AdminLogin";
+import TrainerInfo from "../components/pages/Trainers/TrainerInfo";
 
 export const routes = {
   publicRoutes: [
@@ -44,6 +45,7 @@ export const routes = {
     { path: "/gyms/:id", component: GymDetail },
     { path: "/trainers/:id", component: TrainerDetail },
     { path: "/userInfo", component: UserInfo },
+    { path: "/trainerInfo", component: TrainerInfo },
     { path: "/admin", component: Dashboard },
     { path: "/admin/listGym", component: ListGym },
     { path: "/admin/createGym", component: CreateGym },
