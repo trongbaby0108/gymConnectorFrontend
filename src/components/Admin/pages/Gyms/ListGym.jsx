@@ -79,7 +79,7 @@ const ListGym = () => {
                           </td>
                           <td className="py-4 px-6 flex justify-between">
                             <a
-                              href="/admin/editGym"
+                              href={"/admin/editGym/" + gym.id}
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                             >
                               Chỉnh sửa

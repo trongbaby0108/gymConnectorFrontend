@@ -5,17 +5,46 @@ import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 import * as Yup from "yup";
 import PreviewImage from "../../../Features/PreviewImage";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const EditGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const params = useParams();
+  const id = params.id;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  let defaultValue;
+  const res = async () => {
+    await axios
+      .get("http://localhost:8080/admin/gym/getGymById/" + id, headers)
+      .then((response) => {
+        setData(response.data);
+        defaultValue = {
+          name: data.name,
+          phone: data.phone,
+          address: data.address,
+          avatar: data.avatar,
+        };
+      });
+  };
+
+  useEffect(() => {
+    res();
+  }, []);
+
+  const initial = {
+    name: "",
+    phone: "",
+    address: "",
+    avatar: "",
+  };
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      phone: "",
-      address: "",
-      fee: "",
-      avatar: "",
-    },
+    initialValues: defaultValue || initial,
     validationSchema: Yup.object({
       name: Yup.string()
         .required("Không được bỏ trống mục này")
@@ -43,10 +72,11 @@ const EditGym = () => {
             ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
         ),
     }),
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    // onSubmit: (values) => {
+    //   console.log(values);
+    // },
   });
+  console.log(formik.values);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -85,6 +115,28 @@ const EditGym = () => {
                     </p>
                   )}
                 </div>
+
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.name && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.name}
+                    </p>
+                  )}
+                </div>
+
                 <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Địa chỉ
@@ -142,12 +194,17 @@ const EditGym = () => {
                       {formik.errors.avatar}
                     </p>
                   )}
-                  {formik.values.avatar && (
-                    <PreviewImage file={formik.values.avatar} />
-                  )}
+                  {formik.values.avatar &&
+                    (data.avatar ? (
+                      <PreviewImage file={formik.values.avatar} />
+                    ) : (
+                      <img src="{data.avatar}" alt="" />
+                    ))}
                 </div>
                 <button
-                  type="submit"
+                  onClick={() => {
+                    console.log(formik.values);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Cập nhật

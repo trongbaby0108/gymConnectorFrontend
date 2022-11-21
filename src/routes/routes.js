@@ -5,7 +5,6 @@ import Login from "../components/pages/InfoSign/Login";
 import Register from "../components/pages/InfoSign/Signup";
 import Trainers from "../components/pages/Trainers/Trainers";
 import TrainerDetail from "../components/pages/Trainers/TrainerDetail";
-import Dashboard from "../components/Admin/pages/Dashboard";
 import ForgotPass from "../components/pages/InfoSign/ForgotPass";
 import UserInfo from "../components/pages/User/UserInfo";
 import ListGym from "../components/Admin/pages/Gyms/ListGym";
@@ -47,10 +46,10 @@ export const routes = {
     { path: "/trainers/:id", component: TrainerDetail },
     { path: "/userInfo", component: UserInfo },
     { path: "/trainerInfo", component: TrainerInfo },
-    { path: "/admin", component: Dashboard },
+    { path: "/admin", component: ListGym },
     { path: "/admin/listGym", component: ListGym },
     { path: "/admin/createGym", component: CreateGym },
-    { path: "/admin/editGym", component: EditGym },
+    { path: "/admin/editGym/:id", component: EditGym },
     { path: "/admin/listUser", component: ListUser },
     { path: "/admin/listTrainer", component: ListTrainer },
     { path: "/admin/listCombo", component: ListCombo },

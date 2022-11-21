@@ -32,7 +32,6 @@ const UserInfo = () => {
       rateGym: localStorage.getItem("rateGym"),
     },
   };
-  console.log(user);
   const formik = useFormik({
     initialValues: {
       name: user.name,
