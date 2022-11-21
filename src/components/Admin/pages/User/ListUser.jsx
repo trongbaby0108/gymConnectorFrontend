@@ -1,11 +1,28 @@
-import React from "react";
+import userEvent from "@testing-library/user-event";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const getData = () => {
+    axios
+      .get("http://localhost:8080/admin/user/getAll", headers)
+      .then((response) => {
+        setData(response.data);
+      });
+  };
 
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -37,27 +54,52 @@ const ListUser = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        Fitness khỏe đẹp
-                      </th>
-                      <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">0123 123 123</td>
-                      <td className="py-4 px-6">example@gmail.com</td>
-                      <td className="py-4 px-6">
-                        <a
-                          href="/#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  {data.map((user) => (
+                    <tbody>
+                      <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          Vô hiệu hóa
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
+                          {user.name}
+                        </th>
+                        <td className="py-4 px-6">{user.address}</td>
+                        <td className="py-4 px-6">{user.phone}</td>
+                        <td className="py-4 px-6">{user.email}</td>
+                        <td className="py-4 px-6">
+                          {user.enable ? (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/user/disableUser/" +
+                                    user.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Vô hiệu hóa
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/user/enableUser/" +
+                                    user.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Mở khóa
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
                 </table>
               </div>
             </div>

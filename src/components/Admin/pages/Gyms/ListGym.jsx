@@ -8,10 +8,16 @@ import Sidebar from "../../partials/Sidebar";
 const ListGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState([]);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
   const getData = () => {
-    axios.get("http://localhost:8080/admin/gym/getAll").then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get("http://localhost:8080/admin/gym/getAll", headers)
+      .then((response) => {
+        setData(response.data);
+      });
   };
   useEffect(() => {
     getData();
@@ -57,19 +63,19 @@ const ListGym = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((program) => {
+                    {data.map((gym) => {
                       return (
                         <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                           <th
                             scope="row"
                             className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {program.name}
+                            {gym.name}
                           </th>
-                          <td className="py-4 px-6">{program.address}</td>
-                          <td className="py-4 px-6">{program.phone}</td>
+                          <td className="py-4 px-6">{gym.address}</td>
+                          <td className="py-4 px-6">{gym.phone}</td>
                           <td className="py-4 px-6">
-                            <img src={program.avatar} alt="" />
+                            <img src={gym.avatar} alt="" />
                           </td>
                           <td className="py-4 px-6 flex justify-between">
                             <a
@@ -79,12 +85,35 @@ const ListGym = () => {
                               Chỉnh sửa
                             </a>
                             |
-                            <a
-                              href="/#"
-                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                            >
-                              Vô hiệu
-                            </a>
+                            {gym.enable ? (
+                              <button
+                                onClick={() => {
+                                  axios.get(
+                                    "http://localhost:8080/admin/gym/disableGym/" +
+                                      gym.id,
+                                    headers
+                                  );
+                                  window.location.reload();
+                                }}
+                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              >
+                                Vô hiệu hóa
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  axios.get(
+                                    "http://localhost:8080/admin/gym/enableGym/" +
+                                      gym.id,
+                                    headers
+                                  );
+                                  window.location.reload();
+                                }}
+                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              >
+                                Mở khóa
+                              </button>
+                            )}
                           </td>
                         </tr>
                       );

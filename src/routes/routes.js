@@ -25,6 +25,7 @@ import TrainerLogin from "../components/pages/Trainers/TrainerLogin";
 import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
 import AdminLogin from "../components/Admin/pages/AdminLogin";
 import TrainerInfo from "../components/pages/Trainers/TrainerInfo";
+import ListUserByPT from "../components/pages/Trainers/ListUserByPT";
 
 export const routes = {
   publicRoutes: [
@@ -56,6 +57,7 @@ export const routes = {
     { path: "/admin/createCombo", component: CreateCombo },
     { path: "/admin/editCombo", component: EditCombo },
     { path: "/payment", component: Payment },
+    { path: "/userByTrainer/:id", component: ListUserByPT }
   ],
 };
 

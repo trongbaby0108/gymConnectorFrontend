@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginPT } from "../../../redux/apiRequest";
 import * as Yup from "yup";
+import axios from "axios";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -32,22 +33,30 @@ const AdminLogin = () => {
       };
       loginPT(newUser, dispatch, navigate);
       setLoginData(formik.values.username);
-      // try {
-      //   const response = await axios.post("/auth/login", {
-      //     username: formik.values.username,
-      //     password: formik.values.password,
-      //   });
-      //   window.alert("Đăng nhập thành công");
-      //   navigate("/home");
-      //   if (Storage !== undefined) {
-      //     localStorage.setItem("token", response.data);
-      //   }
-      //   console.log(localStorage.getItem("token"));
-      //   console.log(response);
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      // console.log(values);
+      const response = await axios.post("/auth/login", {
+        username: formik.values.username,
+        password: formik.values.password,
+      });
+      window.alert("Đăng nhập thành công");
+      if (Storage !== undefined) {
+        localStorage.setItem("token", response.data);
+      }
+      const form = new FormData();
+      form.append("jwt", response.data);
+      const userInfo = await axios.post("/auth/getUserInfo", form);
+      if (userInfo.status === 200) {
+        console.log(userInfo.data);
+        localStorage.setItem("address", userInfo.data.address);
+        localStorage.setItem("avatar", userInfo.data.avatar);
+        localStorage.setItem("email", userInfo.data.email);
+        localStorage.setItem("enable", userInfo.data.enable);
+        localStorage.setItem("id", userInfo.data.id);
+        localStorage.setItem("name", userInfo.data.name);
+        localStorage.setItem("phone", userInfo.data.phone);
+        localStorage.setItem("username", userInfo.data.username);
+        localStorage.setItem("role", userInfo.data.role);
+        navigate("/home");
+      }
     },
   });
   return (

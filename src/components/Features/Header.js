@@ -49,56 +49,16 @@ const Header = () => {
     },
   };
 
-  // const pt = {
-  //   address: localStorage.getItem("addressPT"),
-  //   avatar: localStorage.getItem("avatarPT"),
-  //   email: localStorage.getItem("emailPT"),
-  //   enable: localStorage.getItem("enablePT"),
-  //   fee: localStorage.getItem("feePT"),
-  //   id: localStorage.getItem("idPT"),
-  //   name: localStorage.getItem("namePT"),
-  //   phone: localStorage.getItem("phonePT"),
-  //   username: localStorage.getItem("usernamePT"),
-  //   role: localStorage.getItem("rolePT"),
-  //   rate: localStorage.getItem("ratePT"),
-  //   gym: {
-  //     address: localStorage.getItem("addressGym"),
-  //     avatar: localStorage.getItem("avatarGym"),
-  //     email: localStorage.getItem("emailGym"),
-  //     id: localStorage.getItem("idGym"),
-  //     name: localStorage.getItem("nameGym"),
-  //     phone: localStorage.getItem("phoneGym"),
-  //     rate: localStorage.getItem("rateGym"),
-  //   },
-  // };
-
   const logOut = () => {
     if (user.id) {
-      localStorage.removeItem("address");
-      localStorage.removeItem("avatar");
-      localStorage.removeItem("email");
-      localStorage.removeItem("enable");
-      localStorage.removeItem("id");
-      localStorage.removeItem("name");
-      localStorage.removeItem("phone");
-      localStorage.removeItem("username");
-      localStorage.removeItem("role");
-      localStorage.removeItem("rate");
-      localStorage.removeItem("addressGym");
-      localStorage.removeItem("avatarGym");
-      localStorage.removeItem("emailGym");
-      localStorage.removeItem("idGym");
-      localStorage.removeItem("nameGym");
-      localStorage.removeItem("phoneGym");
-      localStorage.removeItem("rateGym");
+      localStorage.clear();
       window.location.reload();
     }
   };
   return (
     <header
-      className={`${
-        isActive ? "bg-neutral-500 py-[16px]" : "bg-transparent py-[20px]"
-      } fixed max-w-[1920px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
+      className={`${isActive ? "bg-neutral-500 py-[16px]" : "bg-transparent py-[20px]"
+        } fixed max-w-[1920px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
     >
       {/* logo */}
       <a href="/home">
@@ -109,10 +69,9 @@ const Header = () => {
         />
       </a>
 
-      {/* nav - initially hidden - show in desktop mode */}
       <Nav />
 
-      {/* buttons - initally hidden - show in desktop mode */}
+
       {user.id ? (
         <div className="hidden lg:flex space-x-4">
           <p className="btn btn-sm text-white hover:text-primary-200 transition">

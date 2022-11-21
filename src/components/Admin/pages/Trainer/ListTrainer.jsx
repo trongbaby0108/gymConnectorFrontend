@@ -1,10 +1,27 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListTrainer = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const getData = () => {
+    axios
+      .get("http://localhost:8080/admin/personalTrainer/getALlPT", headers)
+      .then((response) => {
+        setData(response.data);
+      });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -37,27 +54,52 @@ const ListTrainer = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        Nguyễn Văn A
-                      </th>
-                      <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">0123 123 123</td>
-                      <td className="py-4 px-6">3.000.000đ</td>
-                      <td className="py-4 px-6">
-                        <a
-                          href="/#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  {data.map((trainer) => (
+                    <tbody>
+                      <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          Vô hiệu hóa
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
+                          {trainer.name}
+                        </th>
+                        <td className="py-4 px-6">{trainer.address}</td>
+                        <td className="py-4 px-6">{trainer.phone}</td>
+                        <td className="py-4 px-6">{trainer.fee}</td>
+                        <td className="py-4 px-6">
+                          {trainer.enable ? (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/personalTrainer/disablePT/" +
+                                    trainer.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Vô hiệu hóa
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/personalTrainer/enablePT/" +
+                                    trainer.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Mở khóa
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
                 </table>
               </div>
             </div>

@@ -22,6 +22,29 @@ const Header = () => {
     });
   });
 
+  const user = {
+    address: localStorage.getItem("address"),
+    avatar: localStorage.getItem("avatar"),
+    email: localStorage.getItem("email"),
+    enable: localStorage.getItem("enable"),
+    fee: localStorage.getItem("fee"),
+    id: localStorage.getItem("id"),
+    name: localStorage.getItem("name"),
+    phone: localStorage.getItem("phone"),
+    username: localStorage.getItem("username"),
+    role: localStorage.getItem("role"),
+    rate: localStorage.getItem("rate"),
+    gym: {
+      address: localStorage.getItem("addressGym"),
+      avatar: localStorage.getItem("avatarGym"),
+      email: localStorage.getItem("emailGym"),
+      id: localStorage.getItem("idGym"),
+      name: localStorage.getItem("nameGym"),
+      phone: localStorage.getItem("phoneGym"),
+      rate: localStorage.getItem("rateGym"),
+    },
+  };
+
   // destructure header data
   const { btnLoginText, btnSignupText } = header;
   return (

@@ -39,7 +39,7 @@ const Login = () => {
       try {
         const response = await axios.post("/auth/login", {
           username: formData.get("email"),
-          password: formData.get("password"),
+          password: formData.get("email"),
         });
         console.log(response.data);
         window.alert("Đăng nhập thành công");
