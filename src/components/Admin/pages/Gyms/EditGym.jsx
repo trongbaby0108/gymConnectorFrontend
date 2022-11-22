@@ -40,46 +40,6 @@ const EditGym = () => {
     res();
   }, []);
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: data.name,
-  //     phone: data.phone,
-  //     address: data.address,
-  //     avatar: data.avatar,
-  //   },
-  //   validationSchema: Yup.object({
-  //     name: Yup.string()
-  //       .required("Không được bỏ trống mục này")
-  //       .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
-  //     phone: Yup.string()
-  //       .required("Không được bỏ trống mục này")
-  //       .matches(
-  //         /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-  //         "Vui lòng điền đúng định dạng số điện thoại"
-  //       ),
-  //     address: Yup.string().required("Không được bỏ trống mục này"),
-  //     fee: Yup.string().required("Không được bỏ trống mục này"),
-  //     avatar: Yup.mixed()
-  //       .required("Không được bỏ trống mục này")
-  //       .test(
-  //         "FILE_SIZE",
-  //         "Ảnh quá lớn",
-  //         (value) => value && value.size < 1280 * 1280
-  //       )
-  //       .test(
-  //         "FILE_TYPE",
-  //         "Không tồn tại hoặc không đúng định dạng",
-  //         (value) =>
-  //           value &&
-  //           ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
-  //       ),
-  //   }),
-  //   // onSubmit: (values) => {
-  //   //   console.log(values);
-  //   // },
-  // });
-  // console.log(formik.values);
-
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -171,14 +131,14 @@ const EditGym = () => {
                     id="avatar"
                     name="avatar"
                     type="file"
+                    accept="image/*"
                     onChange={(e) => setAvatar(e.target.files[0])}
                   />
-                  {/* {avatar &&
-                    (data.avatar ? (
-                      <PreviewImage file={avatar} />
-                    ) : (
-                      <img src={data.avatar} alt="" />
-                    ))} */}
+                  {/* {avatar ? (
+                    <PreviewImage file={avatar} />
+                  ) : (
+                    <img src={data.avatar} alt="" />
+                  )} */}
                 </div>
                 <button
                   onClick={() => {
