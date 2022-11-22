@@ -25,6 +25,9 @@ import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
 import AdminLogin from "../components/Admin/pages/AdminLogin";
 import TrainerInfo from "../components/pages/Trainers/TrainerInfo";
 import ListUserByPT from "../components/pages/Trainers/ListUserByPT";
+import ListUserByPt from "../components/Admin/pages/Trainer/ListUserByPt";
+import StatisticsCombo from "../components/Admin/pages/Combo/StatisticsCombo";
+import StatisticsGym from "../components/Admin/pages/Gyms/StatisticsGym";
 
 export const routes = {
   publicRoutes: [
@@ -56,7 +59,15 @@ export const routes = {
     { path: "/admin/createCombo", component: CreateCombo },
     { path: "/admin/editCombo", component: EditCombo },
     { path: "/payment", component: Payment },
-    { path: "/userByTrainer/:id", component: ListUserByPT }
+    { path: "/userByTrainer/:id", component: ListUserByPT },
+    {
+      path: "/admin/listCombo/statisticsCombo/:id",
+      component: StatisticsCombo,
+    },
+    { path: "/admin/listTrainer/listUserByPt/:id", component: ListUserByPt },
+    {
+      path: "/admin/listGym/statisticsGym/:id",
+      component: StatisticsGym,
+    },
   ],
 };
-

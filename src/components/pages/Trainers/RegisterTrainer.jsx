@@ -358,7 +358,7 @@ const RegisterTrainer = () => {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Bạn đã có tài khoản đăng nhập?{" "}
                   <Link
-                    to={"/login"}
+                    to={"/ptLogin"}
                     className="font-medium text-orange-500 hover:underline dark:text-primary-500"
                   >
                     Đăng nhập ngay

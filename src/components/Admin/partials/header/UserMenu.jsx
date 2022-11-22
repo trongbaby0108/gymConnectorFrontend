@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Transition from "../../utils/Transition";
 
 import UserAvatar from "../../images/avt-chel.png";
 
 function UserMenu() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -25,6 +25,14 @@ function UserMenu() {
     return () => document.removeEventListener("click", clickHandler);
   });
 
+  const adminName = localStorage.getItem("name");
+
+  const logOut = () => {
+    if (adminName) {
+      localStorage.clear();
+      navigate("/adminLogin");
+    }
+  };
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
@@ -53,7 +61,7 @@ function UserMenu() {
         />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium group-hover:text-slate-800">
-            Quản trị viên
+            {adminName}
           </span>
           <svg
             className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400"
@@ -98,8 +106,8 @@ function UserMenu() {
             <li>
               <Link
                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3"
-                to="/login"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+                to="/adminLogin"
+                onClick={logOut}
               >
                 Đăng xuất
               </Link>

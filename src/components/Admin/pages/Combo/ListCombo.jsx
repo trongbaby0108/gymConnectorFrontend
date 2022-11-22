@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
@@ -25,7 +26,12 @@ const ListCombo = () => {
     getData();
   }, []);
 
-  console.log(data);
+  const handleOnCLickExport = () => {
+    if (data) {
+      ExportSheet.exportExcel(data, "Danh sách thông tin combo", "ListCombo");
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -40,6 +46,12 @@ const ListCombo = () => {
                   <Link to="/admin/createCombo" className="m-1.5">
                     Thêm Combo mới
                   </Link>
+                </button>
+                <button
+                  onClick={() => handleOnCLickExport()}
+                  className="btn bg-lime-600 hover:bg-lime-800 text-white rounded-xl"
+                >
+                  <span className="m-1.5">Xuất excel</span>
                 </button>
               </div>
             </div>
@@ -112,6 +124,15 @@ const ListCombo = () => {
                                 Mở khóa
                               </button>
                             )}
+                            |{" "}
+                            <Link
+                              to={
+                                "/admin/listCombo/statisticsCombo/" + combo.id
+                              }
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Xem thống kê đặt combo
+                            </Link>
                           </td>
                         </tr>
                       </tbody>

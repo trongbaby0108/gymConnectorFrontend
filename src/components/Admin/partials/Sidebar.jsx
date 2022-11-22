@@ -163,7 +163,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Người dùng
+                                Danh sách Người dùng
                               </span>
                             </NavLink>
                           </li>
@@ -174,7 +174,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className="block text-slate-400 hover:text-slate-200 transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Huấn luyện viên
+                                Danh sách Huấn luyện viên
                               </span>
                             </NavLink>
                           </li>
@@ -246,17 +246,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Combo
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/"
-                              className="block text-slate-400 hover:text-slate-200 transition duration-150 truncate"
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Đơn đặt
                               </span>
                             </NavLink>
                           </li>

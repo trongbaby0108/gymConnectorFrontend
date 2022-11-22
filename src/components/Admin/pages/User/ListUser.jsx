@@ -2,6 +2,7 @@ import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
@@ -23,6 +24,17 @@ const ListUser = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleOnCLickExport = () => {
+    if (data) {
+      ExportSheet.exportExcel(
+        data,
+        "Danh sách thông tin Người dùng",
+        "ListUser"
+      );
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -31,6 +43,16 @@ const ListUser = () => {
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+            <div className="sm:flex sm:justify-between sm:items-center mb-8">
+              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+                <button
+                  onClick={() => handleOnCLickExport()}
+                  className="btn bg-lime-600 hover:bg-lime-800 text-white rounded-xl"
+                >
+                  <span className="m-1.5">Xuất excel</span>
+                </button>
+              </div>
+            </div>
             <div className="table-list">
               {/* Table list */}
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg">

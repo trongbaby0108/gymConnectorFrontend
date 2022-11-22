@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
+import ExportSheet from "../../../Features/ExportSheet";
 
 const ListGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -22,6 +23,13 @@ const ListGym = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleOnCLickExport = () => {
+    if (data) {
+      ExportSheet.exportExcel(data, "Danh sách thông tin phòng tập", "ListGym");
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -36,6 +44,12 @@ const ListGym = () => {
                   <Link to="/admin/createGym" className="m-1.5">
                     Thêm phòng tập mới
                   </Link>
+                </button>
+                <button
+                  onClick={() => handleOnCLickExport()}
+                  className="btn bg-lime-600 hover:bg-lime-800 text-white rounded-xl"
+                >
+                  <span className="m-1.5">Xuất excel</span>
                 </button>
               </div>
             </div>
@@ -74,8 +88,12 @@ const ListGym = () => {
                           </th>
                           <td className="py-4 px-6">{gym.address}</td>
                           <td className="py-4 px-6">{gym.phone}</td>
-                          <td className="py-4 px-6">
-                            <img src={gym.avatar} alt="" />
+                          <td className="py-4 px-2">
+                            <img
+                              src={gym.avatar}
+                              className="w-48 h-28"
+                              alt=""
+                            />
                           </td>
                           <td className="py-4 px-6 flex justify-between">
                             <a
@@ -114,6 +132,13 @@ const ListGym = () => {
                                 Mở khóa
                               </button>
                             )}
+                            |{" "}
+                            <Link
+                              to={"/admin/listGym/statisticsGym/" + gym.id}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Xem số lượng đặt
+                            </Link>
                           </td>
                         </tr>
                       );

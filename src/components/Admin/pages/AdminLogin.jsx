@@ -141,7 +141,7 @@ const AdminLogin = () => {
                     >
                       Đăng nhập
                     </button>
-                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                    {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                       <Link
                         to={"/getCode"}
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -157,7 +157,7 @@ const AdminLogin = () => {
                       >
                         Đăng ký ngay
                       </Link>
-                    </p>
+                    </p> */}
                   </form>
                 </div>
               </div>

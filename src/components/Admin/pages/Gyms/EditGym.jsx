@@ -1,10 +1,7 @@
-import { useFormik } from "formik";
 import React from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
-import * as Yup from "yup";
-import PreviewImage from "../../../Features/PreviewImage";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -16,7 +13,7 @@ const EditGym = () => {
   const [email, setEmail] = useState([]);
   const [address, setAddress] = useState([]);
   const [phone, setPhone] = useState([]);
-  const [avatar, setAvatar] = useState([]);
+  const [image, setImage] = useState([]);
 
   const params = useParams();
   const id = params.id;
@@ -30,6 +27,13 @@ const EditGym = () => {
       .then((response) => {
         setData(response.data);
       });
+  };
+
+  //preview image
+  const handlePreviewImage = (e) => {
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    setImage(file);
   };
 
   const handleSubmit = (e) => {
@@ -132,13 +136,21 @@ const EditGym = () => {
                     name="avatar"
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setAvatar(e.target.files[0])}
+                    onChange={handlePreviewImage}
                   />
-                  {/* {avatar ? (
-                    <PreviewImage file={avatar} />
+                  {image === null ? (
+                    <img
+                      src={data.avatar}
+                      alt=""
+                      className="mt-3 w-full h-full rounded-lg"
+                    />
                   ) : (
-                    <img src={data.avatar} alt="" />
-                  )} */}
+                    <img
+                      src={image.preview}
+                      alt=""
+                      className="mt-3 w-full h-full rounded-lg"
+                    />
+                  )}
                 </div>
                 <button
                   onClick={() => {
