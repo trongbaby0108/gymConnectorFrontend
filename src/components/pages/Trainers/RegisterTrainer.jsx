@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import PreviewImage from "../../Features/PreviewImage";
@@ -8,7 +8,7 @@ import PreviewImage from "../../Features/PreviewImage";
 const RegisterTrainer = () => {
   const navigate = useNavigate();
   //const dispatch = useDispatch();
-
+  const [gyms, setGyms] = useState([]);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -19,6 +19,8 @@ const RegisterTrainer = () => {
       username: "",
       password: "",
       confirmedPassword: "",
+      gym: 0,
+      fee: 0,
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -61,37 +63,51 @@ const RegisterTrainer = () => {
             value &&
             ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
         ),
+      fee: Yup.string().required("Không được bỏ trống mục này"),
+      gym: Yup.string().required("Không được bỏ trống mục này"),
     }),
     onSubmit: async (values) => {
       try {
-        const newUser = {
+        const newPT = {
           username: formik.values.username,
           password: formik.values.password,
           email: formik.values.email,
           address: formik.values.address,
           name: formik.values.name,
           phone: formik.values.phone,
+          gymId: formik.values.gym,
+          price: formik.values.fee,
         };
+        console.log(newPT);
         //registerUser(newUser, dispatch, navigate);
         const res = await axios.post(
-          "http://localhost:8080/signUser/save",
-          newUser
+          "http://localhost:8080/signInPersonalTrainer/signIn",
+          newPT
         );
         console.log(res);
-        sendCode(newUser.username);
+        sendCode(newPT.username);
         upImg();
-        navigate("/fillCode/" + newUser.username);
+        navigate("/fillCodePT/" + newPT.username);
       } catch (error) {
         console.log(error);
       }
     },
   });
 
+  const getGym = () => {
+    axios.get("http://localhost:8080/home/getGym").then((response) => {
+      setGyms(response.data);
+    });
+  };
+  useEffect(() => {
+    getGym();
+  }, []);
+
   const sendCode = async (username) => {
     const sendForm = new FormData();
     sendForm.append("username", username);
     const sendResponse = await axios.post(
-      "http://localhost:8080/signUser/sendToken",
+      "http://localhost:8080/signInPersonalTrainer/sendToken",
       sendForm
     );
     console.log(sendResponse.data);
@@ -104,7 +120,7 @@ const RegisterTrainer = () => {
 
     const imgResponse = axios({
       method: "post",
-      url: "http://localhost:8080/signUser/uploadAvatar",
+      url: "http://localhost:8080/signInPersonalTrainer/uploadAvatar",
       data: imgFormData,
     });
     console.log(imgResponse);
@@ -332,20 +348,50 @@ const RegisterTrainer = () => {
                   </label>
                   <select
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="cars"
-                    id="cars"
+                    name="gym"
+                    value={formik.values.gym}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   >
-                    <option value="volvo">Fitness đẹp</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
+                    <option selected disabled hidden>
+                      Chọn phòng gym
+                    </option>
+                    {gyms.map((gym) => {
+                      return (
+                        <option value={gym.id} key={gym.id}>
+                          {gym.name}
+                        </option>
+                      );
+                    })}
                   </select>
-                  {formik.values.avatar && (
-                    <PreviewImage file={formik.values.avatar} />
-                  )}
-                  {formik.errors.avatar && (
+                  {formik.errors.gym && (
                     <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.avatar}
+                      {formik.errors.gym}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Chi phí
+                  </label>
+                  <input
+                    type="number"
+                    name="fee"
+                    id="fee"
+                    placeholder="abcde"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.fee}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.username && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.username}
                     </p>
                   )}
                 </div>

@@ -28,7 +28,7 @@ import ListUserByPT from "../components/pages/Trainers/ListUserByPT";
 import ListUserByPt from "../components/Admin/pages/Trainer/ListUserByPt";
 import StatisticsCombo from "../components/Admin/pages/Combo/StatisticsCombo";
 import StatisticsGym from "../components/Admin/pages/Gyms/StatisticsGym";
-
+import FillCodePT from "../components/pages/Trainers/FillCodePT";
 export const routes = {
   publicRoutes: [
     { path: "/", component: Home },
@@ -43,6 +43,7 @@ export const routes = {
     { path: "/changePass", component: ChangePass },
     { path: "/getCode", component: GetCode },
     { path: "/fillCode/:username", component: FillCode },
+    { path: "/fillCodePT/:username", component: FillCodePT },
     { path: "/gyms", component: Gyms },
     { path: "/trainers", component: Trainers },
     { path: "/gyms/:id", component: GymDetail },
