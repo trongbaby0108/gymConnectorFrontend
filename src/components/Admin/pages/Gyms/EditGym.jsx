@@ -1,52 +1,48 @@
-import { useFormik } from "formik";
 import React from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
-import * as Yup from "yup";
-import PreviewImage from "../../../Features/PreviewImage";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 const EditGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      phone: "",
-      address: "",
-      fee: "",
-      avatar: "",
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
-      phone: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .matches(
-          /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-          "Vui lòng điền đúng định dạng số điện thoại"
-        ),
-      address: Yup.string().required("Không được bỏ trống mục này"),
-      fee: Yup.string().required("Không được bỏ trống mục này"),
-      avatar: Yup.mixed()
-        .required("Không được bỏ trống mục này")
-        .test(
-          "FILE_SIZE",
-          "Ảnh quá lớn",
-          (value) => value && value.size < 1280 * 1280
-        )
-        .test(
-          "FILE_TYPE",
-          "Không tồn tại hoặc không đúng định dạng",
-          (value) =>
-            value &&
-            ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
-        ),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const [data, setData] = useState([]);
+  const [name, setName] = useState([]);
+  const [email, setEmail] = useState([]);
+  const [address, setAddress] = useState([]);
+  const [phone, setPhone] = useState([]);
+  const [image, setImage] = useState([]);
+
+  const params = useParams();
+  const id = params.id;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const res = async () => {
+    await axios
+      .get("http://localhost:8080/admin/gym/getGymById/" + id, headers)
+      .then((response) => {
+        setData(response.data);
+      });
+  };
+
+  //preview image
+  const handlePreviewImage = (e) => {
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    setImage(file);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    res();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -76,14 +72,30 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
+                    value={data.name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  {formik.errors.name && (
+                  {/* {formik.errors.name && (
                     <p className="max-w-full text-xs text-red-500">
                       {formik.errors.name}
                     </p>
-                  )}
+                  )} */}
+                </div>
+
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required=""
+                    autoComplete="off"
+                    value={data.email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -95,14 +107,9 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
+                    value={data.address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
-                  {formik.errors.address && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.address}
-                    </p>
-                  )}
                 </div>
                 <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -115,14 +122,9 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
+                    value={data.phone}
+                    onChange={(e) => setPhone(e.target.value)}
                   />
-                  {formik.errors.phone && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.phone}
-                    </p>
-                  )}
                 </div>
                 <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -133,21 +135,27 @@ const EditGym = () => {
                     id="avatar"
                     name="avatar"
                     type="file"
-                    onChange={(e) =>
-                      formik.setFieldValue("avatar", e.target.files[0])
-                    }
+                    accept="image/*"
+                    onChange={handlePreviewImage}
                   />
-                  {formik.errors.avatar && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.avatar}
-                    </p>
-                  )}
-                  {formik.values.avatar && (
-                    <PreviewImage file={formik.values.avatar} />
+                  {image === null ? (
+                    <img
+                      src={data.avatar}
+                      alt=""
+                      className="mt-3 w-full h-full rounded-lg"
+                    />
+                  ) : (
+                    <img
+                      src={image.preview}
+                      alt=""
+                      className="mt-3 w-full h-full rounded-lg"
+                    />
                   )}
                 </div>
                 <button
-                  type="submit"
+                  onClick={() => {
+                    console.log(data);
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Cập nhật

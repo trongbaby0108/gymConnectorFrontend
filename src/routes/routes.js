@@ -1,28 +1,10 @@
 import GymDetail from "../components/pages/Gyms/GymDetail";
 import Gyms from "../components/pages/Gyms/Gyms";
 import Home from "../components/pages/Home";
-<<<<<<< HEAD
-import Login from "../components/pages/Login";
-import Register from "../components/pages/Signup";
-import Trainers from "../components/pages/Trainers/Trainers";
-
-export const routes = {
-    publicRoutes: [
-        { path: '/', component: Home },
-        { path: '/home', component: Home },
-        { path: '/login', component: Login },
-        { path: '/register', component: Register },
-        { path: '/gyms', component: Gyms },
-        { path: '/trainers', component: Trainers },
-        { path: '/gyms/:id', component: GymDetail },
-    ]
-}
-=======
 import Login from "../components/pages/InfoSign/Login";
 import Register from "../components/pages/InfoSign/Signup";
 import Trainers from "../components/pages/Trainers/Trainers";
 import TrainerDetail from "../components/pages/Trainers/TrainerDetail";
-import Dashboard from "../components/Admin/pages/Dashboard";
 import ForgotPass from "../components/pages/InfoSign/ForgotPass";
 import UserInfo from "../components/pages/User/UserInfo";
 import ListGym from "../components/Admin/pages/Gyms/ListGym";
@@ -41,7 +23,12 @@ import QuestionLogin from "../components/pages/InfoSign/QuestionLogin";
 import TrainerLogin from "../components/pages/Trainers/TrainerLogin";
 import RegisterTrainer from "../components/pages/Trainers/RegisterTrainer";
 import AdminLogin from "../components/Admin/pages/AdminLogin";
-
+import TrainerInfo from "../components/pages/Trainers/TrainerInfo";
+import ListUserByPT from "../components/pages/Trainers/ListUserByPT";
+import ListUserByPt from "../components/Admin/pages/Trainer/ListUserByPt";
+import StatisticsCombo from "../components/Admin/pages/Combo/StatisticsCombo";
+import StatisticsGym from "../components/Admin/pages/Gyms/StatisticsGym";
+import FillCodePT from "../components/pages/Trainers/FillCodePT";
 export const routes = {
   publicRoutes: [
     { path: "/", component: Home },
@@ -56,21 +43,32 @@ export const routes = {
     { path: "/changePass", component: ChangePass },
     { path: "/getCode", component: GetCode },
     { path: "/fillCode/:username", component: FillCode },
+    { path: "/fillCodePT/:username", component: FillCodePT },
     { path: "/gyms", component: Gyms },
     { path: "/trainers", component: Trainers },
     { path: "/gyms/:id", component: GymDetail },
     { path: "/trainers/:id", component: TrainerDetail },
     { path: "/userInfo", component: UserInfo },
-    { path: "/admin", component: Dashboard },
+    { path: "/trainerInfo", component: TrainerInfo },
+    { path: "/admin", component: ListGym },
     { path: "/admin/listGym", component: ListGym },
     { path: "/admin/createGym", component: CreateGym },
-    { path: "/admin/editGym", component: EditGym },
+    { path: "/admin/editGym/:id", component: EditGym },
     { path: "/admin/listUser", component: ListUser },
     { path: "/admin/listTrainer", component: ListTrainer },
     { path: "/admin/listCombo", component: ListCombo },
     { path: "/admin/createCombo", component: CreateCombo },
     { path: "/admin/editCombo", component: EditCombo },
     { path: "/payment", component: Payment },
+    { path: "/userByTrainer/:id", component: ListUserByPT },
+    {
+      path: "/admin/listCombo/statisticsCombo/:id",
+      component: StatisticsCombo,
+    },
+    { path: "/admin/listTrainer/listUserByPt/:id", component: ListUserByPt },
+    {
+      path: "/admin/listGym/statisticsGym/:id",
+      component: StatisticsGym,
+    },
   ],
 };
->>>>>>> df681403779b617858c4a6fae39bc1a11cf485a8

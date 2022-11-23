@@ -1,11 +1,36 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListCombo = () => {
+  const [data, setData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const getData = () => {
+    axios
+      .get("http://localhost:8080/admin/combo/getAll", headers)
+      .then((response) => {
+        setData(response.data);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleOnCLickExport = () => {
+    if (data) {
+      ExportSheet.exportExcel(data, "Danh sách thông tin combo", "ListCombo");
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -18,9 +43,15 @@ const ListCombo = () => {
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl">
-                  <Link to="/admin/createGym" className="m-1.5">
+                  <Link to="/admin/createCombo" className="m-1.5">
                     Thêm Combo mới
                   </Link>
+                </button>
+                <button
+                  onClick={() => handleOnCLickExport()}
+                  className="btn bg-lime-600 hover:bg-lime-800 text-white rounded-xl"
+                >
+                  <span className="m-1.5">Xuất excel</span>
                 </button>
               </div>
             </div>
@@ -34,7 +65,7 @@ const ListCombo = () => {
                         Tên Combo
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Địa chỉ phòng tập
+                        Tên phòng áp dụng
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Đơn giá
@@ -44,33 +75,69 @@ const ListCombo = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        Fitness khỏe đẹp
-                      </th>
-                      <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">3.000.000đ</td>
-                      <td className="py-4 px-6">
-                        <a
-                          href="/admin/editCombo"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Chỉnh sửa
-                        </a>
-                        |
-                        <a
-                          href="/#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Vô hiệu
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
+                  {data.map((combo) => {
+                    return (
+                      <tbody>
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {combo.name}
+                          </th>
+                          <td className="py-4 px-6">{combo.gym.name}</td>
+                          <td className="py-4 px-6">{combo.price}</td>
+                          <td className="py-4 px-6">
+                            <a
+                              href="/admin/editCombo"
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Chỉnh sửa
+                            </a>
+                            |
+                            {combo.enable ? (
+                              <button
+                                onClick={() => {
+                                  axios.get(
+                                    "http://localhost:8080/admin/combo/disableCombo/" +
+                                      combo.id,
+                                    headers
+                                  );
+                                  window.location.reload();
+                                }}
+                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              >
+                                Vô hiệu hóa
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  axios.get(
+                                    "http://localhost:8080/admin/combo/enableCombo/" +
+                                      combo.id,
+                                    headers
+                                  );
+                                  window.location.reload();
+                                }}
+                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              >
+                                Mở khóa
+                              </button>
+                            )}
+                            |{" "}
+                            <Link
+                              to={
+                                "/admin/listCombo/statisticsCombo/" + combo.id
+                              }
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Xem thống kê đặt combo
+                            </Link>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
                 </table>
               </div>
             </div>

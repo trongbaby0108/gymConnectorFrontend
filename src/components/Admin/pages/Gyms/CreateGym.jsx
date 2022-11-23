@@ -5,15 +5,22 @@ import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 import * as Yup from "yup";
 import PreviewImage from "../../../Features/PreviewImage";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       name: "",
       phone: "",
       address: "",
-      fee: "",
+      email: "",
       avatar: "",
     },
     validationSchema: Yup.object({
@@ -27,7 +34,7 @@ const CreateGym = () => {
           "Vui lòng điền đúng định dạng số điện thoại"
         ),
       address: Yup.string().required("Không được bỏ trống mục này"),
-      fee: Yup.string().required("Không được bỏ trống mục này"),
+      email: Yup.string().required("Không được bỏ trống mục này"),
       avatar: Yup.mixed()
         .required("Không được bỏ trống mục này")
         .test(
@@ -43,8 +50,34 @@ const CreateGym = () => {
             ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
         ),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      //create gym api call
+      console.log(values.name);
+      const addGym = await axios.post(
+        "http://localhost:8080/admin/gym/addGym",
+        {
+          name: formik.values.name,
+          email: formik.values.email,
+          address: formik.values.address,
+          phone: formik.values.phone,
+        },
+        headers
+      );
+      if (addGym.status === 200) {
+        //console.log(addGym.data);
+        const imgFormData = new FormData();
+        imgFormData.append("img", values.avatar);
+        imgFormData.append("id", parseInt(addGym.data.id));
+        //console.log(imgFormData.get("id"));
+        const addGymIMG = await axios.post(
+          "http://localhost:8080/admin/gym/addGymImg",
+          imgFormData,
+          headers
+        );
+        if (addGymIMG.status === 200) {
+          navigate("/admin/listGym");
+        }
+      }
     },
   });
 
@@ -85,6 +118,28 @@ const CreateGym = () => {
                     </p>
                   )}
                 </div>
+
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required=""
+                    autoComplete="off"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.errors.email && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.email}
+                    </p>
+                  )}
+                </div>
+
                 <div className="mb-6">
                   <label
                     for="password"

@@ -1,52 +1,44 @@
-import { useFormik } from "formik";
-import React from "react";
+import { Field, useFormik } from "formik";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 import * as Yup from "yup";
 import PreviewImage from "../../../Features/PreviewImage";
+import axios from "axios";
 
 const CreateCombo = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [gyms, setGyms] = useState([]);
   const formik = useFormik({
     initialValues: {
+      gym: 0,
       name: "",
-      phone: "",
-      address: "",
       fee: "",
-      avatar: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
-      phone: Yup.string()
-        .required("Không được bỏ trống mục này")
-        .matches(
-          /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-          "Vui lòng điền đúng định dạng số điện thoại"
-        ),
-      address: Yup.string().required("Không được bỏ trống mục này"),
+      name: Yup.string().required("Không được bỏ trống mục này"),
       fee: Yup.string().required("Không được bỏ trống mục này"),
-      avatar: Yup.mixed()
-        .required("Không được bỏ trống mục này")
-        .test(
-          "FILE_SIZE",
-          "Ảnh quá lớn",
-          (value) => value && value.size < 1280 * 1280
-        )
-        .test(
-          "FILE_TYPE",
-          "Không tồn tại hoặc không đúng định dạng",
-          (value) =>
-            value &&
-            ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
-        ),
+      gym: Yup.string().required("Không được bỏ trống mục này"),
     }),
     onSubmit: (values) => {
       console.log(values);
     },
   });
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const getGym = () => {
+    axios
+      .get("http://localhost:8080/admin/gym/getAll", headers)
+      .then((response) => {
+        setGyms(response.data);
+      });
+  };
+  useEffect(() => {
+    getGym();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -67,7 +59,31 @@ const CreateCombo = () => {
               <form>
                 <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Tên phòng tập
+                    Phòng tập
+                  </label>
+                  <select
+                    name="gym"
+                    value={formik.values.gym}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  >
+                    {gyms.map((gym) => {
+                      return (
+                        <option value={gym.id} key={gym.id}>
+                          {gym.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {formik.errors.gym && (
+                    <p className="max-w-full text-xs text-red-500">
+                      {formik.errors.gym}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-6">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Tên combo
                   </label>
                   <input
                     type="text"
@@ -82,46 +98,6 @@ const CreateCombo = () => {
                   {formik.errors.name && (
                     <p className="max-w-full text-xs text-red-500">
                       {formik.errors.name}
-                    </p>
-                  )}
-                </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Địa chỉ
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    required=""
-                    autoComplete="off"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.errors.address && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.address}
-                    </p>
-                  )}
-                </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Hotline
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    required=""
-                    autoComplete="off"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.errors.phone && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.phone}
                     </p>
                   )}
                 </div>
@@ -145,30 +121,8 @@ const CreateCombo = () => {
                     </p>
                   )}
                 </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Hình ảnh
-                  </label>
-                  <input
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    id="avatar"
-                    name="avatar"
-                    type="file"
-                    onChange={(e) =>
-                      formik.setFieldValue("avatar", e.target.files[0])
-                    }
-                  />
-                  {formik.errors.avatar && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.avatar}
-                    </p>
-                  )}
-                  {formik.values.avatar && (
-                    <PreviewImage file={formik.values.avatar} />
-                  )}
-                </div>
                 <button
-                  type="submit"
+                  onClick={console.log(formik.values)}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Tạo mới

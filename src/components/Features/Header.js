@@ -10,9 +10,7 @@ import NavMobile from "./NavMobile";
 // import icons
 import { RiMenu4Fill, RiCloseFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Button } from "@material-tailwind/react";
-import { useIsRTL } from "react-bootstrap/esm/ThemeProvider";
 
 const Header = () => {
   const [isActive, setIsActive] = useState(false);
@@ -33,31 +31,35 @@ const Header = () => {
     avatar: localStorage.getItem("avatar"),
     email: localStorage.getItem("email"),
     enable: localStorage.getItem("enable"),
+    fee: localStorage.getItem("fee"),
     id: localStorage.getItem("id"),
     name: localStorage.getItem("name"),
     phone: localStorage.getItem("phone"),
     username: localStorage.getItem("username"),
     role: localStorage.getItem("role"),
-  }
+    rate: localStorage.getItem("rate"),
+    gym: {
+      address: localStorage.getItem("addressGym"),
+      avatar: localStorage.getItem("avatarGym"),
+      email: localStorage.getItem("emailGym"),
+      id: localStorage.getItem("idGym"),
+      name: localStorage.getItem("nameGym"),
+      phone: localStorage.getItem("phoneGym"),
+      rate: localStorage.getItem("rateGym"),
+    },
+  };
 
   const logOut = () => {
     if (user.id) {
-      localStorage.removeItem("address");
-      localStorage.removeItem("avatar");
-      localStorage.removeItem("email");
-      localStorage.removeItem("enable");
-      localStorage.removeItem("id");
-      localStorage.removeItem("name");
-      localStorage.removeItem("phone");
-      localStorage.removeItem("username");
-      localStorage.removeItem("role");
+      localStorage.clear();
       window.location.reload();
     }
-  }
+  };
   return (
     <header
-      className={`${isActive ? "bg-neutral-500 py-[16px]" : "bg-transparent py-[20px]"
-        } fixed max-w-[1920px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
+      className={`${
+        isActive ? "bg-neutral-500 py-[16px]" : "bg-transparent py-[20px]"
+      } fixed max-w-[1920px] left-0 right-0 mx-auto flex justify-between items-center px-[20px] lg:px-[80px] z-30 transition-all duration-300`}
     >
       {/* logo */}
       <a href="/home">
@@ -68,18 +70,18 @@ const Header = () => {
         />
       </a>
 
-      {/* nav - initially hidden - show in desktop mode */}
       <Nav />
 
-
-
-      {/* buttons - initally hidden - show in desktop mode */}
       {user.id ? (
         <div className="hidden lg:flex space-x-4">
           <p className="btn btn-sm text-white hover:text-primary-200 transition">
             Chào, {user.name}
           </p>
-          <Button to="/home" className="btn btn-sm btn-primary" onClick={logOut}>
+          <Button
+            to="/home"
+            className="btn btn-sm btn-primary"
+            onClick={logOut}
+          >
             Đăng xuất
           </Button>
         </div>
@@ -87,7 +89,7 @@ const Header = () => {
         <div className="hidden lg:flex space-x-4">
           <Link
             className="btn btn-sm text-white hover:text-primary-200 transition"
-            to="/login"
+            to="/questLogin"
           >
             {btnLoginText}
           </Link>

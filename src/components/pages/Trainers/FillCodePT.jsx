@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
-const FillCode = () => {
+const FillCodePT = () => {
   const data = useParams();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -21,7 +21,7 @@ const FillCode = () => {
       formData.append("token", formik.values.code);
       formData.append("username", data.username);
       const confirmToken = await axios.post(
-        "http://localhost:8080/signUser/confirmToken",
+        "http://localhost:8080/signInPersonalTrainer/confirmToken",
         formData
       );
       if (confirmToken.data === "OK") navigate("/login");
@@ -91,4 +91,4 @@ const FillCode = () => {
   );
 };
 
-export default FillCode;
+export default FillCodePT;

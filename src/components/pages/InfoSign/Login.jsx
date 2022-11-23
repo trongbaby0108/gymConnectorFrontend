@@ -85,7 +85,6 @@ const Login = () => {
     }),
     onSubmit: async (values) => {
       //loginUser(newUser, dispatch, navigate);
-
       try {
         const response = await axios.post("/auth/login", {
           username: formik.values.username,
@@ -135,7 +134,7 @@ const Login = () => {
                 className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
               >
                 <img
-                  className="w-36 h-20 mr-2"
+                  className="w-36 h-36"
                   src={require("../../images/logo-g.png")}
                   alt="logo"
                 />

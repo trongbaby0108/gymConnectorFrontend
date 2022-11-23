@@ -19,11 +19,13 @@ import DashboardCard10 from "../partials/dashboard/DashboardCard10";
 import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import DashboardCard12 from "../partials/dashboard/DashboardCard12";
 import DashboardCard13 from "../partials/dashboard/DashboardCard13";
+import { useNavigate } from "react-router-dom";
 //import Banner from "../partials/Banner";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const navigate = useNavigate();
+  if (localStorage.getItem("role") !== "ADMIN") navigate("/questLogin");
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}

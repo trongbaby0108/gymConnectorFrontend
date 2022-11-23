@@ -1,10 +1,39 @@
-import React from "react";
+import userEvent from "@testing-library/user-event";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const getData = () => {
+    axios
+      .get("http://localhost:8080/admin/user/getAll", headers)
+      .then((response) => {
+        setData(response.data);
+      });
+  };
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleOnCLickExport = () => {
+    if (data) {
+      ExportSheet.exportExcel(
+        data,
+        "Danh sách thông tin Người dùng",
+        "ListUser"
+      );
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -14,6 +43,16 @@ const ListUser = () => {
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+            <div className="sm:flex sm:justify-between sm:items-center mb-8">
+              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+                <button
+                  onClick={() => handleOnCLickExport()}
+                  className="btn bg-lime-600 hover:bg-lime-800 text-white rounded-xl"
+                >
+                  <span className="m-1.5">Xuất excel</span>
+                </button>
+              </div>
+            </div>
             <div className="table-list">
               {/* Table list */}
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -37,27 +76,52 @@ const ListUser = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        Fitness khỏe đẹp
-                      </th>
-                      <td className="py-4 px-6">123 Xa lộ Hà Nội</td>
-                      <td className="py-4 px-6">0123 123 123</td>
-                      <td className="py-4 px-6">example@gmail.com</td>
-                      <td className="py-4 px-6">
-                        <a
-                          href="/#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  {data.map((user) => (
+                    <tbody>
+                      <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          Vô hiệu hóa
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
+                          {user.name}
+                        </th>
+                        <td className="py-4 px-6">{user.address}</td>
+                        <td className="py-4 px-6">{user.phone}</td>
+                        <td className="py-4 px-6">{user.email}</td>
+                        <td className="py-4 px-6">
+                          {user.enable ? (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/user/disableUser/" +
+                                    user.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Vô hiệu hóa
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                axios.get(
+                                  "http://localhost:8080/admin/user/enableUser/" +
+                                    user.id,
+                                  headers
+                                );
+                                window.location.reload();
+                              }}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Mở khóa
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
                 </table>
               </div>
             </div>
