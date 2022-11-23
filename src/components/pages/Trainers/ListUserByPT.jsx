@@ -47,7 +47,7 @@ const ListUserByPT = () => {
         >
           <img src={trainerss.icon} alt="" />
           <h2 className="h2 section-title">
-            {trainerss.title} <span className="text-primary-200">.</span>
+            Thông tin học viên <span className="text-primary-200">.</span>
           </h2>
         </div>
       </section>

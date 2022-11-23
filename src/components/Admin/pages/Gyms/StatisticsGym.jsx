@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
+import Currency from "currency-formatter";
 
 const StatisticsGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [dataPT, setDataPT] = useState([]);
+  const params = useParams();
   const headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
@@ -16,6 +21,18 @@ const StatisticsGym = () => {
       ExportSheet.exportExcel(data, "Thống kê phòng tập", "StatisticsGym");
     }
   };
+
+  const getPT = () => {
+    axios
+      .get(`http://localhost:8080/home/getPTByGym/${params.id}`)
+      .then((response) => {
+        setDataPT(response.data);
+      });
+  };
+
+  useEffect(() => {
+    getPT();
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -54,23 +71,27 @@ const StatisticsGym = () => {
                       <th scope="col" className="py-3 px-6">
                         Đơn giá
                       </th>
-                      <th scope="col" className="py-3 px-6">
-                        Các thao tác
-                      </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      ></th>
-                      <td className="py-4 px-6"></td>
-                      <td className="py-4 px-6"></td>
-                      <td className="py-4 px-2"></td>
-                      <td className="py-4 px-6 flex justify-between"></td>
-                    </tr>
-                  </tbody>
+                  {dataPT.map((trainer) => {
+                    return (
+                      <tbody>
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {trainer.name}
+                          </th>
+                          <td className="py-4 px-6">{trainer.address}</td>
+                          <td className="py-4 px-6">{trainer.phone}</td>
+                          <td className="py-4 px-2">
+                            {Currency.format(trainer.fee, { code: "VND" })}
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
                 </table>
               </div>
             </div>
