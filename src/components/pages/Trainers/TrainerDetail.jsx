@@ -16,13 +16,25 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
+import ReactStars from "react-rating-stars-component";
 
 const TrainerDetail = () => {
   const [data, setData] = useState([]);
   const [dataComment, setDataComment] = useState([]);
-  const [cmt, setCMT] = useState("");
   const params = useParams();
-
+  const [comment, setComment] = useState([]);
+  const [vote, setVote] = useState(0);
+  const ratingBar = {
+    size: 40,
+    count: 5,
+    isHalf: false,
+    value: 0,
+    color: "black",
+    activeColor: "yellow",
+    onChange: (newValue) => {
+      setVote(newValue);
+    },
+  };
   const getData = () => {
     axios.get("http://localhost:8080/home/getPT").then((response) => {
       setData(response.data);
@@ -36,15 +48,23 @@ const TrainerDetail = () => {
         setDataComment(response.data);
       });
   };
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
 
   const writeComment = async () => {
-    const formData = new FormData();
-    formData.append("content", cmt);
-    formData.append("ptId", data.id);
-    formData.append("userId");
-    const response = await axios.post(
+    await axios.post(
       "http://localhost:8080/client/comment/addPtComment",
-      {}
+      {
+        content: comment,
+        vote: vote,
+        ptId: data.id,
+        userId: parseInt(localStorage.getItem("id")),
+      },
+      {
+        headers: headers,
+      }
     );
   };
 
@@ -209,12 +229,14 @@ const TrainerDetail = () => {
                           className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                           placeholder="Viết bình luận của bạn..."
                           required
-                          onChange={(e) => setCMT(e.target.value)}
+                          onChange={(e) => setComment(e.target.value)}
                         ></textarea>
                       </div>
                       <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                        <ReactStars {...ratingBar} />
                         <button
                           type="submit"
+                          onClick={writeComment}
                           className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
                         >
                           Đăng lên
