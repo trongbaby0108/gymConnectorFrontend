@@ -16,7 +16,9 @@ const ListTrainer = () => {
   };
   const getData = () => {
     axios
-      .get("http://localhost:8080/admin/personalTrainer/getALlPT", headers)
+      .get("http://localhost:8080/admin/personalTrainer/getALlPT", {
+        headers: headers,
+      })
       .then((response) => {
         setData(response.data);
       });
@@ -91,7 +93,7 @@ const ListTrainer = () => {
                                 axios.get(
                                   "http://localhost:8080/admin/personalTrainer/disablePT/" +
                                     trainer.id,
-                                  headers
+                                  { headers: headers }
                                 );
                                 window.location.reload();
                               }}
@@ -105,7 +107,7 @@ const ListTrainer = () => {
                                 axios.get(
                                   "http://localhost:8080/admin/personalTrainer/enablePT/" +
                                     trainer.id,
-                                  headers
+                                  { headers: headers }
                                 );
                                 window.location.reload();
                               }}

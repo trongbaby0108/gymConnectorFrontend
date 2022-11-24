@@ -15,7 +15,7 @@ const ListGym = () => {
   };
   const getData = () => {
     axios
-      .get("http://localhost:8080/admin/gym/getAll", headers)
+      .get("http://localhost:8080/admin/gym/getAll", { headers: headers })
       .then((response) => {
         setData(response.data);
       });

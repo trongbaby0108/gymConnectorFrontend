@@ -16,7 +16,7 @@ const ListCombo = () => {
   };
   const getData = () => {
     axios
-      .get("http://localhost:8080/admin/combo/getAll", headers)
+      .get("http://localhost:8080/admin/combo/getAll", { headers: headers })
       .then((response) => {
         setData(response.data);
       });
@@ -101,7 +101,7 @@ const ListCombo = () => {
                                   axios.get(
                                     "http://localhost:8080/admin/combo/disableCombo/" +
                                       combo.id,
-                                    headers
+                                    { headers: headers }
                                   );
                                   window.location.reload();
                                 }}
@@ -115,7 +115,7 @@ const ListCombo = () => {
                                   axios.get(
                                     "http://localhost:8080/admin/combo/enableCombo/" +
                                       combo.id,
-                                    headers
+                                    { headers: headers }
                                   );
                                   window.location.reload();
                                 }}

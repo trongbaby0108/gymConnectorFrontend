@@ -14,17 +14,46 @@ import { useState } from "react";
 import { useEffect } from "react";
 import CurrencyFormatter from "currency-formatter";
 import DetailIcn from "./fitness.svg";
+import ReactStars from "react-rating-stars-component";
 
 const GymDetail = () => {
   // // image slider
   // const [currentImage, setCurrentImage] = React.useState(0);
   // const { photo } = photoGym;
+
   const [data, setData] = useState([]);
   const [dataCombo, setDataCombo] = useState([]);
   const [dataPT, setDataPT] = useState([]);
   const [dataComment, setDataComment] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
+  const [comment, setComment] = useState([]);
+  const [vote, setVote] = useState(0);
+
+  const ratingBar = {
+    size: 40,
+    count: 5,
+    isHalf: false,
+    value: 0,
+    color: "black",
+    activeColor: "yellow",
+    onChange: (newValue) => {
+      setVote(newValue);
+    },
+  };
+
+  const addCommentGym = {
+    content: comment,
+    vote: vote,
+    idGym: data.id,
+    userId: localStorage.getItem("id"),
+  };
+
+  //console.log(vote);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
   const getDetailGym = () => {
     axios
       .get(`http://localhost:8080/home/getGymById/${params.id}`)
@@ -263,11 +292,30 @@ const GymDetail = () => {
                       className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                       placeholder="Viết bình luận của bạn..."
                       required
+                      onChange={(e) => setComment(e.target.value)}
                     ></textarea>
                   </div>
                   <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                    <ReactStars {...ratingBar} />
                     <button
-                      type="submit"
+                      // type="submit"
+                      onClick={async (event) => {
+                        //event.preventDefault();
+                        console.log(addCommentGym);
+                        const userId = parseInt(localStorage.getItem("id"));
+                        //console.log(typeof userId);
+                        const res = await axios.post(
+                          "http://localhost:8080/client/comment/addGymComment",
+                          {
+                            content: comment,
+                            vote: vote,
+                            gymId: data.id,
+                            userId: localStorage.getItem("id"),
+                          },
+                          { headers: headers }
+                        );
+                        console.log(res);
+                      }}
                       className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
                     >
                       Đăng lên

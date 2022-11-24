@@ -11,7 +11,7 @@ const ListUser = () => {
   const [data, setData] = useState([]);
   const getData = () => {
     axios
-      .get("http://localhost:8080/admin/user/getAll", headers)
+      .get("http://localhost:8080/admin/user/getAll", { headers: headers })
       .then((response) => {
         setData(response.data);
       });
@@ -95,7 +95,7 @@ const ListUser = () => {
                                 axios.get(
                                   "http://localhost:8080/admin/user/disableUser/" +
                                     user.id,
-                                  headers
+                                  { headers: headers }
                                 );
                                 window.location.reload();
                               }}
@@ -109,7 +109,7 @@ const ListUser = () => {
                                 axios.get(
                                   "http://localhost:8080/admin/user/enableUser/" +
                                     user.id,
-                                  headers
+                                  { headers: headers }
                                 );
                                 window.location.reload();
                               }}

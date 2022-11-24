@@ -14,7 +14,7 @@ const CreateCombo = () => {
     initialValues: {
       gym: 0,
       name: "",
-      fee: "",
+      fee: 0,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Không được bỏ trống mục này"),
@@ -31,7 +31,7 @@ const CreateCombo = () => {
   };
   const getGym = () => {
     axios
-      .get("http://localhost:8080/admin/gym/getAll", headers)
+      .get("http://localhost:8080/admin/gym/getAll", { headers: headers })
       .then((response) => {
         setGyms(response.data);
       });
@@ -67,6 +67,13 @@ const CreateCombo = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   >
+                    <option
+                      value="Chọn phòng gym nè"
+                      key="Chọn phòng gym nè"
+                      selected
+                    >
+                      ----------Chọn phòng gym nè----------
+                    </option>
                     {gyms.map((gym) => {
                       return (
                         <option value={gym.id} key={gym.id}>
@@ -122,7 +129,21 @@ const CreateCombo = () => {
                   )}
                 </div>
                 <button
-                  onClick={console.log(formik.values)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    console.log(formik.values);
+                    axios.post(
+                      "http://localhost:8080/admin/combo/addCombo",
+                      {
+                        name: formik.values.name,
+                        price: formik.values.fee,
+                        gymId: formik.values.gym,
+                      },
+                      {
+                        headers: headers,
+                      }
+                    );
+                  }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Tạo mới
