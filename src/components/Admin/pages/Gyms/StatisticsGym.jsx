@@ -4,12 +4,10 @@ import { useParams } from "react-router-dom";
 import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
-import Currency from "currency-formatter";
 
 const StatisticsGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [data, setData] = useState([]);
-  const [dataPT, setDataPT] = useState([]);
+  const [bills, setBills] = useState([]);
   const params = useParams();
   const headers = {
     "Content-Type": "application/json",
@@ -17,21 +15,43 @@ const StatisticsGym = () => {
   };
 
   const handleOnCLickExport = () => {
-    if (data) {
-      ExportSheet.exportExcel(data, "Thống kê phòng tập", "StatisticsGym");
+    if (bills) {
+      ExportSheet.exportExcel(bills, "Thống kê phòng tập", "StatisticsGym");
     }
   };
 
-  const getPT = () => {
+  function formateDay(date) {
+    return (
+      date[3] +
+      ":" +
+      date[4] +
+      ":" +
+      date[5] +
+      "-" +
+      date[2] +
+      "-" +
+      date[1] +
+      "-" +
+      date[0]
+    );
+  }
+
+  const getBill = () => {
     axios
-      .get(`http://localhost:8080/home/getPTByGym/${params.id}`)
+      .get(
+        `http://localhost:8080/admin/billPayment/getBillByGym/${params.id}`,
+        {
+          headers: headers,
+        }
+      )
       .then((response) => {
-        setDataPT(response.data);
+        setBills(response.data);
+        console.log(response.data);
       });
   };
 
   useEffect(() => {
-    getPT();
+    getBill();
   }, []);
 
   return (
@@ -60,7 +80,7 @@ const StatisticsGym = () => {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="py-3 px-6">
-                        Tên HLV
+                        Tên Người tập
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Địa chỉ
@@ -69,11 +89,17 @@ const StatisticsGym = () => {
                         Hotline
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Đơn giá
+                        Combo
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Ngày Bắt đầu
+                      </th>
+                      <th scope="col" className="py-3 px-6">
+                        Ngày Kết thúc
                       </th>
                     </tr>
                   </thead>
-                  {dataPT.map((trainer) => {
+                  {bills.map((bill) => {
                     return (
                       <tbody>
                         <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -81,12 +107,18 @@ const StatisticsGym = () => {
                             scope="row"
                             className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                           >
-                            {trainer.name}
+                            {bill.user.name}
                           </th>
-                          <td className="py-4 px-6">{trainer.address}</td>
-                          <td className="py-4 px-6">{trainer.phone}</td>
+                          <td className="py-4 px-6">{bill.user.address}</td>
+                          <td className="py-4 px-6">
+                            {bill.user.account.phone}
+                          </td>
+                          <td className="py-4 px-2">{bill.combo.name}</td>
                           <td className="py-4 px-2">
-                            {Currency.format(trainer.fee, { code: "VND" })}
+                            {formateDay(bill.dayStart)}
+                          </td>
+                          <td className="py-4 px-2">
+                            {formateDay(bill.dayEnd)}
                           </td>
                         </tr>
                       </tbody>
