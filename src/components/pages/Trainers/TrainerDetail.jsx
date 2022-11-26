@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import ReactStars from "react-rating-stars-component";
+import ModalTrainer from "../../Modal/ModalTrainer";
 
 const TrainerDetail = () => {
   const [data, setData] = useState([]);
@@ -24,6 +25,8 @@ const TrainerDetail = () => {
   const params = useParams();
   const [comment, setComment] = useState([]);
   const [vote, setVote] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [trainerModal, setTrainerModal] = useState({});
   const ratingBar = {
     size: 40,
     count: 5,
@@ -95,7 +98,12 @@ const TrainerDetail = () => {
         </h2>
       </div>
       <section className="section">
-        {arr.map((program, idx) => {
+        <ModalTrainer
+          showModal={showModal}
+          onClose={() => setShowModal(false)}
+          trainer={trainerModal}
+        />
+        {arr.map((trainer, idx) => {
           return (
             <div data-aos="fade-up" data-aos-delay="300" key={idx}>
               <div className="trainer-container">
@@ -121,7 +129,7 @@ const TrainerDetail = () => {
                     ))}
                     {sliderControl()} */}
                             <img
-                              src={program.avatar}
+                              src={trainer.avatar}
                               className="w-full h-full rounded-full object-contain"
                               alt=""
                             />
@@ -140,21 +148,21 @@ const TrainerDetail = () => {
                               icon={faUser}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <p className="trainer-title">{program.name}</p>
+                            <p className="trainer-title">{trainer.name}</p>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
                               icon={faPhoneVolume}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <span>{program.phone}</span>
+                            <span>{trainer.phone}</span>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
                               icon={faLocationDot}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <span>{program.address}</span>
+                            <span>{trainer.address}</span>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
@@ -162,7 +170,7 @@ const TrainerDetail = () => {
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
                             <span>
-                              {Currency.format(program.fee, { code: "VND" })}
+                              {Currency.format(trainer.fee, { code: "VND" })}
                             </span>
                           </div>
                           <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
@@ -175,28 +183,28 @@ const TrainerDetail = () => {
                                   icon={faDumbbell}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.name}</span>
+                                <span>{trainer.gym.name}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faLocationDot}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.address}</span>
+                                <span>{trainer.gym.address}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faEnvelope}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.email}</span>
+                                <span>{trainer.gym.email}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faPhoneVolume}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.phone}</span>
+                                <span>{trainer.gym.phone}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
@@ -205,7 +213,7 @@ const TrainerDetail = () => {
                                 ></FontAwesomeIcon>
                                 <img
                                   className="w-10/12 h-10/12"
-                                  src={program.gym.avatar}
+                                  src={trainer.gym.avatar}
                                   alt="ảnh phòng gym"
                                 />
                               </div>
@@ -213,7 +221,14 @@ const TrainerDetail = () => {
                           </div>
                         </div>
                         <div className="trainer-details-price">
-                          <button>Đặt ngay!!!</button>
+                          <button
+                            onClick={() => {
+                              setShowModal(true);
+                              setTrainerModal(trainer);
+                            }}
+                          >
+                            Đặt ngay!!!
+                          </button>
                         </div>
                       </div>
                     </div>

@@ -1,11 +1,10 @@
 import React from "react";
 import CurrencyFormatter from "currency-formatter";
-export default function ModalCombo({ showModal, onClose, combo }) {
+export default function ModalTrainer({ showModal, onClose, trainer }) {
     const t = new Date();
     const date = ('0' + t.getDate()).slice(-2);
     const month = ('0' + (t.getMonth() + 1)).slice(-2);
     const year = t.getFullYear();
-
     const fromDate = `${date}/${month}/${year}`;
     const toDate = `${date}/${parseInt(month) + 1}/${year}`;
     return (
@@ -37,12 +36,11 @@ export default function ModalCombo({ showModal, onClose, combo }) {
 
                                 <div className="relative p-6 flex-auto">
                                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                                        Bạn xác nhận chọn gói {combo.name}
-
+                                        Bạn xác nhận chọn HLV: {trainer.name}
                                     </p>
 
                                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                                        Với giá {CurrencyFormatter.format(combo.price, {
+                                        Với giá {CurrencyFormatter.format(trainer.fee, {
                                             code: "VND",
                                         })}
                                     </p>

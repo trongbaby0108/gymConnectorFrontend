@@ -31,6 +31,7 @@ const GymDetail = () => {
   const [comment, setComment] = useState([]);
   const [vote, setVote] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [programModal, setProgramModal] = useState({});
   const ratingBar = {
     size: 40,
     count: 5,
@@ -205,6 +206,11 @@ const GymDetail = () => {
               </div>
               <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  <ModalCombo
+                    showModal={showModal}
+                    onClose={() => setShowModal(false)}
+                    combo={programModal}
+                  />
                   <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     {dataPT.map((trainer) => {
@@ -278,15 +284,13 @@ const GymDetail = () => {
                           <button
                             className="bg-pink-500 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
                             type="button"
-                            onClick={() => setShowModal(true)}
+                            onClick={() => {
+                              setShowModal(true);
+                              setProgramModal(program);
+                            }}
                           >
                             Chọn gói tập này
                           </button>
-                          <ModalCombo
-                            showModal={showModal}
-                            onClose={() => setShowModal(false)}
-                            combo={program}
-                          />
                         </div>
                       </div>
                     </div>
