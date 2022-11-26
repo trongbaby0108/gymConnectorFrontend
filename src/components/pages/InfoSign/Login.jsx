@@ -11,15 +11,11 @@ import { useEffect } from "react";
 const Login = () => {
   const navigate = useNavigate();
   //const dispatch = useDispatch();
-
   useEffect(() => {
     gapi.load("client:auth2", () => {
       gapi.auth2.init({ clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID });
     });
   }, []);
-  //google login
-  const [loginData, setLoginData] = useState("");
-
   const handleFailure = (result) => {
     console.log(result);
   };
@@ -42,32 +38,34 @@ const Login = () => {
           password: formData.get("email"),
         });
         console.log(response.data);
-        window.alert("Đăng nhập thành công");
-        if (Storage !== undefined) {
-          localStorage.setItem("token", response.data);
-        }
-        const form = new FormData();
-        form.append("jwt", response.data);
-        const userInfo = await axios.post("/auth/getUserInfo", form);
+        if (response.status === 200) {
+          if (Storage !== undefined) {
+            localStorage.setItem("token", response.data);
+          }
 
-        if (userInfo.status === 200) {
-          console.log(userInfo.data);
-          localStorage.setItem("address", userInfo.data.address);
-          localStorage.setItem("avatar", userInfo.data.avatar);
-          localStorage.setItem("email", userInfo.data.email);
-          localStorage.setItem("enable", userInfo.data.enable);
-          localStorage.setItem("id", userInfo.data.id);
-          localStorage.setItem("name", userInfo.data.name);
-          localStorage.setItem("phone", userInfo.data.phone);
-          localStorage.setItem("username", userInfo.data.username);
-          localStorage.setItem("role", userInfo.data.role);
-          navigate("/home");
+          const form = new FormData();
+          form.append("jwt", response.data);
+          const userInfo = await axios.post("/auth/getUserInfo", form);
+
+          if (userInfo.status === 200) {
+            console.log(userInfo.data);
+            localStorage.setItem("address", userInfo.data.address);
+            localStorage.setItem("avatar", userInfo.data.avatar);
+            localStorage.setItem("email", userInfo.data.email);
+            localStorage.setItem("enable", userInfo.data.enable);
+            localStorage.setItem("id", userInfo.data.id);
+            localStorage.setItem("name", userInfo.data.name);
+            localStorage.setItem("phone", userInfo.data.phone);
+            localStorage.setItem("username", userInfo.data.username);
+            localStorage.setItem("role", userInfo.data.role);
+            window.alert("Đăng nhập thành công");
+            navigate("/home");
+          }
         }
       } catch (error) {
         console.log(error);
       }
     }
-    setLoginData(formData.get("email"));
   };
 
   const formik = useFormik({
@@ -77,44 +75,38 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Không được bỏ trống mục này"),
-      // .min(4, "Phải nhiều hơn 4 ký hoặc hơn"),
       password: Yup.string().required("Không được bỏ trống mục này"),
-      // .matches(
-      //   /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-      //   "Mật khẩu phải từ 7-19 ký tự và có ít nhất 1 từ, 1 số và 1 ký tự đặc biệt"
     }),
     onSubmit: async (values) => {
-      //loginUser(newUser, dispatch, navigate);
       try {
         const response = await axios.post("/auth/login", {
           username: formik.values.username,
           password: formik.values.password,
         });
         console.log(response.data);
-        window.alert("Đăng nhập thành công");
         if (Storage !== undefined) {
           localStorage.setItem("token", response.data);
         }
-        const form = new FormData();
-        form.append("jwt", response.data);
-        const userInfo = await axios.post("/auth/getUserInfo", form);
+        if (response.status === 200) {
+          const form = new FormData();
+          form.append("jwt", response.data);
+          const userInfo = await axios.post("/auth/getUserInfo", form);
 
-        if (userInfo.status === 200) {
-          console.log(userInfo.data);
-          localStorage.setItem("address", userInfo.data.address);
-          localStorage.setItem("avatar", userInfo.data.avatar);
-          localStorage.setItem("email", userInfo.data.email);
-          localStorage.setItem("enable", userInfo.data.enable);
-          localStorage.setItem("id", userInfo.data.id);
-          localStorage.setItem("name", userInfo.data.name);
-          localStorage.setItem("phone", userInfo.data.phone);
-          localStorage.setItem("username", userInfo.data.username);
-          localStorage.setItem("role", userInfo.data.role);
-          navigate("/home");
+          if (userInfo.status === 200) {
+            console.log(userInfo.data);
+            localStorage.setItem("address", userInfo.data.address);
+            localStorage.setItem("avatar", userInfo.data.avatar);
+            localStorage.setItem("email", userInfo.data.email);
+            localStorage.setItem("enable", userInfo.data.enable);
+            localStorage.setItem("id", userInfo.data.id);
+            localStorage.setItem("name", userInfo.data.name);
+            localStorage.setItem("phone", userInfo.data.phone);
+            localStorage.setItem("username", userInfo.data.username);
+            localStorage.setItem("role", userInfo.data.role);
+            window.alert("Đăng nhập thành công");
+            navigate("/home");
+          }
         }
-
-        // console.log(localStorage.getItem("token"));
-        // console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -123,9 +115,7 @@ const Login = () => {
   });
   return (
     <>
-      {loginData ? (
-        navigate("/home")
-      ) : (
+      {
         <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
           <section className="bg-gradient-to-tl from-pink-300 to-indigo-500 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -235,7 +225,7 @@ const Login = () => {
             </div>
           </section>
         </div>
-      )}
+      }
     </>
   );
 };
