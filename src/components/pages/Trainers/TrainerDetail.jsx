@@ -16,13 +16,28 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
+import ReactStars from "react-rating-stars-component";
+import ModalTrainer from "../../Modal/ModalTrainer";
 
 const TrainerDetail = () => {
   const [data, setData] = useState([]);
   const [dataComment, setDataComment] = useState([]);
-  const [cmt, setCMT] = useState("");
   const params = useParams();
-
+  const [comment, setComment] = useState([]);
+  const [vote, setVote] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [trainerModal, setTrainerModal] = useState({});
+  const ratingBar = {
+    size: 40,
+    count: 5,
+    isHalf: false,
+    value: 0,
+    color: "black",
+    activeColor: "yellow",
+    onChange: (newValue) => {
+      setVote(newValue);
+    },
+  };
   const getData = () => {
     axios.get("http://localhost:8080/home/getPT").then((response) => {
       setData(response.data);
@@ -36,15 +51,23 @@ const TrainerDetail = () => {
         setDataComment(response.data);
       });
   };
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
 
   const writeComment = async () => {
-    const formData = new FormData();
-    formData.append("content", cmt);
-    formData.append("ptId", data.id);
-    formData.append("userId");
-    const response = await axios.post(
+    await axios.post(
       "http://localhost:8080/client/comment/addPtComment",
-      {}
+      {
+        content: comment,
+        vote: vote,
+        ptId: data.id,
+        userId: parseInt(localStorage.getItem("id")),
+      },
+      {
+        headers: headers,
+      }
     );
   };
 
@@ -75,7 +98,12 @@ const TrainerDetail = () => {
         </h2>
       </div>
       <section className="section">
-        {arr.map((program, idx) => {
+        <ModalTrainer
+          showModal={showModal}
+          onClose={() => setShowModal(false)}
+          trainer={trainerModal}
+        />
+        {arr.map((trainer, idx) => {
           return (
             <div data-aos="fade-up" data-aos-delay="300" key={idx}>
               <div className="trainer-container">
@@ -101,7 +129,7 @@ const TrainerDetail = () => {
                     ))}
                     {sliderControl()} */}
                             <img
-                              src={program.avatar}
+                              src={trainer.avatar}
                               className="w-full h-full rounded-full object-contain"
                               alt=""
                             />
@@ -120,21 +148,21 @@ const TrainerDetail = () => {
                               icon={faUser}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <p className="trainer-title">{program.name}</p>
+                            <p className="trainer-title">{trainer.name}</p>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
                               icon={faPhoneVolume}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <span>{program.phone}</span>
+                            <span>{trainer.phone}</span>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
                               icon={faLocationDot}
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
-                            <span>{program.address}</span>
+                            <span>{trainer.address}</span>
                           </div>
                           <div className="flex items-center">
                             <FontAwesomeIcon
@@ -142,7 +170,7 @@ const TrainerDetail = () => {
                               className="mr-3 w-3 h-3"
                             ></FontAwesomeIcon>
                             <span>
-                              {Currency.format(program.fee, { code: "VND" })}
+                              {Currency.format(trainer.fee, { code: "VND" })}
                             </span>
                           </div>
                           <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
@@ -155,28 +183,28 @@ const TrainerDetail = () => {
                                   icon={faDumbbell}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.name}</span>
+                                <span>{trainer.gym.name}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faLocationDot}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.address}</span>
+                                <span>{trainer.gym.address}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faEnvelope}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.email}</span>
+                                <span>{trainer.gym.email}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
                                   icon={faPhoneVolume}
                                   className="mr-3 w-3 h-3"
                                 ></FontAwesomeIcon>
-                                <span>{program.gym.phone}</span>
+                                <span>{trainer.gym.phone}</span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <FontAwesomeIcon
@@ -185,7 +213,7 @@ const TrainerDetail = () => {
                                 ></FontAwesomeIcon>
                                 <img
                                   className="w-10/12 h-10/12"
-                                  src={program.gym.avatar}
+                                  src={trainer.gym.avatar}
                                   alt="ảnh phòng gym"
                                 />
                               </div>
@@ -193,7 +221,14 @@ const TrainerDetail = () => {
                           </div>
                         </div>
                         <div className="trainer-details-price">
-                          <button>Đặt ngay!!!</button>
+                          <button
+                            onClick={() => {
+                              setShowModal(true);
+                              setTrainerModal(trainer);
+                            }}
+                          >
+                            Đặt ngay!!!
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -209,12 +244,14 @@ const TrainerDetail = () => {
                           className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                           placeholder="Viết bình luận của bạn..."
                           required
-                          onChange={(e) => setCMT(e.target.value)}
+                          onChange={(e) => setComment(e.target.value)}
                         ></textarea>
                       </div>
                       <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                        <ReactStars {...ratingBar} />
                         <button
                           type="submit"
+                          onClick={writeComment}
                           className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
                         >
                           Đăng lên

@@ -8,23 +8,54 @@ import {
   faMailBulk,
   faPhoneVolume,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import CurrencyFormatter from "currency-formatter";
 import DetailIcn from "./fitness.svg";
+import ReactStars from "react-rating-stars-component";
+import ModalCombo from "../../Modal/ModalCombo";
 
 const GymDetail = () => {
   // // image slider
   // const [currentImage, setCurrentImage] = React.useState(0);
   // const { photo } = photoGym;
+
   const [data, setData] = useState([]);
   const [dataCombo, setDataCombo] = useState([]);
   const [dataPT, setDataPT] = useState([]);
   const [dataComment, setDataComment] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
+  const [comment, setComment] = useState([]);
+  const [vote, setVote] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [programModal, setProgramModal] = useState({});
+  const ratingBar = {
+    size: 40,
+    count: 5,
+    isHalf: false,
+    value: 0,
+    color: "black",
+    activeColor: "yellow",
+    onChange: (newValue) => {
+      setVote(newValue);
+    },
+  };
+
+  const addCommentGym = {
+    content: comment,
+    vote: vote,
+    idGym: data.id,
+    userId: localStorage.getItem("id"),
+  };
+
+  //console.log(vote);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
   const getDetailGym = () => {
     axios
       .get(`http://localhost:8080/home/getGymById/${params.id}`)
@@ -116,6 +147,7 @@ const GymDetail = () => {
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <Header />
+
       <section className="bg-neutral-500 h-[100px]">
         <div className="container mx-auto h-full"></div>
       </section>
@@ -174,6 +206,11 @@ const GymDetail = () => {
               </div>
               <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  <ModalCombo
+                    showModal={showModal}
+                    onClose={() => setShowModal(false)}
+                    combo={programModal}
+                  />
                   <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     {dataPT.map((trainer) => {
@@ -218,7 +255,7 @@ const GymDetail = () => {
               </div>
               <h1 className="gym-title mt-6">Danh sách Gói tập</h1>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                {dataCombo.map((program) => {
+                {dataCombo.map((program, index) => {
                   return (
                     <div className="mt-10" key={program.id}>
                       <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -243,8 +280,16 @@ const GymDetail = () => {
                               code: "VND",
                             })}
                           </h1>
-                          <button className="px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none">
-                            Đặt ngay
+
+                          <button
+                            className="bg-pink-500 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                            type="button"
+                            onClick={() => {
+                              setShowModal(true);
+                              setProgramModal(program);
+                            }}
+                          >
+                            Chọn gói tập này
                           </button>
                         </div>
                       </div>
@@ -263,11 +308,27 @@ const GymDetail = () => {
                       className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                       placeholder="Viết bình luận của bạn..."
                       required
+                      onChange={(e) => setComment(e.target.value)}
                     ></textarea>
                   </div>
                   <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                    <ReactStars {...ratingBar} />
                     <button
                       type="submit"
+                      onClick={async (event) => {
+                        console.log(addCommentGym);
+                        const res = await axios.post(
+                          "http://localhost:8080/client/comment/addGymComment",
+                          {
+                            content: comment,
+                            vote: vote,
+                            gymId: data.id,
+                            userId: localStorage.getItem("id"),
+                          },
+                          { headers: headers }
+                        );
+                        console.log(res);
+                      }}
                       className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
                     >
                       Đăng lên

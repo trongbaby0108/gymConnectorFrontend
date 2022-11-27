@@ -1,20 +1,54 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import ExportSheet from "../../../Features/ExportSheet";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 
 const ListUserByPt = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [bills, setBills] = useState([]);
+  const params = useParams();
   const headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
 
+  function formateDay(date) {
+    return (
+      date[3] +
+      ":" +
+      date[4] +
+      ":" +
+      date[5] +
+      "-" +
+      date[2] +
+      "-" +
+      date[1] +
+      "-" +
+      date[0]
+    );
+  }
+
+  const getBill = () => {
+    axios
+      .get(`http://localhost:8080/admin/billPayment/getBillByPt/${params.id}`, {
+        headers: headers,
+      })
+      .then((response) => {
+        setBills(response.data);
+        console.log(response.data);
+      });
+  };
+
+  useEffect(() => {
+    getBill();
+  }, []);
+
   const handleOnCLickExport = () => {
-    if (data) {
-      ExportSheet.exportExcel(data, "Danh sách học viên", "ListUser");
+    if (bills) {
+      ExportSheet.exportExcel(bills, "Danh sách học viên", "ListUser");
     }
   };
 
@@ -43,7 +77,7 @@ const ListUserByPt = () => {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="py-3 px-6">
-                        Tên học viên
+                        Tên Người tập
                       </th>
                       <th scope="col" className="py-3 px-6">
                         Địa chỉ
@@ -52,27 +86,37 @@ const ListUserByPt = () => {
                         Hotline
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Hình ảnh
+                        Ngày Bắt đầu
                       </th>
                       <th scope="col" className="py-3 px-6">
-                        Các thao tác
+                        Ngày Kết thúc
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      ></th>
-                      <td className="py-4 px-6"></td>
-                      <td className="py-4 px-6"></td>
-                      <td className="py-4 px-2">
-                        <img src="" className="w-48 h-28" alt="" />
-                      </td>
-                      <td className="py-4 px-6 flex justify-between"></td>
-                    </tr>
-                  </tbody>
+                  {bills.map((bill) => {
+                    return (
+                      <tbody>
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                          <th
+                            scope="row"
+                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {bill.user.name}
+                          </th>
+                          <td className="py-4 px-6">{bill.user.address}</td>
+                          <td className="py-4 px-6">
+                            {bill.user.account.phone}
+                          </td>
+                          <td className="py-4 px-2">
+                            {formateDay(bill.dayStart)}
+                          </td>
+                          <td className="py-4 px-2">
+                            {formateDay(bill.dayEnd)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
                 </table>
               </div>
             </div>

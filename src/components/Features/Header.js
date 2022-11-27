@@ -9,7 +9,7 @@ import NavMobile from "./NavMobile";
 
 // import icons
 import { RiMenu4Fill, RiCloseFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 
 const Header = () => {
@@ -26,6 +26,7 @@ const Header = () => {
 
   // destructure header data
   const { btnLoginText, btnSignupText } = header;
+  const navigate = useNavigate();
   const user = {
     address: localStorage.getItem("address"),
     avatar: localStorage.getItem("avatar"),
@@ -52,6 +53,7 @@ const Header = () => {
   const logOut = () => {
     if (user.id) {
       localStorage.clear();
+      navigate("/");
       window.location.reload();
     }
   };

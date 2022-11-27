@@ -61,7 +61,7 @@ const CreateGym = () => {
           address: formik.values.address,
           phone: formik.values.phone,
         },
-        headers
+        { headers: headers }
       );
       if (addGym.status === 200) {
         //console.log(addGym.data);
@@ -72,7 +72,7 @@ const CreateGym = () => {
         const addGymIMG = await axios.post(
           "http://localhost:8080/admin/gym/addGymImg",
           imgFormData,
-          headers
+          { headers: headers }
         );
         if (addGymIMG.status === 200) {
           navigate("/admin/listGym");

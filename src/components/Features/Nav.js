@@ -17,7 +17,7 @@ const Nav = () => {
       { name: "Huấn luyện viên", href: "/trainers" },
       { name: "Thông tin cá nhân", href: "/userInfo" },
     ];
-  } else {
+  } else if (localStorage.getItem("role") === "ADMIN") {
     nav = [
       { name: "Trang chủ", href: "/home" },
       { name: "Phòng tập", href: "/gyms" },
@@ -25,8 +25,14 @@ const Nav = () => {
       { name: "Thông tin cá nhân", href: "/userInfo" },
       { name: "Quản trị viên", href: "/admin" },
     ];
+  } else {
+    nav = [
+      { name: "Trang chủ", href: "/home" },
+      { name: "Phòng tập", href: "/gyms" },
+      { name: "Huấn luyện viên", href: "/trainers" },
+      { name: "Thông tin cá nhân", href: "/userInfo" },
+    ];
   }
-
   return (
     <nav className="hidden lg:flex">
       <ul className="flex gap-x-8 text-white">
