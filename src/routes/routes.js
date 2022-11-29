@@ -29,6 +29,7 @@ import ListUserByPt from "../components/Admin/pages/Trainer/ListUserByPt";
 import StatisticsCombo from "../components/Admin/pages/Combo/StatisticsCombo";
 import StatisticsGym from "../components/Admin/pages/Gyms/StatisticsGym";
 import FillCodePT from "../components/pages/Trainers/FillCodePT";
+import ToastMessage from "../components/Features/ToastMessage";
 export const routes = {
   publicRoutes: [
     { path: "/", component: Home },
@@ -69,6 +70,10 @@ export const routes = {
     {
       path: "/admin/listGym/statisticsGym/:id",
       component: StatisticsGym,
+    },
+    {
+      path: "/toast",
+      component: ToastMessage,
     },
   ],
 };

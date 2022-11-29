@@ -75,7 +75,9 @@ const StatisticsGym = () => {
             <div className="table-list">
               {/* Table list */}
               <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-                <h2>Thống kê cho phòng tập: Tên phòng tập</h2>
+                <h1 className="text-center text-2xl text-black font-bold mb-4">
+                  Thống kê đăng ký phòng tập
+                </h1>
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -113,7 +115,7 @@ const StatisticsGym = () => {
                           <td className="py-4 px-6">
                             {bill.user.account.phone}
                           </td>
-                          <td className="py-4 px-2">{bill.combo.name}</td>
+                          <td className="py-4 px-6">{bill.combo.name}</td>
                           <td className="py-4 px-2">
                             {formateDay(bill.dayStart)}
                           </td>
