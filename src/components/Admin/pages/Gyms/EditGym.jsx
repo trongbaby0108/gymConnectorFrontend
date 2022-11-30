@@ -23,9 +23,12 @@ const EditGym = () => {
   };
   const res = async () => {
     await axios
-      .get("http://localhost:8080/admin/gym/getGymById/" + id, headers)
+      .get("http://localhost:8080/admin/gym/getGymById/" + id, {
+        headers: headers,
+      })
       .then((response) => {
         setData(response.data);
+        console.log(response.data);
       });
   };
 
@@ -138,7 +141,7 @@ const EditGym = () => {
                     accept="image/*"
                     onChange={handlePreviewImage}
                   />
-                  {image === null ? (
+                  {image.length === 0 ? (
                     <img
                       src={data.avatar}
                       alt=""
@@ -153,8 +156,9 @@ const EditGym = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => {
-                    console.log(data);
+                  onClick={(event) => {
+                    event.preventDefault();
+                    console.log(image);
                   }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
