@@ -67,8 +67,8 @@ export default function ModalTrainer({ showModal, onClose, trainer }) {
                     type="button"
                     onClick={() => {
                       setShowToast(true);
-                      setTypeM("success");
-                      setMess("Đặt huấn luyện viên thành công");
+                      localStorage.getItem("pt") === undefined ? setTypeM("success") : setTypeM("fail");
+                      localStorage.getItem("pt") === undefined ? setMess("Đặt huấn luyện viên thành công") : setMess("Bạn có huấn luyện viên rồi mà");
                     }}
                   >
                     Xác nhận

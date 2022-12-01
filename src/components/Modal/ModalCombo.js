@@ -1,5 +1,7 @@
 import React from "react";
 import CurrencyFormatter from "currency-formatter";
+import { useState } from "react";
+import ToastMessage from "../Features/ToastMessage";
 export default function ModalCombo({ showModal, onClose, combo }) {
     const t = new Date();
     const date = ('0' + t.getDate()).slice(-2);
@@ -8,11 +10,16 @@ export default function ModalCombo({ showModal, onClose, combo }) {
 
     const fromDate = `${date}/${month}/${year}`;
     const toDate = `${date}/${parseInt(month) + 1}/${year}`;
+
+    const [showToast, setShowToast] = useState(false);
+    const [typeM, setTypeM] = useState("");
+    const [mess, setMess] = useState("");
     return (
         <>
 
             {showModal ? (
                 <>
+                    <ToastMessage showMess={showToast} typeMes={typeM} message={mess} />;
                     <div
                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
@@ -61,14 +68,21 @@ export default function ModalCombo({ showModal, onClose, combo }) {
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => onClose()}
+                                        onClick={() => {
+                                            setShowToast(true);
+                                            localStorage.getItem("gym") === undefined ? setTypeM("success") : setTypeM("fail");
+                                            localStorage.getItem("gym") === undefined ? setMess("Đặt phòng gym thành công") : setMess("Bạn có phòng gym rồi mà");
+                                        }}
                                     >
                                         Xác nhận
                                     </button>
                                     <button
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => onClose()}
+                                        onClick={() => {
+                                            setShowToast(false);
+                                            onClose();
+                                        }}
                                     >
                                         Đóng
                                     </button>
