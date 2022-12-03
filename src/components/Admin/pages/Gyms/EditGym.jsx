@@ -2,23 +2,24 @@ import React from "react";
 import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 
 const EditGym = () => {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState([]);
   const [name, setName] = useState([]);
   const [email, setEmail] = useState([]);
   const [address, setAddress] = useState([]);
   const [phone, setPhone] = useState([]);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState({});
+  const [preview, setPreview] = useState("");
 
   const params = useParams();
   const id = params.id;
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
   const res = async () => {
@@ -28,19 +29,17 @@ const EditGym = () => {
       })
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setAddress(response.data.address);
+        setPhone(response.data.phone);
       });
   };
 
   //preview image
   const handlePreviewImage = (e) => {
-    const file = e.target.files[0];
-    file.preview = URL.createObjectURL(file);
-    setImage(file);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    setPreview(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -75,14 +74,9 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={data.name}
+                    value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  {/* {formik.errors.name && (
-                    <p className="max-w-full text-xs text-red-500">
-                      {formik.errors.name}
-                    </p>
-                  )} */}
                 </div>
 
                 <div className="mb-6">
@@ -96,7 +90,7 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={data.email}
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
@@ -110,7 +104,7 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={data.address}
+                    value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
@@ -125,7 +119,7 @@ const EditGym = () => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required=""
                     autoComplete="off"
-                    value={data.phone}
+                    value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
@@ -141,7 +135,7 @@ const EditGym = () => {
                     accept="image/*"
                     onChange={handlePreviewImage}
                   />
-                  {image.length === 0 ? (
+                  {image.name === undefined ? (
                     <img
                       src={data.avatar}
                       alt=""
@@ -149,16 +143,42 @@ const EditGym = () => {
                     />
                   ) : (
                     <img
-                      src={image.preview}
+                      src={preview}
                       alt=""
                       className="mt-3 w-full h-full rounded-lg"
                     />
                   )}
                 </div>
                 <button
-                  onClick={(event) => {
-                    event.preventDefault();
-                    console.log(image);
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await axios.post(
+                      "http://localhost:8080/admin/gym/updateGym/",
+                      {
+                        id: data.id,
+                        email: email,
+                        address: address,
+                        name: name,
+                        phone: phone,
+                      },
+                      {
+                        headers: headers,
+                      }
+                    );
+
+                    if (image.name !== undefined) {
+                      const imgForm = new FormData();
+                      imgForm.append("idGym", parseInt(data.id));
+                      imgForm.append("image", image);
+                      const upload = await axios.post(
+                        "http://localhost:8080/admin/gym/addGymImg",
+                        imgForm,
+                        { headers: headers }
+                      );
+                      if (upload.code === 200) {
+                        navigate("/admin/listGym");
+                      }
+                    }
                   }}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >

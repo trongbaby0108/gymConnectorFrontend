@@ -5,9 +5,14 @@ import Header from "../../Features/Header";
 import UserIcn from "../../pages/User/user_info.svg";
 import * as Yup from "yup";
 import PreviewImage from "../../Features/PreviewImage";
+import axios from "axios";
 
 const UserInfo = () => {
   const avatar = localStorage.getItem("avatar");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
   const formik = useFormik({
     initialValues: {
       name: localStorage.getItem("name"),
@@ -50,10 +55,20 @@ const UserInfo = () => {
             ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
         ),
     }),
-    onSubmit: async () => {
+    onSubmit: async (values) => {
       console.log(formik.values);
-      const { avatar } = formik.values;
-      const formData = new FormData();
+      const data = {
+        id: localStorage.getItem("id"),
+        name: formik.values.id,
+        phone: formik.values.id,
+        email: formik.values.id,
+        address: formik.values.id,
+      };
+      await axios.post(
+        "http://localhost:8080/client/user/update",
+        { headers: headers },
+        data
+      );
     },
   });
 
@@ -236,10 +251,7 @@ const UserInfo = () => {
                   </div>
                   <div className="relative z-0 mb-6 w-full group">
                     <button
-                      // type="submit"
-                      onClick={() => {
-                        console.log(formik.values);
-                      }}
+                      type="submit"
                       className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                       Cập nhật
