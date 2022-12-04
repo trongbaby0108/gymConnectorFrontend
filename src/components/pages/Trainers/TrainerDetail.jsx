@@ -24,6 +24,7 @@ const TrainerDetail = () => {
   const [dataComment, setDataComment] = useState([]);
   const params = useParams();
   const [comment, setComment] = useState([]);
+  const [pic, setPic] = useState([]);
   const [vote, setVote] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [trainerModal, setTrainerModal] = useState({});
@@ -52,6 +53,16 @@ const TrainerDetail = () => {
         setDataComment(response.data);
       });
   };
+
+  const getPic = () => {
+    axios
+      .get(`http://localhost:8080/home/getPicByPt/${params.id}`)
+      .then((response) => {
+        setPic(response.data);
+        console.log(response.data);
+      });
+  };
+
   const headers = {
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
@@ -74,6 +85,7 @@ const TrainerDetail = () => {
   useEffect(() => {
     getData();
     getComment();
+    getPic();
   }, []);
 
   const arr = data.filter((item) => {

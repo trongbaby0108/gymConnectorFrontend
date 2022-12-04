@@ -29,6 +29,7 @@ const GymDetail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [comment, setComment] = useState([]);
+  const [pic, setPic] = useState([]);
   const [vote, setVote] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [programModal, setProgramModal] = useState({});
@@ -88,11 +89,21 @@ const GymDetail = () => {
       });
   };
 
+  const getPic = () => {
+    axios
+      .get(`http://localhost:8080/home/getPicByGym/${params.id}`)
+      .then((response) => {
+        setPic(response.data);
+        console.log(response.data);
+      });
+  };
+
   useEffect(() => {
     getDetailGym();
     getCombo();
     getPT();
     getComment();
+    getPic();
   }, []);
 
   // photo slider when we get a lot of pictures

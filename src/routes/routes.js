@@ -59,7 +59,7 @@ export const routes = {
     { path: "/admin/listTrainer", component: ListTrainer },
     { path: "/admin/listCombo", component: ListCombo },
     { path: "/admin/createCombo", component: CreateCombo },
-    { path: "/admin/editCombo", component: EditCombo },
+    { path: "/admin/editCombo/:id", component: EditCombo },
     { path: "/payment", component: Payment },
     { path: "/userByTrainer/:id", component: ListUserByPT },
     {
