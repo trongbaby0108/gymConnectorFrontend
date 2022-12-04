@@ -269,7 +269,7 @@ const UserInfo = () => {
                     />
                   )}
 
-                  {/* <label
+                  <label
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     htmlFor="avatar"
                   >
@@ -295,7 +295,7 @@ const UserInfo = () => {
                     id="file_input_help"
                   >
                     Tải lên file có đuôi .PNG, .JPG, .JPEG
-                  </p> */}
+                  </p>
                 </div>
               </div>
             </div>

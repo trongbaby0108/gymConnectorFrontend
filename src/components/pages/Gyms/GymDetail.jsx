@@ -62,6 +62,8 @@ const GymDetail = () => {
       .get(`http://localhost:8080/home/getGymById/${params.id}`)
       .then((response) => {
         setData(response.data);
+        console.log(response.data);
+        setPic(response.data.avatar);
       });
   };
 
@@ -93,8 +95,7 @@ const GymDetail = () => {
     axios
       .get(`http://localhost:8080/home/getPicByGym/${params.id}`)
       .then((response) => {
-        setPic(response.data);
-        console.log(response.data);
+        setPic({ ...pic, pic: response.data });
       });
   };
 
