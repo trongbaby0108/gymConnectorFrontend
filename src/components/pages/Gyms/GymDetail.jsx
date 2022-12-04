@@ -211,6 +211,50 @@ const GymDetail = () => {
                     onClose={() => setShowModal(false)}
                     combo={programModal}
                   />
+                  <h1 className="gym-title mt-6">Danh sách Gói tập</h1>
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    {dataCombo.map((program, index) => {
+                      return (
+                        <div className="mt-10" key={program.id}>
+                          <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                            <div className="px-4 py-2">
+                              <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
+                                {program.name}
+                              </h1>
+                              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                Mô tả hlv
+                              </p>
+                            </div>
+
+                            <img
+                              className="object-cover w-full h-[140px] mt-2"
+                              src="http://tranhtreotuong.vn/images/tranh-treo-tuong-2020/tranh-treo-tuong-phong-tap-gym/12-1.jpg"
+                              alt=""
+                            />
+
+                            <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
+                              <h1 className="text-lg font-bold text-white">
+                                {CurrencyFormatter.format(program.price, {
+                                  code: "VND",
+                                })}
+                              </h1>
+
+                              <button
+                                className="bg-pink-500 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                                type="button"
+                                onClick={() => {
+                                  setShowModal(true);
+                                  setProgramModal(program);
+                                }}
+                              >
+                                Chọn gói tập này
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                   <h1 className="gym-title mt-6">Danh sách Huấn luyện viên</h1>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     {dataPT.map((trainer) => {
@@ -253,50 +297,7 @@ const GymDetail = () => {
                   </div>
                 </div>
               </div>
-              <h1 className="gym-title mt-6">Danh sách Gói tập</h1>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                {dataCombo.map((program, index) => {
-                  return (
-                    <div className="mt-10" key={program.id}>
-                      <div className="max-w-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                        <div className="px-4 py-2">
-                          <h1 className="text-3xl font-bold text-gray-800 uppercase dark:text-white">
-                            {program.name}
-                          </h1>
-                          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Mô tả hlv
-                          </p>
-                        </div>
 
-                        <img
-                          className="object-cover w-full h-[140px] mt-2"
-                          src="http://tranhtreotuong.vn/images/tranh-treo-tuong-2020/tranh-treo-tuong-phong-tap-gym/12-1.jpg"
-                          alt=""
-                        />
-
-                        <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
-                          <h1 className="text-lg font-bold text-white">
-                            {CurrencyFormatter.format(program.price, {
-                              code: "VND",
-                            })}
-                          </h1>
-
-                          <button
-                            className="bg-pink-500 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-                            type="button"
-                            onClick={() => {
-                              setShowModal(true);
-                              setProgramModal(program);
-                            }}
-                          >
-                            Chọn gói tập này
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
               {/* comment */}
               <form>
                 <div className="w-full mt-6 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">

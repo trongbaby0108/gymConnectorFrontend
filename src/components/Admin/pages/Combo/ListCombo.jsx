@@ -11,7 +11,6 @@ const ListCombo = () => {
   const [data, setData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
   const getData = () => {

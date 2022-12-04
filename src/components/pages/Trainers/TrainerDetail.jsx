@@ -38,6 +38,7 @@ const TrainerDetail = () => {
       setVote(newValue);
     },
   };
+
   const getData = () => {
     axios.get("http://localhost:8080/home/getPT").then((response) => {
       setData(response.data);
@@ -52,7 +53,6 @@ const TrainerDetail = () => {
       });
   };
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
 

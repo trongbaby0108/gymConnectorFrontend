@@ -2,6 +2,8 @@ import React from "react";
 import CurrencyFormatter from "currency-formatter";
 import ToastMessage from "../Features/ToastMessage";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ModalTrainer({ showModal, onClose, trainer }) {
   const t = new Date();
@@ -13,7 +15,24 @@ export default function ModalTrainer({ showModal, onClose, trainer }) {
   const [showToast, setShowToast] = useState(false);
   const [typeM, setTypeM] = useState("");
   const [mess, setMess] = useState("");
-
+  const navigate = useNavigate();
+  const headers = {
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+  const checkout = async () => {
+    const formData = new FormData();
+    formData.append("idUser", localStorage.getItem("id"));
+    formData.append("idPt", trainer.id);
+    const bookTrainer = await axios.post("http://localhost:8080/client/billPt/checkout", formData, { headers: headers },);
+    if (bookTrainer.status === 200) {
+      localStorage.setItem("trainer", bookTrainer.data.trainer.name)
+      setShowToast(true);
+      setTypeM("success");
+      setMess("Thuê hlv thành công");
+      console.log(bookTrainer);
+      //navigate("/userInfo");
+    }
+  }
   return (
     <>
       {showModal ? (
@@ -66,10 +85,16 @@ export default function ModalTrainer({ showModal, onClose, trainer }) {
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
-                      setShowToast(true);
-                      localStorage.getItem("pt") === undefined ? setTypeM("success") : setTypeM("fail");
-                      localStorage.getItem("pt") === undefined ? setMess("Đặt huấn luyện viên thành công") : setMess("Bạn có huấn luyện viên rồi mà");
-                    }}
+                      if (localStorage.getItem("pt") !== null) {
+                        setShowToast(true);
+                        setTypeM("fail")
+                        setMess("Bạn có huấn luyên viên rồi mà")
+                      }
+                      if (localStorage.getItem("pt") === null) {
+                        checkout()
+                      }
+                    }
+                    }
                   >
                     Xác nhận
                   </button>
@@ -89,7 +114,8 @@ export default function ModalTrainer({ showModal, onClose, trainer }) {
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
-      ) : null}
+      ) : null
+      }
     </>
   );
 }

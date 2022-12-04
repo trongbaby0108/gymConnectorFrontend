@@ -10,7 +10,6 @@ const StatisticsGym = () => {
   const [bills, setBills] = useState([]);
   const params = useParams();
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
 

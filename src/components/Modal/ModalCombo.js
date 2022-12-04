@@ -2,6 +2,8 @@ import React from "react";
 import CurrencyFormatter from "currency-formatter";
 import { useState } from "react";
 import ToastMessage from "../Features/ToastMessage";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function ModalCombo({ showModal, onClose, combo }) {
     const t = new Date();
     const date = ('0' + t.getDate()).slice(-2);
@@ -11,9 +13,28 @@ export default function ModalCombo({ showModal, onClose, combo }) {
     const fromDate = `${date}/${month}/${year}`;
     const toDate = `${date}/${parseInt(month) + 1}/${year}`;
 
+    const headers = {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+    };
     const [showToast, setShowToast] = useState(false);
     const [typeM, setTypeM] = useState("");
     const [mess, setMess] = useState("");
+
+    const navigate = useNavigate();
+
+    const checkout = async () => {
+        const formData = new FormData();
+        formData.append("idUser", localStorage.getItem("id"));
+        formData.append("idCombo", combo.id);
+        const bookCombo = await axios.post("http://localhost:8080/client/billGym/checkout", formData, { headers: headers },);
+        if (bookCombo.status === 200) {
+            localStorage.setItem("gym", bookCombo.data.gym.name)
+            setShowToast(true);
+            setTypeM("success");
+            setMess("Đặt gói tập thành công");
+            navigate("/userInfo");
+        }
+    }
     return (
         <>
 
@@ -69,9 +90,14 @@ export default function ModalCombo({ showModal, onClose, combo }) {
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={() => {
-                                            setShowToast(true);
-                                            localStorage.getItem("gym") === undefined ? setTypeM("success") : setTypeM("fail");
-                                            localStorage.getItem("gym") === undefined ? setMess("Đặt phòng gym thành công") : setMess("Bạn có phòng gym rồi mà");
+                                            if (localStorage.getItem("gym") !== null) {
+                                                setShowToast(true);
+                                                setTypeM("fail")
+                                                setMess("Bạn có phòng gym rồi mà")
+                                            }
+                                            if (localStorage.getItem("gym") === null) {
+                                                checkout()
+                                            }
                                         }}
                                     >
                                         Xác nhận
@@ -94,7 +120,8 @@ export default function ModalCombo({ showModal, onClose, combo }) {
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </>
-            ) : null}
+            ) : null
+            }
         </>
     );
 }

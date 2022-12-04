@@ -4,7 +4,6 @@ import { useState } from "react";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
 import * as Yup from "yup";
-import PreviewImage from "../../../Features/PreviewImage";
 const EditCombo = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const formik = useFormik({

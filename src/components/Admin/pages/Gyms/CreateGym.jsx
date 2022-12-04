@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 const CreateGym = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
   const navigate = useNavigate();
