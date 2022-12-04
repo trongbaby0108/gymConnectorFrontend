@@ -18,8 +18,8 @@ import ReactStars from "react-rating-stars-component";
 import ModalCombo from "../../Modal/ModalCombo";
 
 const GymDetail = () => {
-  // // image slider
-  // const [currentImage, setCurrentImage] = React.useState(0);
+  // image slider
+  const [currentImage, setCurrentImage] = React.useState(0);
   // const { photo } = photoGym;
 
   const [data, setData] = useState([]);
@@ -32,6 +32,8 @@ const GymDetail = () => {
   const [vote, setVote] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [programModal, setProgramModal] = useState({});
+  const [pic, setPic] = useState([]);
+
   const ratingBar = {
     size: 40,
     count: 5,
@@ -95,54 +97,54 @@ const GymDetail = () => {
     getComment();
   }, []);
 
-  // photo slider when we get a lot of pictures
-  // const refs = photo.reduce((acc, val, i) => {
-  //   acc[i] = React.createRef();
-  //   return acc;
-  // }, {});
+  //photo slider when we get a lot of pictures
+  const refs = photo.reduce((acc, val, i) => {
+    acc[i] = React.createRef();
+    return acc;
+  }, {});
 
-  // const scrollToImage = (i) => {
-  //   setCurrentImage(i);
-  //   refs[i].current.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "nearest",
-  //     inline: "start",
-  //   });
-  // };
+  const scrollToImage = (i) => {
+    setCurrentImage(i);
+    refs[i].current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
 
-  // const totalImages = photo.length;
+  const totalImages = photo.length;
 
-  // const nextImage = () => {
-  //   if (currentImage >= totalImages - 1) {
-  //     scrollToImage(0);
-  //   } else {
-  //     scrollToImage(currentImage + 1);
-  //   }
-  // };
+  const nextImage = () => {
+    if (currentImage >= totalImages - 1) {
+      scrollToImage(0);
+    } else {
+      scrollToImage(currentImage + 1);
+    }
+  };
 
-  // const previousImage = () => {
-  //   if (currentImage === 0) {
-  //     scrollToImage(totalImages - 1);
-  //   } else {
-  //     scrollToImage(currentImage - 1);
-  //   }
-  // };
+  const previousImage = () => {
+    if (currentImage === 0) {
+      scrollToImage(totalImages - 1);
+    } else {
+      scrollToImage(currentImage - 1);
+    }
+  };
 
-  // const arrowStyle =
-  //   "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-75 flex items-center justify-center";
+  const arrowStyle =
+    "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-75 flex items-center justify-center";
 
-  // const sliderControl = (isLeft) => (
-  //   <button
-  //     type="button"
-  //     onClick={isLeft ? previousImage : nextImage}
-  //     className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
-  //     style={{ top: "40%" }}
-  //   >
-  //     <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
-  //       {isLeft ? "◀" : "▶"}
-  //     </span>
-  //   </button>
-  // );
+  const sliderControl = (isLeft) => (
+    <button
+      type="button"
+      onClick={isLeft ? previousImage : nextImage}
+      className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
+      style={{ top: "40%" }}
+    >
+      <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
+        {isLeft ? "◀" : "▶"}
+      </span>
+    </button>
+  );
 
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
@@ -181,6 +183,19 @@ const GymDetail = () => {
                       className="w-full object-contain"
                       alt=""
                     />
+                  </div>
+                  <div className="carousel">
+                    {sliderControl(true)}
+                    {images.map((img, i) => (
+                      <div
+                        className="w-full flex-shrink-0"
+                        key={img}
+                        ref={refs[i]}
+                      >
+                        <img src={img} className="w-full object-contain" />
+                      </div>
+                    ))}
+                    {sliderControl()}
                   </div>
                 </div>
               </div>
