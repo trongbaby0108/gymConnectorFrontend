@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../Features/Footer";
 import Header from "../../Features/Header";
 import UserIcn from "../../pages/User/user_info.svg";
@@ -10,6 +10,9 @@ import Currency from "currency-formatter";
 import PreviewImage from "../../Features/PreviewImage";
 
 const TrainerInfo = () => {
+  // image slider
+  const [currentImage, setCurrentImage] = React.useState(0);
+  const [pic, setPic] = useState([]);
   const user = {
     address: localStorage.getItem("address"),
     avatar: localStorage.getItem("avatar"),
@@ -101,6 +104,68 @@ const TrainerInfo = () => {
       }
     },
   });
+
+  const getPic = () => {
+    axios
+      .get(`http://localhost:8080/home/getPicByPt/${user.id}`)
+      .then((response) => {
+        setPic(response.data);
+        console.log(response.data);
+      });
+  };
+
+  useEffect(() => {
+    getPic();
+  }, []);
+
+  // photo slider when we get a lot of pictures
+  const refs = pic.reduce((acc, val, i) => {
+    acc[i] = React.createRef();
+    return acc;
+  }, {});
+
+  const scrollToImage = (i) => {
+    setCurrentImage(i);
+    refs[i].current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
+
+  const totalImages = pic.length;
+
+  const nextImage = () => {
+    if (currentImage >= totalImages - 1) {
+      scrollToImage(0);
+    } else {
+      scrollToImage(currentImage + 1);
+    }
+  };
+
+  const previousImage = () => {
+    if (currentImage === 0) {
+      scrollToImage(totalImages - 1);
+    } else {
+      scrollToImage(currentImage - 1);
+    }
+  };
+
+  const arrowStyle =
+    "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-40 flex items-center justify-center";
+
+  const sliderControl = (isLeft) => (
+    <button
+      type="button"
+      onClick={isLeft ? previousImage : nextImage}
+      className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
+      style={{ top: "40%" }}
+    >
+      <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
+        {isLeft ? "◀" : "▶"}
+      </span>
+    </button>
+  );
 
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
@@ -243,15 +308,6 @@ const TrainerInfo = () => {
                   </label>
                 </div>
                 <div className="relative z-0 mb-6 w-full group">
-                  <Link
-                    to={"/changePass"}
-                    type="submit"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Đổi mật khẩu
-                  </Link>
-                </div>
-                <div className="relative z-0 mb-6 w-full group">
                   <button
                     type="submit"
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -270,7 +326,33 @@ const TrainerInfo = () => {
                     alt="Hình ảnh đăng tải"
                   />
                 )}
-
+              </div>
+            </div>
+          </div>
+          <div className="flex my-3 items-center justify-around">
+            <div className="max-w-screen-xl flex justify-around items-center">
+              <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                <div className="relative w-full">
+                  <div className="carousel">
+                    {sliderControl(true)}
+                    {pic.map((img, i) => (
+                      <div
+                        className="w-full flex-shrink-0"
+                        key={i}
+                        ref={refs[i]}
+                      >
+                        <img
+                          src={img.img}
+                          className="w-full h-full object-contain"
+                          alt=""
+                        />
+                      </div>
+                    ))}
+                    {sliderControl()}
+                  </div>
+                </div>
+              </div>
+              <div className="ml-8">
                 <label
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   htmlFor="avatar"
@@ -298,6 +380,9 @@ const TrainerInfo = () => {
                 >
                   Tải lên file có đuôi .PNG, .JPG, .JPEG
                 </p>
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  Thêm ảnh
+                </button>
               </div>
             </div>
           </div>

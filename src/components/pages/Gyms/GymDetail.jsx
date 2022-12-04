@@ -18,9 +18,8 @@ import ReactStars from "react-rating-stars-component";
 import ModalCombo from "../../Modal/ModalCombo";
 
 const GymDetail = () => {
-  // // image slider
-  // const [currentImage, setCurrentImage] = React.useState(0);
-  // const { photo } = photoGym;
+  // image slider
+  const [currentImage, setCurrentImage] = React.useState(0);
 
   const [data, setData] = useState([]);
   const [dataCombo, setDataCombo] = useState([]);
@@ -30,6 +29,7 @@ const GymDetail = () => {
   const params = useParams();
   const [comment, setComment] = useState([]);
   const [pic, setPic] = useState([]);
+  const [photo, setPhoto] = useState([]);
   const [vote, setVote] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [programModal, setProgramModal] = useState({});
@@ -64,6 +64,7 @@ const GymDetail = () => {
         setData(response.data);
         console.log(response.data);
         setPic(response.data.avatar);
+        console.log(pic);
       });
   };
 
@@ -95,7 +96,8 @@ const GymDetail = () => {
     axios
       .get(`http://localhost:8080/home/getPicByGym/${params.id}`)
       .then((response) => {
-        setPic({ ...pic, pic: response.data });
+        setPhoto(response.data);
+        console.log(photo);
       });
   };
 
@@ -108,53 +110,53 @@ const GymDetail = () => {
   }, []);
 
   // photo slider when we get a lot of pictures
-  // const refs = photo.reduce((acc, val, i) => {
-  //   acc[i] = React.createRef();
-  //   return acc;
-  // }, {});
+  const refs = photo.reduce((acc, val, i) => {
+    acc[i] = React.createRef();
+    return acc;
+  }, {});
 
-  // const scrollToImage = (i) => {
-  //   setCurrentImage(i);
-  //   refs[i].current.scrollIntoView({
-  //     behavior: "smooth",
-  //     block: "nearest",
-  //     inline: "start",
-  //   });
-  // };
+  const scrollToImage = (i) => {
+    setCurrentImage(i);
+    refs[i].current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
 
-  // const totalImages = photo.length;
+  const totalImages = photo.length;
 
-  // const nextImage = () => {
-  //   if (currentImage >= totalImages - 1) {
-  //     scrollToImage(0);
-  //   } else {
-  //     scrollToImage(currentImage + 1);
-  //   }
-  // };
+  const nextImage = () => {
+    if (currentImage >= totalImages - 1) {
+      scrollToImage(0);
+    } else {
+      scrollToImage(currentImage + 1);
+    }
+  };
 
-  // const previousImage = () => {
-  //   if (currentImage === 0) {
-  //     scrollToImage(totalImages - 1);
-  //   } else {
-  //     scrollToImage(currentImage - 1);
-  //   }
-  // };
+  const previousImage = () => {
+    if (currentImage === 0) {
+      scrollToImage(totalImages - 1);
+    } else {
+      scrollToImage(currentImage - 1);
+    }
+  };
 
-  // const arrowStyle =
-  //   "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-75 flex items-center justify-center";
+  const arrowStyle =
+    "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-60 flex items-center justify-center";
 
-  // const sliderControl = (isLeft) => (
-  //   <button
-  //     type="button"
-  //     onClick={isLeft ? previousImage : nextImage}
-  //     className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
-  //     style={{ top: "40%" }}
-  //   >
-  //     <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
-  //       {isLeft ? "◀" : "▶"}
-  //     </span>
-  //   </button>
-  // );
+  const sliderControl = (isLeft) => (
+    <button
+      type="button"
+      onClick={isLeft ? previousImage : nextImage}
+      className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
+      style={{ top: "40%" }}
+    >
+      <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
+        {isLeft ? "◀" : "▶"}
+      </span>
+    </button>
+  );
 
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
@@ -187,12 +189,29 @@ const GymDetail = () => {
               </span>
               <div className="p-4 flex justify-center w-screen md:w-[1024px] items-center">
                 <div className="relative w-full">
-                  <div className="carousel">
+                  {/* <div className="carousel">
                     <img
                       src={data.avatar}
                       className="w-full object-contain"
                       alt=""
                     />
+                  </div> */}
+                  <div className="carousel">
+                    {sliderControl(true)}
+                    {photo.map((img, i) => (
+                      <div
+                        className="w-full flex-shrink-0"
+                        key={img.id}
+                        ref={refs[i]}
+                      >
+                        <img
+                          src={img ? data.avatar : img.img}
+                          className="w-full object-contain"
+                          alt=""
+                        />
+                      </div>
+                    ))}
+                    {sliderControl()}
                   </div>
                 </div>
               </div>
