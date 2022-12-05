@@ -8,7 +8,6 @@ import Header from "../../Features/Header";
 const ListUserByPT = () => {
   const [data, setData] = useState([]);
   const headers = {
-    "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
   };
   const formData = new FormData();
@@ -18,7 +17,7 @@ const ListUserByPT = () => {
       .post(
         "http://localhost:8080/client/personalTrainer/getUserByPT",
         formData,
-        headers
+        { headers: headers }
       )
       .then((response) => {
         setData(response.data);

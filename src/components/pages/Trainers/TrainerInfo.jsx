@@ -84,22 +84,7 @@ const TrainerInfo = () => {
             ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
         ),
     }),
-    onSubmit: async () => {
-      console.log(formik.values);
-      const { avatar } = formik.values;
-      const formData = new FormData();
-      try {
-        formData.append("file", avatar);
-        formData.append("upload_preset", "loghpveg");
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/dwjck5c9f/image/upload",
-          formData
-        );
-        console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    onSubmit: async () => {},
   });
 
   return (
@@ -242,7 +227,7 @@ const TrainerInfo = () => {
                     Số sao đánh giá
                   </label>
                 </div>
-                <div className="relative z-0 mb-6 w-full group">
+                {/* <div className="relative z-0 mb-6 w-full group">
                   <Link
                     to={"/changePass"}
                     type="submit"
@@ -250,7 +235,7 @@ const TrainerInfo = () => {
                   >
                     Đổi mật khẩu
                   </Link>
-                </div>
+                </div> */}
                 <div className="relative z-0 mb-6 w-full group">
                   <button
                     type="submit"
@@ -271,7 +256,7 @@ const TrainerInfo = () => {
                   />
                 )}
 
-                <label
+                {/* <label
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   htmlFor="avatar"
                 >
@@ -297,7 +282,7 @@ const TrainerInfo = () => {
                   id="file_input_help"
                 >
                   Tải lên file có đuôi .PNG, .JPG, .JPEG
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

@@ -40,35 +40,36 @@ const UserInfo = () => {
           "Vui lòng điền đúng định dạng số điện thoại"
         ),
       address: Yup.string().required("Không được bỏ trống mục này"),
-      avatar: Yup.mixed()
-        .required("Không được bỏ trống mục này")
-        .test(
-          "FILE_SIZE",
-          "Ảnh quá lớn",
-          (value) => value && value.size < 1280 * 1280
-        )
-        .test(
-          "FILE_TYPE",
-          "Không tồn tại hoặc không đúng định dạng",
-          (value) =>
-            value &&
-            ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
-        ),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       console.log(formik.values);
       const data = {
         id: localStorage.getItem("id"),
-        name: formik.values.id,
-        phone: formik.values.id,
-        email: formik.values.id,
-        address: formik.values.id,
+        name: formik.values.name,
+        phone: formik.values.phone,
+        email: formik.values.email,
+        address: formik.values.address,
       };
-      await axios.post(
+      const update = await axios.post(
         "http://localhost:8080/client/user/update",
-        { headers: headers },
-        data
+        data,
+        { headers: headers }
       );
+      console.log(update);
+      if (update.status === 200) {
+        if (window.confirm("Press a button!")) {
+          window.location.reload();
+        }
+        localStorage.setItem("address", update.data.address);
+        localStorage.setItem("avatar", update.data.avatar);
+        localStorage.setItem("email", update.data.email);
+        localStorage.setItem("enable", update.data.enable);
+        localStorage.setItem("id", update.data.id);
+        localStorage.setItem("name", update.data.name);
+        localStorage.setItem("phone", update.data.phone);
+        localStorage.setItem("username", update.data.username);
+        localStorage.setItem("role", update.data.role);
+      }
     },
   });
 
@@ -269,7 +270,7 @@ const UserInfo = () => {
                     />
                   )}
 
-                  <label
+                  {/* <label
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     htmlFor="avatar"
                   >
@@ -295,7 +296,7 @@ const UserInfo = () => {
                     id="file_input_help"
                   >
                     Tải lên file có đuôi .PNG, .JPG, .JPEG
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
