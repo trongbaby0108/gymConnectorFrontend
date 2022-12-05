@@ -20,6 +20,9 @@ import ReactStars from "react-rating-stars-component";
 import ModalTrainer from "../../Modal/ModalTrainer";
 
 const TrainerDetail = () => {
+  // image slider
+  const [currentImage, setCurrentImage] = React.useState(0);
+
   const [data, setData] = useState([]);
   const [dataComment, setDataComment] = useState([]);
   const params = useParams();
@@ -92,6 +95,55 @@ const TrainerDetail = () => {
     return item.id.toString() === params.id;
   });
 
+  // photo slider when we get a lot of pictures
+  const refs = pic.reduce((acc, val, i) => {
+    acc[i] = React.createRef();
+    return acc;
+  }, {});
+
+  const scrollToImage = (i) => {
+    setCurrentImage(i);
+    refs[i].current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  };
+
+  const totalImages = pic.length;
+
+  const nextImage = () => {
+    if (currentImage >= totalImages - 1) {
+      scrollToImage(0);
+    } else {
+      scrollToImage(currentImage + 1);
+    }
+  };
+
+  const previousImage = () => {
+    if (currentImage === 0) {
+      scrollToImage(totalImages - 1);
+    } else {
+      scrollToImage(currentImage - 1);
+    }
+  };
+
+  const arrowStyle =
+    "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-40 flex items-center justify-center";
+
+  const sliderControl = (isLeft) => (
+    <button
+      type="button"
+      onClick={isLeft ? previousImage : nextImage}
+      className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
+      style={{ top: "40%" }}
+    >
+      <span role="img" aria-label={`Arrow ${isLeft ? "left" : "right"}`}>
+        {isLeft ? "◀" : "▶"}
+      </span>
+    </button>
+  );
+
   return (
     <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
       <Header />
@@ -124,27 +176,29 @@ const TrainerDetail = () => {
                     <div className="m-2">
                       <div className="flex justify-center w-screen md:w-[500px] items-center">
                         <div className="relative w-full">
-                          <div className="flex items-center">
-                            {/* {sliderControl(true)}
-                    {photo.map((img, i) => (
-                      <div
-                        className="w-full flex-shrink-0"
-                        key={i}
-                        ref={refs[i]}
-                      >
-                        <img
-                          src={img.src}
-                          className="w-full object-contain"
-                          alt=""
-                        />
-                      </div>
-                    ))}
-                    {sliderControl()} */}
-                            <img
+                          <div className="flex items-center carousel">
+                            {sliderControl(true)}
+                            {pic.map((img, i) => (
+                              <div
+                                className="w-full flex-shrink-0"
+                                key={i}
+                                ref={refs[i]}
+                              >
+                                <img
+                                  src={
+                                    img.img === "" ? trainer.avatar : img.img
+                                  }
+                                  className="w-full h-full rounded-full object-contain"
+                                  alt=""
+                                />
+                              </div>
+                            ))}
+                            {sliderControl()}
+                            {/* <img
                               src={trainer.avatar}
                               className="w-full h-full rounded-full object-contain"
                               alt=""
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>
