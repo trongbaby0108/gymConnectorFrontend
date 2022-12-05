@@ -94,7 +94,7 @@ const ListGym = () => {
                               alt=""
                             />
                           </td>
-                          <td className="py-4 px-6 flex justify-between">
+                          <td className="py-4 px-6 flex justify-between h-full">
                             <a
                               href={"/admin/editGym/" + gym.id}
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
@@ -137,6 +137,13 @@ const ListGym = () => {
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                             >
                               Xem số lượng đặt
+                            </Link>
+                            |
+                            <Link
+                              to={"/admin/listGym/listGymImg/" + gym.id}
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            >
+                              Thêm ảnh
                             </Link>
                           </td>
                         </tr>

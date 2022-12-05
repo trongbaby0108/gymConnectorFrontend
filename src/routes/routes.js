@@ -30,6 +30,7 @@ import StatisticsCombo from "../components/Admin/pages/Combo/StatisticsCombo";
 import StatisticsGym from "../components/Admin/pages/Gyms/StatisticsGym";
 import FillCodePT from "../components/pages/Trainers/FillCodePT";
 import ToastMessage from "../components/Features/ToastMessage";
+import ListGymImg from "../components/Admin/pages/Gyms/ListGymImg";
 export const routes = {
   publicRoutes: [
     { path: "/", component: Home },
@@ -74,6 +75,10 @@ export const routes = {
     {
       path: "/toast",
       component: ToastMessage,
+    },
+    {
+      path: "/admin/listGym/listGymImg/:id",
+      component: ListGymImg,
     },
   ],
 };

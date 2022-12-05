@@ -179,15 +179,15 @@ const GymDetail = () => {
       <section className="section">
         <div data-aos="fade-up" data-aos-delay="300" key={data.id}>
           <div className="gym-container">
-            <div className="gym-wrapper">
-              <div className="gym-address">
+            <div className="gym-wrapper ">
+              <div className="gym-address mx-auto">
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{data.address}</span>
               </div>
-              <span className="gym-price-highlight">
+              <span className="gym-price-highlight mx-auto">
                 Hãy đặt ngay để có thể tham gia cùng chúng tôi
               </span>
-              <div className="p-4 flex justify-center w-screen md:w-[1024px] items-center">
+              <div className="p-4 flex justify-center w-screen md:w-[512px] items-center content-center mx-auto">
                 <div className="relative w-full">
                   {/* <div className="carousel">
                     <img
@@ -215,7 +215,7 @@ const GymDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="gym-details">
+              <div className="gym-details mx-auto">
                 <div className="gym-details-texts">
                   <h1 className="gym-title">{data.name}</h1>
                   <p className="mt-4 text-2xl text-black">Thông tin liên hệ:</p>

@@ -9,6 +9,10 @@ const Nav = () => {
         name: "Học viên",
         href: "/userByTrainer/" + localStorage.getItem("id"),
       },
+      {
+        name: "Thông tin",
+        href: "/trainerInfo/"
+      }
     ];
   } else if (localStorage.getItem("role") === "USER") {
     nav = [
