@@ -1,18 +1,23 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../../partials/Header";
 import Sidebar from "../../partials/Sidebar";
-import ExportSheet from "../../../Features/ExportSheet";
 
 const ListGymImg = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState([]);
-
+  const [image, setImage] = useState({});
+  const [preview, setPreview] = useState("");
   const [currentImage, setCurrentImage] = useState(0);
   const headers = {
     Authorization: "Bearer " + localStorage.getItem("token"),
+  };
+
+  const handlePreviewImage = (e) => {
+    setPreview(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
   };
 
   const params = useParams();
@@ -27,12 +32,6 @@ const ListGymImg = () => {
   useEffect(() => {
     getPic();
   }, []);
-
-  const handleOnCLickExport = () => {
-    if (data) {
-      ExportSheet.exportExcel(data, "Danh sách thông tin phòng tập", "ListGym");
-    }
-  };
 
   const refs = data.reduce((acc, val, i) => {
     acc[i] = React.createRef();
@@ -102,7 +101,7 @@ const ListGymImg = () => {
                     >
                       <img
                         src={img.img}
-                        className="w-full h-[512px] object-contain"
+                        className="w-full h-full object-contain"
                         alt=""
                       />
                     </div>
@@ -124,7 +123,7 @@ const ListGymImg = () => {
                 id="avatar"
                 name="avatar"
                 type="file"
-                onChange={(e) => {}}
+                onChange={handlePreviewImage}
               />
               <p
                 className="mt-1 text-sm text-gray-500 dark:text-gray-300"
@@ -132,7 +131,31 @@ const ListGymImg = () => {
               >
                 Tải lên file có đuôi .PNG, .JPG, .JPEG
               </p>
-              <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <img
+                src={preview}
+                alt=""
+                className="mt-3 w-50 h-full rounded-lg my-4"
+              />
+              <button
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={() => {
+                  const formData = new FormData();
+                  formData.append("idGym", params.id);
+                  formData.append("image", image);
+                  console.log(image);
+                  axios
+                    .post(
+                      `http://localhost:8080/admin/gym/addMoreGymImg/`,
+                      formData,
+                      {
+                        headers: headers,
+                      }
+                    )
+                    .then((response) => {
+                      window.location.reload();
+                    });
+                }}
+              >
                 Thêm ảnh
               </button>
             </div>
