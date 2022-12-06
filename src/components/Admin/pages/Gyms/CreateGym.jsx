@@ -63,11 +63,9 @@ const CreateGym = () => {
         { headers: headers }
       );
       if (addGym.status === 200) {
-        //console.log(addGym.data);
         const imgFormData = new FormData();
-        imgFormData.append("img", values.avatar);
-        imgFormData.append("id", parseInt(addGym.data.id));
-        //console.log(imgFormData.get("id"));
+        imgFormData.append("image", values.avatar);
+        imgFormData.append("idGym", parseInt(addGym.data.id));
         const addGymIMG = await axios.post(
           "http://localhost:8080/admin/gym/addGymImg",
           imgFormData,

@@ -18,6 +18,7 @@ const ListGymImg = () => {
   const handlePreviewImage = (e) => {
     setPreview(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
+    console.log(preview);
   };
 
   const params = useParams();
@@ -123,7 +124,9 @@ const ListGymImg = () => {
                 id="avatar"
                 name="avatar"
                 type="file"
-                onChange={handlePreviewImage}
+                onChange={(e) => {
+                  handlePreviewImage(e);
+                }}
               />
               <p
                 className="mt-1 text-sm text-gray-500 dark:text-gray-300"

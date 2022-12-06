@@ -108,7 +108,7 @@ const ListGym = () => {
                                   axios.get(
                                     "http://localhost:8080/admin/gym/disableGym/" +
                                       gym.id,
-                                    headers
+                                    { headers: headers }
                                   );
                                   window.location.reload();
                                 }}
@@ -122,7 +122,7 @@ const ListGym = () => {
                                   axios.get(
                                     "http://localhost:8080/admin/gym/enableGym/" +
                                       gym.id,
-                                    headers
+                                    { headers: headers }
                                   );
                                   window.location.reload();
                                 }}

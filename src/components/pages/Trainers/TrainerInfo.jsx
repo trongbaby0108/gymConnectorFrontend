@@ -4,7 +4,6 @@ import Footer from "../../Features/Footer";
 import Header from "../../Features/Header";
 import UserIcn from "../../pages/User/user_info.svg";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Currency from "currency-formatter";
 import PreviewImage from "../../Features/PreviewImage";
@@ -12,7 +11,12 @@ import PreviewImage from "../../Features/PreviewImage";
 const TrainerInfo = () => {
   // image slider
   const [currentImage, setCurrentImage] = React.useState(0);
+  const [image, setImage] = useState({});
+  const [preview, setPreview] = useState("");
   const [pic, setPic] = useState([]);
+  const headers = {
+    Authorization: "Bearer " + localStorage.getItem("token"),
+  };
   const user = {
     address: localStorage.getItem("address"),
     avatar: localStorage.getItem("avatar"),
@@ -35,16 +39,20 @@ const TrainerInfo = () => {
       rateGym: localStorage.getItem("rateGym"),
     },
   };
-  console.log(user);
+
+  const handlePreviewImage = (e) => {
+    setPreview(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: user.name,
       address: user.address,
       phone: user.phone,
       email: user.email,
-      avatar: user.avatar,
       rate: user.rate,
-      fee: Currency.format(user.fee, { code: "VND" }),
+      fee: user.fee,
       gym: {
         address: user.gym.addressGym,
         avatar: user.gym.avatarGym,
@@ -72,36 +80,9 @@ const TrainerInfo = () => {
           "Vui lòng điền đúng định dạng số điện thoại"
         ),
       address: Yup.string().required("Không được bỏ trống mục này"),
-      avatar: Yup.mixed()
-        .required("Không được bỏ trống mục này")
-        .test(
-          "FILE_SIZE",
-          "Ảnh quá lớn",
-          (value) => value && value.size < 1280 * 1280
-        )
-        .test(
-          "FILE_TYPE",
-          "Không tồn tại hoặc không đúng định dạng",
-          (value) =>
-            value &&
-            ["image/png", "image/jpg", "image/jpeg"].includes(value.type)
-        ),
     }),
     onSubmit: async () => {
       console.log(formik.values);
-      const { avatar } = formik.values;
-      const formData = new FormData();
-      try {
-        formData.append("file", avatar);
-        formData.append("upload_preset", "loghpveg");
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/dwjck5c9f/image/upload",
-          formData
-        );
-        console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
     },
   });
 
@@ -310,6 +291,31 @@ const TrainerInfo = () => {
                 <div className="relative z-0 mb-6 w-full group">
                   <button
                     type="submit"
+                    onClick={() => {
+                      const updateInfo = axios.post(
+                        "http://localhost:8080/client/personalTrainer/update",
+
+                        {
+                          id: user.id,
+                          name: formik.values.name,
+                          phone: formik.values.phone,
+                          email: formik.values.email,
+                          address: formik.values.address,
+                          price: formik.values.fee,
+                        },
+                        { headers: headers }
+                      );
+                      if (updateInfo.status === 200) {
+                        console.log(updateInfo.data);
+                        localStorage.setItem("name", updateInfo.data.name);
+                        localStorage.setItem(
+                          "address",
+                          updateInfo.data.address
+                        );
+                        localStorage.setItem("fee", updateInfo.data.fee);
+                        localStorage.setItem("phone", updateInfo.data.phone);
+                      }
+                    }}
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Cập nhật
@@ -317,15 +323,11 @@ const TrainerInfo = () => {
                 </div>
               </form>
               <div className="spacing-15">
-                {formik.values.avatar !== user.avatar ? (
-                  <PreviewImage file={formik.values.avatar} />
-                ) : (
-                  <img
-                    className="mt-3 w-80 h-80 rounded-lg"
-                    src={formik.values.avatar}
-                    alt="Hình ảnh đăng tải"
-                  />
-                )}
+                <img
+                  className="mt-3 w-80 h-80 rounded-lg"
+                  src={localStorage.getItem("avatar")}
+                  alt="Hình ảnh đăng tải"
+                />
               </div>
             </div>
           </div>
@@ -352,39 +354,55 @@ const TrainerInfo = () => {
                   </div>
                 </div>
               </div>
-              <div className="ml-8">
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  htmlFor="avatar"
-                >
-                  Đăng tải hình ảnh
-                </label>
-                <input
-                  className="block h-7 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                  aria-describedby="file_input_help"
-                  id="avatar"
-                  name="avatar"
-                  type="file"
-                  onChange={(e) =>
-                    formik.setFieldValue("avatar", e.target.files[0])
-                  }
-                />
-                {formik.errors.avatar && (
-                  <p className="max-w-full text-sm text-red-500">
-                    {formik.errors.avatar}
-                  </p>
-                )}
-                <p
-                  className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                  id="file_input_help"
-                >
-                  Tải lên file có đuôi .PNG, .JPG, .JPEG
-                </p>
-                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Thêm ảnh
-                </button>
-              </div>
             </div>
+          </div>
+          <div className="ml-8">
+            <label
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              htmlFor="avatar"
+            >
+              Đăng tải hình ảnh
+            </label>
+            <input
+              className="block h-7 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              aria-describedby="file_input_help"
+              id="avatar"
+              name="avatar"
+              type="file"
+              onChange={(e) => {
+                handlePreviewImage(e);
+              }}
+            />
+            <p
+              className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+              id="file_input_help"
+            >
+              Tải lên file có đuôi .PNG, .JPG, .JPEG
+            </p>
+            <img
+              src={preview}
+              alt=""
+              className="mt-3 w-50 h-full rounded-lg my-4"
+            />
+            <button
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={() => {
+                const formData = new FormData();
+                formData.append("pic", image);
+                formData.append("id", user.id);
+                axios
+                  .post(
+                    "http://localhost:8080/client/personalTrainer/addMoreImg",
+                    formData,
+                    { headers: headers }
+                  )
+                  .then((response) => {
+                    window.location.reload();
+                  });
+              }}
+            >
+              Thêm ảnh
+            </button>
           </div>
           {/* Thông tin phòng gym */}
           <div className="max-w-full flex flex-col justify-center items-center">

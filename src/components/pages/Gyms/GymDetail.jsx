@@ -92,8 +92,8 @@ const GymDetail = () => {
       });
   };
 
-  const getPic = () => {
-    axios
+  const getPic = async () => {
+    await axios
       .get(`http://localhost:8080/home/getPicByGym/${params.id}`)
       .then((response) => {
         setPhoto(response.data);
@@ -205,7 +205,7 @@ const GymDetail = () => {
                         ref={refs[i]}
                       >
                         <img
-                          src={img ? data.avatar : img.img}
+                          src={img.img}
                           className="w-full object-contain"
                           alt=""
                         />
