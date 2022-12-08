@@ -24,7 +24,7 @@ const FillCode = () => {
         "http://localhost:8080/signUser/confirmToken",
         formData
       );
-      if (confirmToken.data === "OK") navigate("/login");
+      if (confirmToken.data === "OK") navigate("/questLogin");
     },
   });
 

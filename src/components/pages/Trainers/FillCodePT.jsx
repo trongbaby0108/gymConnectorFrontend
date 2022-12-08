@@ -24,7 +24,7 @@ const FillCodePT = () => {
         "http://localhost:8080/signInPersonalTrainer/confirmToken",
         formData
       );
-      if (confirmToken.data === "OK") navigate("/login");
+      if (confirmToken.data === "OK") navigate("/questLogin");
     },
   });
 
